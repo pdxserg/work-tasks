@@ -1,4 +1,18 @@
 .App {
-  text-align: center;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+
 }
 
+.task-conteiner {
+
+    border: 1px solid black;
+    min-width: 200px;
+    min-height: 300px;
+
+}
+.task{
+display: flex;
+
+}
