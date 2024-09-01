@@ -15,20 +15,23 @@ function App() {
                     <input type="text"/>
                     <button>+</button>
                 </div>
+                <ul>
+                    <li><input type="checkbox" checked={tasks[0].isDone}/>
+                        <span>{tasks[0].title}</span>
+                        <button>x</button>
+                    </li>
+                    <li><input type="checkbox" checked={tasks[1].isDone}/>
+                        <span>{tasks[1].title}</span>
+                        <button>x</button>
+                    </li>
+                </ul>
                 <div>
-                    <input type="checkbox" checked={tasks[0].isDone}/>
-                    <span>{tasks[0].title}</span>
-                    <button>x</button>
+
                 </div>
 
             </div>
 
         </div>
-        <div>
-            <h2>{tasks[1].title}</h2>
-            <input type="checkbox" checked={tasks[1].isDone}/>
-        </div>
-
 
 
     </div>
