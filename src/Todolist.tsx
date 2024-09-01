@@ -9,10 +9,12 @@ type TodolistPropsType={
 }
 
 export const Todolist = (props: TodolistPropsType) => {
+	const dateCreate=new(Date)
 	return (
 		<div className="task-conteiner">
 			<div>
 				<h3>Study</h3>
+				<h5>{dateCreate.toLocaleString()}</h5>
 				<div>
 					<input type="text"/>
 					<button>+</button>
