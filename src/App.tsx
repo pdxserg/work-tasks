@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
 import {Todolist} from "./Todolist";
 import {v1} from "uuid";
@@ -14,17 +14,24 @@ export type TaskPropsType = {
 }
 
 function App() {
-	const tasks: TaskPropsType[] = [
-		{id: v1(), title: "React", isDone: false},
-		{id: v1(), title: "Hmtl", isDone: false},
-		{id: v1(), title: "Hmtl", isDone: false},
-		{id: v1(), title: "Hmtl", isDone: false},
-	]
+	const [tasks, setTasks] = useState<TaskPropsType[]>(
+		[
+			{id: v1(), title: "React", isDone: false},
+			{id: v1(), title: "Hmtl", isDone: false},
+			{id: v1(), title: "Hmtl", isDone: false},
+			{id: v1(), title: "Hmtl", isDone: false},
+		]
+	)
+
+	const removeTask =(id:string)=>{
+		setTasks(tasks.filter(t=>t.id !== id))
+	}
 	return (
 		<div className="App">
 			<Todolist
 				title={"Study"}
 				tasks={tasks}
+				removeTask={removeTask}
 			/>
 		</div>
 	);
