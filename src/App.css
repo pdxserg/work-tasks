@@ -2,11 +2,12 @@
     display: flex;
     justify-content: center;
     text-align: center;
+    gap: 10px;
 
 }
 
 .task-conteiner {
-
+border-radius: 15px;
     border: 1px solid black;
     min-width: 200px;
     min-height: 300px;
