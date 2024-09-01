@@ -1,6 +1,7 @@
 import React from "react";
+import {TaskPropsType} from "./App";
 
-export const Todolist = (props:any) => {
+export const Todolist = (props:{title:string, tasks:TaskPropsType[] }) => {
 	return (
 		<div className="task-conteiner">
 			<div>
