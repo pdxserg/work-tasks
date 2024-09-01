@@ -18,15 +18,19 @@ export const Todolist = (props: TodolistPropsType) => {
 					<button>+</button>
 				</div>
 				<ul>
-					{props.tasks.map(task => {
-						const removeHandler=()=>{
-							props.removeTask(task.id)
-						}
-						return <li key={task.id}><input type="checkbox" checked={task.isDone}/>
-							<span>{task.title}</span>
-							<button onClick={removeHandler}>x</button>
-						</li>
-					})}
+					{props.tasks.length === 0
+					? <span>No tasks</span>
+					: props.tasks.map(task => {
+								const removeHandler=()=>{
+									props.removeTask(task.id)
+								}
+								return <li key={task.id}><input type="checkbox" checked={task.isDone}/>
+									<span>{task.title}</span>
+									<button onClick={removeHandler}>x</button>
+								</li>
+							})
+					}
+
 
 				</ul>
 				<div>
