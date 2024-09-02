@@ -1,4 +1,4 @@
-import React, {ChangeEvent, ChangeEventHandler, useState} from "react";
+import React, {ChangeEvent, useState} from "react";
 import {TaskPropsType} from "./App";
 
 
@@ -7,6 +7,7 @@ type TodolistPropsType={
 	tasks: TaskPropsType[]
 	removeTask: (id:string)=>void
 	checkBoxHandler:(id:string, isDone: boolean)=>void
+	createTask:(title:string)=>void
 }
 type FilterTodolist = "all"|"active"|"complited"
 export const Todolist = (props: TodolistPropsType) => {
@@ -23,8 +24,11 @@ export const Todolist = (props: TodolistPropsType) => {
 
 	const onchangeTitle=(e:ChangeEvent<HTMLInputElement> )=>{
 		setTitle(e.currentTarget.value)
-
 	}
+	 const createTaskHandler=()=>{
+		 props.createTask(title)
+		 setTitle("")
+	 }
 	const changeAllFilter=()=>{setFilter("all")}
 	const changeActiveFilter=()=>{setFilter("active")}
 	const changeComplitedFilter=()=>{setFilter("complited")}
@@ -37,7 +41,7 @@ export const Todolist = (props: TodolistPropsType) => {
 				<h5>{dateCreate}</h5>
 				<div>
 					<input type="text" value={title}  onChange={onchangeTitle}/>
-					<button>+</button>
+					<button onClick={createTaskHandler}>+</button>
 				</div>
 				<ul>
 					{ tasks.length === 0

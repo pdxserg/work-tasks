@@ -30,6 +30,10 @@ const checkBoxHandler=(id: string, isDone:boolean)=>{
 	const removeTask =(id:string)=>{
 		setTasks(tasks.filter(t=>t.id !== id))
 	}
+	const createTask =(title: string)=>{
+		const newTask = {id: v1(), title: title, isDone: false}
+		setTasks([newTask, ...tasks ])
+	}
 	return (
 		<div className="App">
 			<Todolist
@@ -37,6 +41,7 @@ const checkBoxHandler=(id: string, isDone:boolean)=>{
 				tasks={tasks}
 				removeTask={removeTask}
 				checkBoxHandler={checkBoxHandler}
+				createTask={createTask}
 			/>
 		</div>
 	);
