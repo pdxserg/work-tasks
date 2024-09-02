@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useMemo, useState} from "react";
+import React, {ChangeEvent, ChangeEventHandler, useState} from "react";
 import {TaskPropsType} from "./App";
 
 
@@ -11,6 +11,7 @@ type TodolistPropsType={
 type FilterTodolist = "all"|"active"|"complited"
 export const Todolist = (props: TodolistPropsType) => {
 	const [filter, setFilter]=useState<FilterTodolist>("all")
+	const [title, setTitle]=useState ("")
 	let tasks = props.tasks
 	if(filter === "active"){
 		tasks=tasks.filter(task=>!task.isDone)
@@ -18,17 +19,24 @@ export const Todolist = (props: TodolistPropsType) => {
 	if(filter === "complited"){
 		tasks=tasks.filter(task=>task.isDone)
 	}
-	const dateCreate=  new(Date)
+	const dateCreate= new Date().toLocaleString()
+
+	const onchangeTitle=(e:ChangeEvent<HTMLInputElement> )=>{
+		setTitle(e.currentTarget.value)
+
+	}
 	const changeAllFilter=()=>{setFilter("all")}
 	const changeActiveFilter=()=>{setFilter("active")}
 	const changeComplitedFilter=()=>{setFilter("complited")}
+
+
 	return (
 		<div className="task-conteiner">
 			<div>
 				<h3>Study</h3>
-				<h5>{dateCreate.toLocaleString()}</h5>
+				<h5>{dateCreate}</h5>
 				<div>
-					<input type="text"/>
+					<input type="text" value={title}  onChange={onchangeTitle}/>
 					<button>+</button>
 				</div>
 				<ul>
