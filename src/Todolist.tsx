@@ -11,8 +11,17 @@ type TodolistPropsType={
 type FilterTodolist = "all"|"active"|"complited"
 export const Todolist = (props: TodolistPropsType) => {
 	const [filter, setFilter]=useState<FilterTodolist>("all")
+	let tasks = props.tasks
+	if(filter === "active"){
+		tasks=tasks.filter(task=>!task.isDone)
+	}
+	if(filter === "complited"){
+		tasks=tasks.filter(task=>task.isDone)
+	}
 	const dateCreate=  new(Date)
-
+	const changeAllFilter=()=>{setFilter("all")}
+	const changeActiveFilter=()=>{setFilter("active")}
+	const changeComplitedFilter=()=>{setFilter("complited")}
 	return (
 		<div className="task-conteiner">
 			<div>
@@ -23,9 +32,9 @@ export const Todolist = (props: TodolistPropsType) => {
 					<button>+</button>
 				</div>
 				<ul>
-					{props.tasks.length === 0
+					{ tasks.length === 0
 					? <span>No tasks</span>
-					: props.tasks.map(task => {
+					: tasks.map(task => {
 								const removeHandler=()=>{
 									props.removeTask(task.id)
 								}
@@ -45,9 +54,9 @@ export const Todolist = (props: TodolistPropsType) => {
 
 				</ul>
 				<div>
-					<button>All</button>
-					<button>Active</button>
-					<button>Complited</button>
+					<button onClick={changeAllFilter}>All</button>
+					<button onClick={changeActiveFilter }>Active</button>
+					<button onClick={changeComplitedFilter}>Complited</button>
 				</div>
 
 			</div>
