@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ChangeEvent, useMemo} from "react";
 import {TaskPropsType} from "./App";
 
 
@@ -6,10 +6,12 @@ type TodolistPropsType={
 	title: string,
 	tasks: TaskPropsType[]
 	removeTask: (id:string)=>void
+	checkBoxHandler:(id:string, isDone: boolean)=>void
 }
 
 export const Todolist = (props: TodolistPropsType) => {
-	const dateCreate=new(Date)
+	const dateCreate=  new(Date)
+
 	return (
 		<div className="task-conteiner">
 			<div>
@@ -26,7 +28,13 @@ export const Todolist = (props: TodolistPropsType) => {
 								const removeHandler=()=>{
 									props.removeTask(task.id)
 								}
-								return <li key={task.id}><input type="checkbox" checked={task.isDone}/>
+							const checkboxHandler=(e:ChangeEvent<HTMLInputElement> )=>{
+								props.checkBoxHandler(task.id, e.currentTarget.checked )
+								}
+
+								return <li key={task.id}>
+
+									<input type="checkbox" checked={task.isDone} onChange={checkboxHandler}/>
 									<span>{task.title}</span>
 									<button onClick={removeHandler}>x</button>
 								</li>
