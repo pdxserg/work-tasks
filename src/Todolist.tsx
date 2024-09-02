@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useMemo} from "react";
+import React, {ChangeEvent, useMemo, useState} from "react";
 import {TaskPropsType} from "./App";
 
 
@@ -8,8 +8,9 @@ type TodolistPropsType={
 	removeTask: (id:string)=>void
 	checkBoxHandler:(id:string, isDone: boolean)=>void
 }
-
+type FilterTodolist = "all"|"active"|"complited"
 export const Todolist = (props: TodolistPropsType) => {
+	const [filter, setFilter]=useState<FilterTodolist>("all")
 	const dateCreate=  new(Date)
 
 	return (
@@ -46,7 +47,7 @@ export const Todolist = (props: TodolistPropsType) => {
 				<div>
 					<button>All</button>
 					<button>Active</button>
-					<button>Finished</button>
+					<button>Complited</button>
 				</div>
 
 			</div>
