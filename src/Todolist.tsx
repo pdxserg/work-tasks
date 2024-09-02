@@ -29,7 +29,9 @@ export const Todolist = (props: TodolistPropsType) => {
 		 props.createTask(title)
 		 setTitle("")
 	 }
-	const changeAllFilter=()=>{setFilter("all")}
+	const changeAllFilter=()=>{
+		setFilter("all")
+	}
 	const changeActiveFilter=()=>{setFilter("active")}
 	const changeComplitedFilter=()=>{setFilter("complited")}
 
@@ -65,10 +67,13 @@ export const Todolist = (props: TodolistPropsType) => {
 
 
 				</ul>
-				<div>
-					<button onClick={changeAllFilter}>All</button>
-					<button onClick={changeActiveFilter }>Active</button>
-					<button onClick={changeComplitedFilter}>Complited</button>
+				<div className={"filterButton"}>
+					<button className={filter === "all"? "filterTasks":""}
+						onClick={changeAllFilter}>All</button>
+					<button className={filter === "active"? "filterTasks":""}
+						onClick={changeActiveFilter }>Active</button>
+					<button className={filter === "complited"? "filterTasks":""}
+						onClick={changeComplitedFilter}>Complited</button>
 				</div>
 
 			</div>

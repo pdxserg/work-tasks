@@ -17,3 +17,9 @@ border-radius: 15px;
 display: flex;
 
 }
+.filterButton button{
+    margin-left: 10px;
+}
+.filterTasks{
+    background-color: #8dfda8;
+}
