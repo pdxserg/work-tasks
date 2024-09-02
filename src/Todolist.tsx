@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent,KeyboardEvent, useState} from "react";
 import {TaskPropsType} from "./App";
 
 
@@ -25,9 +25,17 @@ export const Todolist = (props: TodolistPropsType) => {
 	const onchangeTitle=(e:ChangeEvent<HTMLInputElement> )=>{
 		setTitle(e.currentTarget.value)
 	}
+	const onKeyDownHandler =(e:KeyboardEvent<HTMLInputElement>)=>{
+		if(e.key=== "Enter"){
+			createTaskHandler()
+		}
+	}
+
 	 const createTaskHandler=()=>{
-		 props.createTask(title)
-		 setTitle("")
+			props.createTask(title)
+			setTitle("")
+
+
 	 }
 	const changeAllFilter=()=>{
 		setFilter("all")
@@ -42,7 +50,7 @@ export const Todolist = (props: TodolistPropsType) => {
 				<h3>Study</h3>
 				<h5>{dateCreate}</h5>
 				<div>
-					<input type="text" value={title}  onChange={onchangeTitle}/>
+					<input type="text" value={title}  onChange={onchangeTitle} onKeyDown={onKeyDownHandler}/>
 					<button onClick={createTaskHandler}>+</button>
 				</div>
 				<ul>
