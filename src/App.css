@@ -15,7 +15,9 @@ border-radius: 15px;
 }
 .task{
 display: flex;
-
+}
+.finished{
+     opacity: 30%;
 }
 .filterButton button{
     margin-left: 10px;

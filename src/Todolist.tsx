@@ -56,7 +56,7 @@ export const Todolist = (props: TodolistPropsType) => {
 								props.checkBoxHandler(task.id, e.currentTarget.checked )
 								}
 
-								return <li key={task.id}>
+								return <li key={task.id} className={task.isDone?"finished":""}>
 
 									<input type="checkbox" checked={task.isDone} onChange={checkboxHandler}/>
 									<span>{task.title}</span>
