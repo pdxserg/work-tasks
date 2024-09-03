@@ -32,8 +32,11 @@ export const Todolist = (props: TodolistPropsType) => {
 	}
 
 	 const createTaskHandler=()=>{
-			props.createTask(title)
+		if (title.trim()!== "" ){
+			props.createTask(title.trim())
 			setTitle("")
+
+		}
 
 
 	 }
