@@ -19,6 +19,9 @@ display: flex;
 .finished{
      opacity: 30%;
 }
+.error{
+    color: red;
+}
 .filterButton button{
     margin-left: 10px;
 }

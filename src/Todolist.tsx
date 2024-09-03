@@ -13,6 +13,7 @@ type FilterTodolist = "all"|"active"|"complited"
 export const Todolist = (props: TodolistPropsType) => {
 	const [filter, setFilter]=useState<FilterTodolist>("all")
 	const [title, setTitle]=useState ("")
+	const [error, setError]= useState(false)
 	let tasks = props.tasks
 	if(filter === "active"){
 		tasks=tasks.filter(task=>!task.isDone)
@@ -26,6 +27,7 @@ export const Todolist = (props: TodolistPropsType) => {
 		setTitle(e.currentTarget.value)
 	}
 	const onKeyDownHandler =(e:KeyboardEvent<HTMLInputElement>)=>{
+		setError(false)
 		if(e.key=== "Enter"){
 			createTaskHandler()
 		}
@@ -35,9 +37,9 @@ export const Todolist = (props: TodolistPropsType) => {
 		if (title.trim()!== "" ){
 			props.createTask(title.trim())
 			setTitle("")
-
+		} else{
+			setError(true)
 		}
-
 
 	 }
 	const changeAllFilter=()=>{
@@ -52,9 +54,10 @@ export const Todolist = (props: TodolistPropsType) => {
 			<div>
 				<h3>Study</h3>
 				<h5>{dateCreate}</h5>
-				<div>
+				<div className={"createTask"}>
 					<input type="text" value={title}  onChange={onchangeTitle} onKeyDown={onKeyDownHandler}/>
 					<button onClick={createTaskHandler}>+</button>
+					{error && <div className={"error"}>field requred</div>}
 				</div>
 				<ul>
 					{ tasks.length === 0
