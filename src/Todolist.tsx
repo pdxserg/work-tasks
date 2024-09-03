@@ -55,7 +55,12 @@ export const Todolist = (props: TodolistPropsType) => {
 				<h3>Study</h3>
 				<h5>{dateCreate}</h5>
 				<div className={"createTask"}>
-					<input type="text" value={title}  onChange={onchangeTitle} onKeyDown={onKeyDownHandler}/>
+					<input  className={error? "errorForInput":""}
+						type="text"
+						value={title}
+						onChange={onchangeTitle}
+						onKeyDown={onKeyDownHandler}
+					/>
 					<button onClick={createTaskHandler}>+</button>
 					{error && <div className={"error"}>field requred</div>}
 				</div>

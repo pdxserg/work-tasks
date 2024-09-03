@@ -22,7 +22,12 @@ display: flex;
 .error{
     color: red;
 }
-.filterButton button{
+.errorForInput{
+    outline: 3px;
+    border: 0.1px solid red;
+    box-shadow:0 0 0 3px tomato
+}
+ button{
     margin-left: 10px;
 }
 .filterTasks{
