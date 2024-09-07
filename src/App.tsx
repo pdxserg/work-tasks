@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
-import {Todolist} from "./Todolist";
+import {FilterTodolist, Todolist} from "./Todolist";
 import {v1} from "uuid";
 
 
@@ -12,8 +12,17 @@ export type TaskPropsType = {
 	title: string
 	isDone: boolean
 }
+type TodolistsPropsType={
+	id:string
+	title:string
+	filter:FilterTodolist
+}
 
 function App() {
+	let [todolists, setTodolists] = useState<TodolistsPropsType[]>([
+		{ id: v1(), title: 'What to learn', filter: 'all' },
+		{ id: v1(), title: 'What to buy', filter: 'all' },
+	])
 	const [tasks, setTasks] = useState<TaskPropsType[]>(
 		[
 			{id: v1(), title: "React", isDone: false},
@@ -36,13 +45,21 @@ const checkBoxHandler=(id: string, isDone:boolean)=>{
 	}
 	return (
 		<div className="App">
-			<Todolist
-				title={"Study"}
-				tasks={tasks}
-				removeTask={removeTask}
-				checkBoxHandler={checkBoxHandler}
-				createTask={createTask}
-			/>
+
+			{todolists.map(t=>{
+				return(
+					<Todolist
+						title={}
+						tasks={tasks}
+						removeTask={removeTask}
+						checkBoxHandler={checkBoxHandler}
+						createTask={createTask}
+					/>
+				)
+				}
+
+			)}
+
 		</div>
 	);
 }

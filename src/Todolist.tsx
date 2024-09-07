@@ -9,7 +9,7 @@ type TodolistPropsType={
 	checkBoxHandler:(id:string, isDone: boolean)=>void
 	createTask:(title:string)=>void
 }
-type FilterTodolist = "all"|"active"|"complited"
+export type FilterTodolist = "all"|"active"|"complited"
 export const Todolist = (props: TodolistPropsType) => {
 	const [filter, setFilter]=useState<FilterTodolist>("all")
 	const [title, setTitle]=useState ("")
