@@ -4,7 +4,7 @@ import {FilterTodolist, Todolist} from "./Todolist";
 import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
-import {removeTaskAC, tasksReducer} from "./model/tasks-reducer";
+import {changeStatusTaskAC, createTaskAC, removeTaskAC, tasksReducer, updateTasTitlekAC} from "./model/tasks-reducer";
 
 
 export type TasksType = {
@@ -42,21 +42,19 @@ function App() {
 		],
 	})
 
-	const checkBoxHandler = (todolistID: string, id: string, isDone: boolean) => {
-		// setTasks({
-		// 	...tasks, [todolistID]: tasks[todolistID]
-		// 		.map(task => task.id === id ? {...task, isDone} : task)
-		// })
-
-	}
 
 	const removeTask = (todolistID: string, id: string) => {
-		// setTasks({...tasks, [todolistID]: tasks[todolistID].filter(t => t.id !== id)})
 		setTasks(removeTaskAC(todolistID,id))
 	}
 	const createTask = (todolistID: string, title: string) => {
-		const newTask = {id: v1(), title: title, isDone: false}
-		setTasks({...tasks, [todolistID]: [newTask, ...tasks[todolistID]]})
+		setTasks(createTaskAC(todolistID,title) )
+	}
+	const checkBoxHandler = (todolistID: string, id: string, isDone: boolean) => {
+		setTasks(changeStatusTaskAC(todolistID,id,isDone))
+
+	}
+	const updateTaskTitle=(todolistID: string,id: string, title: string)=>{
+		  setTasks(updateTasTitlekAC(todolistID,id,title) )
 	}
 	const removeTodolist = (todolistID: string) => {
 		setTodolists(todolists.filter(t => t.id !== todolistID))
@@ -72,10 +70,7 @@ function App() {
 	const updateTodlistTitle=(todolistID: string,title:string)=>{
 		setTodolists(todolists.map(t => t.id===todolistID? {...t, title}:t))
 	}
-	const updateTaskTitle=(todolistID: string,id: string, title: string)=>{
-		// setTasks({...tasks,
-		// [todolistID]:tasks[todolistID].map(t=>t.id === id?{...t, title}:t)})
-	}
+
 	return (
 		<div>
 
