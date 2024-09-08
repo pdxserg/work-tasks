@@ -43,12 +43,16 @@ const checkBoxHandler=(id: string, isDone:boolean)=>{
 
 }
 
-	const removeTask =(id:string)=>{
-		// setTasks(tasks.filter(t=>t.id !== id))
+	const removeTask =(todolistID:string, id:string)=>{
+	   // setTasks(tasks.filter(t=>t.id !== id))
+		setTasks({...tasks, [todolistID]: tasks[todolistID].filter(t=>t.id !== id)})
 	}
-	const createTask =(title: string)=>{
+	const createTask =(todolistID:string, title: string)=>{
+		console.log(todolistID)
+		console.log(title)
 		const newTask = {id: v1(), title: title, isDone: false}
 		// setTasks([newTask, ...tasks ])
+		setTasks({...tasks,[todolistID]:[newTask,...tasks[todolistID]]})
 	}
 	return (
 		<div className="App">
@@ -56,6 +60,8 @@ const checkBoxHandler=(id: string, isDone:boolean)=>{
 			{todolists.map(t=>{
 				return(
 					<Todolist
+						key={t.id}
+						todolistID={t.id}
 						title={t.title}
 						tasks={tasks[t.id]}
 						removeTask={removeTask}
