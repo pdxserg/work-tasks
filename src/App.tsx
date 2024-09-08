@@ -59,8 +59,9 @@ function App() {
 	}
 
 	const removeTodolist = (todolistID: string) => {
-		setTodolists(removeTodolistAC(todolistID))
-		delete tasks[todolistID]
+		const action=removeTodolistAC(todolistID)
+		setTodolists(action)
+		setTasks(action)
 	}
 	const createTodolist=(title:string)=>{
 		const newID= v1()
