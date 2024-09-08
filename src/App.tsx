@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useReducer, useState} from 'react';
 import './App.css';
 import {FilterTodolist, Todolist} from "./Todolist";
 import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
+import {removeTaskAC, tasksReducer} from "./model/tasks-reducer";
 
 
 export type TasksType = {
@@ -29,7 +30,7 @@ function App() {
 		{id: todolistID2, title: 'What to buy', filter: 'all'},
 	])
 
-	let [tasks, setTasks] = useState<TasksType>({
+	let [tasks, setTasks] = useReducer (tasksReducer, {
 		[todolistID1]: [
 			{id: v1(), title: 'HTML&CSS', isDone: true},
 			{id: v1(), title: 'JS', isDone: true},
@@ -42,15 +43,16 @@ function App() {
 	})
 
 	const checkBoxHandler = (todolistID: string, id: string, isDone: boolean) => {
-		setTasks({
-			...tasks, [todolistID]: tasks[todolistID]
-				.map(task => task.id === id ? {...task, isDone} : task)
-		})
+		// setTasks({
+		// 	...tasks, [todolistID]: tasks[todolistID]
+		// 		.map(task => task.id === id ? {...task, isDone} : task)
+		// })
 
 	}
 
 	const removeTask = (todolistID: string, id: string) => {
-		setTasks({...tasks, [todolistID]: tasks[todolistID].filter(t => t.id !== id)})
+		// setTasks({...tasks, [todolistID]: tasks[todolistID].filter(t => t.id !== id)})
+		setTasks(removeTaskAC(todolistID,id))
 	}
 	const createTask = (todolistID: string, title: string) => {
 		const newTask = {id: v1(), title: title, isDone: false}
@@ -71,8 +73,8 @@ function App() {
 		setTodolists(todolists.map(t => t.id===todolistID? {...t, title}:t))
 	}
 	const updateTaskTitle=(todolistID: string,id: string, title: string)=>{
-		setTasks({...tasks,
-		[todolistID]:tasks[todolistID].map(t=>t.id === id?{...t, title}:t)})
+		// setTasks({...tasks,
+		// [todolistID]:tasks[todolistID].map(t=>t.id === id?{...t, title}:t)})
 	}
 	return (
 		<div>
