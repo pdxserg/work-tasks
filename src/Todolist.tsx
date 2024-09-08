@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {TaskPropsType} from "./App";
+import {AddItemForm} from "./AddItemForm";
 
 
 type TodolistPropsType = {
@@ -14,8 +15,7 @@ type TodolistPropsType = {
 export type FilterTodolist = "all" | "active" | "complited"
 export const Todolist = (props: TodolistPropsType) => {
 	const [filter, setFilter] = useState<FilterTodolist>("all")
-	const [title, setTitle] = useState("")
-	const [error, setError] = useState(false)
+
 	let tasks = props.tasks
 	if (filter === "active") {
 		tasks = tasks.filter(task => !task.isDone)
@@ -24,26 +24,10 @@ export const Todolist = (props: TodolistPropsType) => {
 		tasks = tasks.filter(task => task.isDone)
 	}
 	const dateCreate = new Date().toLocaleString()
+const addItemHandler=(title:string)=>{
+		props.createTask(props.todolistID,title)
+}
 
-	const onchangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-		setTitle(e.currentTarget.value)
-	}
-	const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-		setError(false)
-		if (e.key === "Enter") {
-			createTaskHandler()
-		}
-	}
-
-	const createTaskHandler = () => {
-		if (title.trim() !== "") {
-			props.createTask(props.todolistID, title.trim())
-			setTitle("")
-		} else {
-			setError(true)
-		}
-
-	}
 	const changeAllFilter = () => {
 		setFilter("all")
 	}
@@ -63,16 +47,7 @@ export const Todolist = (props: TodolistPropsType) => {
 				<span>Study</span>
 				<button onClick={removeTodolistHandler}>x</button>
 				<h5>{dateCreate}</h5>
-				<div className={"createTask"}>
-					<input className={error ? "errorForInput" : ""}
-					       type="text"
-					       value={title}
-					       onChange={onchangeTitle}
-					       onKeyDown={onKeyDownHandler}
-					/>
-					<button onClick={createTaskHandler}>+</button>
-					{error && <div className={"error"}>field requred</div>}
-				</div>
+				<AddItemForm addItem={addItemHandler}/>
 				<ul>
 					{tasks.length === 0
 						? <span>No tasks</span>

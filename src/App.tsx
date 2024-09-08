@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {FilterTodolist, Todolist} from "./Todolist";
 import {v1} from "uuid";
+import {AddItemForm} from "./AddItemForm";
 
 
 export type TasksType = {
@@ -38,7 +39,7 @@ function App() {
 			{id: v1(), title: 'GraphQL', isDone: false},
 		],
 	})
-	console.log(tasks)
+
 	const checkBoxHandler = (todolistID: string, id: string, isDone: boolean) => {
 		setTasks({
 			...tasks, [todolistID]: tasks[todolistID]
@@ -58,9 +59,16 @@ function App() {
 		setTodolists(todolists.filter(t => t.id !== todolistID))
 		delete tasks[todolistID]
 	}
+	const createTodolist=(title:string)=>{
+		const newID= v1()
+		const newTodo:TodolistType={id: newID, title , filter: 'all'}
+		setTodolists([newTodo, ...todolists])
+
+		setTasks({...tasks, [newID]:[]})
+	}
 	return (
 		<div className="App">
-
+<AddItemForm addItem={createTodolist}/>
 			{todolists.map(t => {
 					return (
 						<Todolist
