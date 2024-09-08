@@ -67,25 +67,32 @@ function App() {
 		setTasks({...tasks, [newID]:[]})
 	}
 	return (
-		<div className="App">
-<AddItemForm addItem={createTodolist}/>
-			{todolists.map(t => {
-					return (
-						<Todolist
-							key={t.id}
-							todolistID={t.id}
-							title={t.title}
-							tasks={tasks[t.id]}
-							removeTask={removeTask}
-							checkBoxHandler={checkBoxHandler}
-							createTask={createTask}
-							removeTodolist={removeTodolist}
-						/>
-					)
-				}
-			)}
+		<div>
+			<div style={{marginLeft: 200}}>
+				<AddItemForm addItem={createTodolist}/>
 
+			</div>
+			<div className="App">
+
+				{todolists.map(t => {
+						return (
+							<Todolist
+								key={t.id}
+								todolistID={t.id}
+								title={t.title}
+								tasks={tasks[t.id]}
+								removeTask={removeTask}
+								checkBoxHandler={checkBoxHandler}
+								createTask={createTask}
+								removeTodolist={removeTodolist}
+							/>
+						)
+					}
+				)}
+
+			</div>
 		</div>
+
 	);
 }
 
