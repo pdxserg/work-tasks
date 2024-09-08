@@ -1,5 +1,6 @@
 import {TasksType} from "../App";
 import {v1} from "uuid";
+import {RemoveTodolistAC} from "./todolists-reducer";
 
 
 type RemoveTaskACType = {
@@ -14,6 +15,7 @@ type ActionsType = RemoveTaskACType
 	| ChangeStatusTaskAC
 	| CreateTaskAC
 	| UpdateTasTitlekACType
+	| RemoveTodolistAC
 
 export const tasksReducer = (state: TasksType, action: ActionsType): any => {
 	switch (action.type) {
@@ -32,8 +34,14 @@ export const tasksReducer = (state: TasksType, action: ActionsType): any => {
 
 		}
 		case "UPDATE-TASK-TITLE":
-			return {...state,
-				  [action.todolistID]:state[action.todolistID].map(t=>t.id === action.id?{...t, title:action.title}:t)}
+			return {
+				...state,
+				[action.todolistID]: state[action.todolistID].map(t => t.id === action.id ? {
+					...t,
+					title: action.title
+				} : t)
+			}
+
 		default: {
 			return state
 		}

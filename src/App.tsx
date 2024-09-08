@@ -5,6 +5,7 @@ import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
 import {changeStatusTaskAC, createTaskAC, removeTaskAC, tasksReducer, updateTasTitlekAC} from "./model/tasks-reducer";
+import {removeTodolistAC, todolistsReducer} from "./model/todolists-reducer";
 
 
 export type TasksType = {
@@ -15,7 +16,7 @@ export type TaskPropsType = {
 	title: string
 	isDone: boolean
 }
-type TodolistType = {
+export type TodolistType = {
 	id: string
 	title: string
 	filter: FilterTodolist
@@ -25,7 +26,7 @@ function App() {
 	let todolistID1 = v1()
 	let todolistID2 = v1()
 
-	let [todolists, setTodolists] = useState<TodolistType[]>([
+	let [todolists, setTodolists] = useReducer(todolistsReducer,[
 		{id: todolistID1, title: 'What to learn', filter: 'all'},
 		{id: todolistID2, title: 'What to buy', filter: 'all'},
 	])
@@ -41,7 +42,7 @@ function App() {
 			{id: v1(), title: 'GraphQL', isDone: false},
 		],
 	})
-
+	console.log(tasks)
 
 	const removeTask = (todolistID: string, id: string) => {
 		setTasks(removeTaskAC(todolistID,id))
@@ -56,19 +57,20 @@ function App() {
 	const updateTaskTitle=(todolistID: string,id: string, title: string)=>{
 		  setTasks(updateTasTitlekAC(todolistID,id,title) )
 	}
+
 	const removeTodolist = (todolistID: string) => {
-		setTodolists(todolists.filter(t => t.id !== todolistID))
+		setTodolists(removeTodolistAC(todolistID))
 		delete tasks[todolistID]
 	}
 	const createTodolist=(title:string)=>{
 		const newID= v1()
 		const newTodo:TodolistType={id: newID, title , filter: 'all'}
-		setTodolists([newTodo, ...todolists])
-
-		setTasks({...tasks, [newID]:[]})
+		// setTodolists([newTodo, ...todolists])
+		//
+		// setTasks({...tasks, [newID]:[]})
 	}
 	const updateTodlistTitle=(todolistID: string,title:string)=>{
-		setTodolists(todolists.map(t => t.id===todolistID? {...t, title}:t))
+		// setTodolists(todolists.map(t => t.id===todolistID? {...t, title}:t))
 	}
 
 	return (
