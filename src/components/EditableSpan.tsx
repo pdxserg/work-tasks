@@ -1,14 +1,20 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 
 type EditableSpantype = {
 	title: string
+	updatedTitle:(newTitle:string)=>void
 }
-export const EditableSpan = ({title}: EditableSpantype) => {
+export const EditableSpan = ({title, updatedTitle}: EditableSpantype) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [newTitle, setNewTitle] = useState(title)
-const onChangeHandler=()=>{
-
+const onChangeHandler=(e: ChangeEvent<HTMLInputElement>)=>{
+		setNewTitle(e.currentTarget.value)
 }
+const onblurHandler=() =>{
+	setIsEditing(false)
+	updatedTitle(newTitle)
+}
+
 
 	return (
 		<div>
@@ -16,7 +22,7 @@ const onChangeHandler=()=>{
 				? <input type="text"
 				         value={newTitle}
 				         onChange={onChangeHandler}
-				         onBlur={() => setIsEditing(false)}
+				         onBlur={onblurHandler}
 				/>
 				: <span
 					onDoubleClick={() => setIsEditing(true)}

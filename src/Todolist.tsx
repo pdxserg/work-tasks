@@ -1,6 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {TaskPropsType} from "./App";
 import {AddItemForm} from "./components/AddItemForm";
+import {EditableSpan} from "./components/EditableSpan";
 
 
 type TodolistPropsType = {
@@ -11,6 +12,7 @@ type TodolistPropsType = {
 	createTask: (todolistID: string, title: string) => void
 	todolistID: string
 	removeTodolist: (todolistID: string) => void
+	updateTodlistTitle:(todolistID: string, title: string) => void
 }
 export type FilterTodolist = "all" | "active" | "complited"
 export const Todolist = (props: TodolistPropsType) => {
@@ -37,14 +39,18 @@ const addItemHandler=(title:string)=>{
 	const changeComplitedFilter = () => {
 		setFilter("complited")
 	}
+
 	const removeTodolistHandler = () => {
 		props.removeTodolist(props.todolistID)
+	}
+	const updateTodlistTitle=(title:string)=>{
+		props.updateTodlistTitle(props.todolistID,title )
 	}
 
 	return (
 		<div className="task-conteiner">
 			<div>
-				<span>Study</span>
+				<EditableSpan title={props.title} updatedTitle={updateTodlistTitle}/>
 				<button onClick={removeTodolistHandler}>x</button>
 				<h5>{dateCreate}</h5>
 				<AddItemForm addItem={addItemHandler}/>

@@ -67,9 +67,12 @@ function App() {
 
 		setTasks({...tasks, [newID]:[]})
 	}
+	const updateTodlistTitle=(todolistID: string,title:string)=>{
+		setTodolists(todolists.map(t => t.id===todolistID? {...t, title}:t))
+	}
 	return (
 		<div>
-			<EditableSpan title={"name"}/>
+
 			<div style={{marginLeft: 200}}>
 				<AddItemForm addItem={createTodolist}/>
 
@@ -77,6 +80,8 @@ function App() {
 			<div className="App">
 
 				{todolists.map(t => {
+
+
 						return (
 							<Todolist
 								key={t.id}
@@ -87,6 +92,7 @@ function App() {
 								checkBoxHandler={checkBoxHandler}
 								createTask={createTask}
 								removeTodolist={removeTodolist}
+								updateTodlistTitle={updateTodlistTitle}
 							/>
 						)
 					}
