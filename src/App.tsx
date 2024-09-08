@@ -2,7 +2,8 @@ import React, {useState} from 'react';
 import './App.css';
 import {FilterTodolist, Todolist} from "./Todolist";
 import {v1} from "uuid";
-import {AddItemForm} from "./AddItemForm";
+import {AddItemForm} from "./components/AddItemForm";
+import {EditableSpan} from "./components/EditableSpan";
 
 
 export type TasksType = {
@@ -68,6 +69,7 @@ function App() {
 	}
 	return (
 		<div>
+			<EditableSpan title={"name"}/>
 			<div style={{marginLeft: 200}}>
 				<AddItemForm addItem={createTodolist}/>
 
