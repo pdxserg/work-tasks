@@ -7,16 +7,24 @@ type EditableSpantype = {
 export const EditableSpan = ({title, updatedTitle}: EditableSpantype) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [newTitle, setNewTitle] = useState(title)
+	const [error, setError] = useState(false)
 	const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+		setError(false)
 		setNewTitle(e.currentTarget.value)
 	}
 	const onblurHandler = () => {
-		setIsEditing(false)
-		updatedTitle(newTitle)
+		if (newTitle.trim() !== "") {
+			updatedTitle(newTitle.trim())
+			setIsEditing(false)
+		} else {
+			setError(true)
+		}
+
 	}
 	return (
 		isEditing
-			? <input type="text"
+			? <input className={error ? "errorForInput" : ""}
+			         type="text"
 			         value={newTitle}
 			         onChange={onChangeHandler}
 			         onBlur={onblurHandler}
