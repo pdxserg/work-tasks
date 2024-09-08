@@ -13,6 +13,7 @@ type TodolistPropsType = {
 	todolistID: string
 	removeTodolist: (todolistID: string) => void
 	updateTodlistTitle:(todolistID: string, title: string) => void
+	updateTaskTitle:(todolistID: string,id: string, title: string) => void
 }
 export type FilterTodolist = "all" | "active" | "complited"
 export const Todolist = (props: TodolistPropsType) => {
@@ -64,11 +65,16 @@ const addItemHandler=(title:string)=>{
 							const checkboxHandler = (e: ChangeEvent<HTMLInputElement>) => {
 								props.checkBoxHandler(props.todolistID, task.id, e.currentTarget.checked)
 							}
+							const updateTaskTitle=(title:string)=>{
+								props.updateTaskTitle(props.todolistID,task.id,title)
 
+							}
 							return <li key={task.id} className={task.isDone ? "finished" : ""}>
 
 								<input type="checkbox" checked={task.isDone} onChange={checkboxHandler}/>
-								<span>{task.title}</span>
+								 <EditableSpan title={task.title}
+								updatedTitle={updateTaskTitle}/>
+
 								<button onClick={removeHandler}>x</button>
 							</li>
 						})
