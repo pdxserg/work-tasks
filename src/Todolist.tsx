@@ -6,9 +6,10 @@ type TodolistPropsType = {
 	title: string,
 	tasks: TaskPropsType[]
 	removeTask: (todolistID: string, id: string) => void
-	checkBoxHandler: (todolistID:string, id: string, isDone: boolean) => void
+	checkBoxHandler: (todolistID: string, id: string, isDone: boolean) => void
 	createTask: (todolistID: string, title: string) => void
 	todolistID: string
+	removeTodolist: (todolistID: string) => void
 }
 export type FilterTodolist = "all" | "active" | "complited"
 export const Todolist = (props: TodolistPropsType) => {
@@ -52,12 +53,15 @@ export const Todolist = (props: TodolistPropsType) => {
 	const changeComplitedFilter = () => {
 		setFilter("complited")
 	}
-
+	const removeTodolistHandler = () => {
+		props.removeTodolist(props.todolistID)
+	}
 
 	return (
 		<div className="task-conteiner">
 			<div>
-				<h3>Study</h3>
+				<span>Study</span>
+				<button onClick={removeTodolistHandler}>x</button>
 				<h5>{dateCreate}</h5>
 				<div className={"createTask"}>
 					<input className={error ? "errorForInput" : ""}
@@ -77,7 +81,7 @@ export const Todolist = (props: TodolistPropsType) => {
 								props.removeTask(props.todolistID, task.id)
 							}
 							const checkboxHandler = (e: ChangeEvent<HTMLInputElement>) => {
-								props.checkBoxHandler(props.todolistID,task.id, e.currentTarget.checked)
+								props.checkBoxHandler(props.todolistID, task.id, e.currentTarget.checked)
 							}
 
 							return <li key={task.id} className={task.isDone ? "finished" : ""}>
