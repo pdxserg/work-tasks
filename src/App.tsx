@@ -38,20 +38,17 @@ function App() {
 			{ id: v1(), title: 'GraphQL', isDone: false },
 		],
 	})
-const checkBoxHandler=(id: string, isDone:boolean)=>{
-	 // setTasks(tasks.map(task => task.id === id?  {...task, isDone} : task))
+const checkBoxHandler=(todolistID:string, id: string, isDone:boolean)=>{
+	  setTasks({...tasks, [todolistID]: tasks[todolistID]
+			  .map(task => task.id === id?  {...task, isDone} : task)})
 
 }
 
 	const removeTask =(todolistID:string, id:string)=>{
-	   // setTasks(tasks.filter(t=>t.id !== id))
 		setTasks({...tasks, [todolistID]: tasks[todolistID].filter(t=>t.id !== id)})
 	}
 	const createTask =(todolistID:string, title: string)=>{
-		console.log(todolistID)
-		console.log(title)
 		const newTask = {id: v1(), title: title, isDone: false}
-		// setTasks([newTask, ...tasks ])
 		setTasks({...tasks,[todolistID]:[newTask,...tasks[todolistID]]})
 	}
 	return (

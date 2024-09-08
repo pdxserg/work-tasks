@@ -6,7 +6,7 @@ type TodolistPropsType = {
 	title: string,
 	tasks: TaskPropsType[]
 	removeTask: (todolistID: string, id: string) => void
-	checkBoxHandler: (id: string, isDone: boolean) => void
+	checkBoxHandler: (todolistID:string, id: string, isDone: boolean) => void
 	createTask: (todolistID: string, title: string) => void
 	todolistID: string
 }
@@ -77,7 +77,7 @@ export const Todolist = (props: TodolistPropsType) => {
 								props.removeTask(props.todolistID, task.id)
 							}
 							const checkboxHandler = (e: ChangeEvent<HTMLInputElement>) => {
-								props.checkBoxHandler(task.id, e.currentTarget.checked)
+								props.checkBoxHandler(props.todolistID,task.id, e.currentTarget.checked)
 							}
 
 							return <li key={task.id} className={task.isDone ? "finished" : ""}>
