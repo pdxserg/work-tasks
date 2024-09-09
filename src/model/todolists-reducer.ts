@@ -33,7 +33,6 @@ export const removeTodolistAC = (todolistID: string) => {
 
 	} as const
 }
-
 export const createTodolistAC = (title: string) => {
 	return {
 		type: 'CREATE-TODOLIST',

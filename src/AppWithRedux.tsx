@@ -22,7 +22,7 @@ export type TodolistType = {
 	filter: FilterTodolist
 }
 
-function App() {
+function AppWithRedux() {
 	let todolistID1 = v1()
 	let todolistID2 = v1()
 
@@ -104,4 +104,4 @@ function App() {
 	);
 }
 
-export default App;
+export default AppWithRedux;
