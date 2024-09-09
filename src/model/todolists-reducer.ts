@@ -1,8 +1,8 @@
 import { TodolistType} from "../App";
 import {v1} from "uuid";
-import {createTaskAC} from "./tasks-reducer";
 
- type CreateTodolistAC= ReturnType<typeof createTodolistAC>
+
+export type CreateTodolistAC= ReturnType<typeof createTodolistAC>
 export type RemoveTodolistAC= ReturnType<typeof removeTodolistAC>
 type ActionsType =  RemoveTodolistAC |CreateTodolistAC
 

@@ -64,9 +64,9 @@ function App() {
 		setTasks(action)
 	}
 	const createTodolist=(title:string)=>{
-		setTodolists(createTodolistAC(title))
-
-		// setTasks({...tasks, [newID]:[]})
+		const action= createTodolistAC(title)
+		setTodolists(action)
+		  setTasks(action)
 	}
 	const updateTodlistTitle=(todolistID: string,title:string)=>{
 		// setTodolists(todolists.map(t => t.id===todolistID? {...t, title}:t))
