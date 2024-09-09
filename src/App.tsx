@@ -5,7 +5,7 @@ import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
 import {changeStatusTaskAC, createTaskAC, removeTaskAC, tasksReducer, updateTasTitlekAC} from "./model/tasks-reducer";
-import {removeTodolistAC, todolistsReducer} from "./model/todolists-reducer";
+import {createTodolistAC, removeTodolistAC, todolistsReducer} from "./model/todolists-reducer";
 
 
 export type TasksType = {
@@ -64,10 +64,8 @@ function App() {
 		setTasks(action)
 	}
 	const createTodolist=(title:string)=>{
-		const newID= v1()
-		const newTodo:TodolistType={id: newID, title , filter: 'all'}
-		// setTodolists([newTodo, ...todolists])
-		//
+		setTodolists(createTodolistAC(title))
+
 		// setTasks({...tasks, [newID]:[]})
 	}
 	const updateTodlistTitle=(todolistID: string,title:string)=>{
