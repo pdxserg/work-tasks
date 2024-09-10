@@ -39,10 +39,10 @@ function App() {
 		dispatch(changeStatusTaskAC(todolistID,id,isDone))
 
 	},[dispatch])
-	// todolist
 	const updateTaskTitle=useCallback((todolistID: string,id: string, title: string)=>{
 		dispatch(updateTasTitlekAC(todolistID,id,title) )
 	},[dispatch])
+	// todolist
 	const removeTodolist = useCallback((todolistID: string) => {
 		const action=removeTodolistAC(todolistID)
 		dispatch(action)

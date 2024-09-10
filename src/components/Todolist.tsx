@@ -1,8 +1,9 @@
-import React, {ChangeEvent, memo, useCallback,} from "react";
+import React, {memo, useCallback,} from "react";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {TaskPropsType} from "../app/App";
 import {Button} from "./Button";
+import {Task} from "./Task";
 
 
 type TodolistPropsType = {
@@ -62,24 +63,13 @@ export const Todolist = memo((props: TodolistPropsType) => {
 					{tasks.length === 0
 						? <span>No tasks</span>
 						: tasks.map(task => {
-							const removeHandler = () => {
-								props.removeTask(props.todolistID, task.id)
-							}
-							const checkboxHandler = (e: ChangeEvent<HTMLInputElement>) => {
-								props.checkBoxHandler(props.todolistID, task.id, e.currentTarget.checked)
-							}
-							const updateTaskTitle = (title: string) => {
-								props.updateTaskTitle(props.todolistID, task.id, title)
+							return <Task
+							key={task.id}
+							task={task}
+							todolistId={props.todolistID}
 
-							}
-							return <li key={task.id} className={task.isDone ? "finished" : ""}>
 
-								<input type="checkbox" checked={task.isDone} onChange={checkboxHandler}/>
-								<EditableSpan title={task.title}
-								              updatedTitle={updateTaskTitle}/>
-
-								<button onClick={removeHandler}>x</button>
-							</li>
+							/>
 						})
 					}
 
