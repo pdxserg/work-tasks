@@ -1,14 +1,13 @@
-import React, {useReducer } from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {FilterTodolist, Todolist} from "../Todolist";
-import {v1} from "uuid";
 import {AddItemForm} from "../components/AddItemForm";
 
-import {changeStatusTaskAC, createTaskAC, removeTaskAC, tasksReducer, updateTasTitlekAC} from "../model/tasks-reducer";
+import {changeStatusTaskAC, createTaskAC, removeTaskAC, updateTasTitlekAC} from "../model/tasks-reducer";
 import {
+	changeFilterAC,
 	createTodolistAC,
 	removeTodolistAC,
-	todolistsReducer,
 	TodolistType,
 	updateTodlistTitleAC
 } from "../model/todolists-reducer";
@@ -26,36 +25,16 @@ export type TaskPropsType = {
 }
 
 function App() {
-	// let todolistID1 = v1()
-	// let todolistID2 = v1()
-	//
-	// let [todolists, dispatchTodolists] = useReducer(todolistsReducer,[
-	// 	{id: todolistID1, title: 'What to learn', filter: 'all'},
-	// 	{id: todolistID2, title: 'What to buy', filter: 'all'},
-	// ])
-	//
-	// let [tasks, dispatchTasks] = useReducer (tasksReducer, {
-	// 	[todolistID1]: [
-	// 		{id: v1(), title: 'HTML&CSS', isDone: true},
-	// 		{id: v1(), title: 'JS', isDone: true},
-	// 		{id: v1(), title: 'ReactJS', isDone: false},
-	// 	],
-	// 	[todolistID2]: [
-	// 		{id: v1(), title: 'Rest API', isDone: true},
-	// 		{id: v1(), title: 'GraphQL', isDone: false},
-	// 	],
-	// })
-	// console.log(tasks)
 
 	const todolists = useSelector<RootState, TodolistType[]>(state => state.todolists)
-	const tasks= useSelector<RootState, TasksType>(state => state.tasks)
+	  const tasks= useSelector<RootState, TasksType>(state => state.tasks)
 	const dispatch= useDispatch()
 	const removeTask = (todolistID: string, id: string) => {
 		dispatch(removeTaskAC(todolistID,id))
 	}
-	const createTask = (todolistID: string, title: string) => {
+	const createTask = useCallback((todolistID: string, title: string) => {
 		dispatch(createTaskAC(todolistID,title) )
-	}
+	},[dispatch])
 	const checkBoxHandler = (todolistID: string, id: string, isDone: boolean) => {
 		dispatch(changeStatusTaskAC(todolistID,id,isDone))
 
@@ -74,10 +53,12 @@ function App() {
 		dispatch(action)
 
 	}
-	const updateTodlistTitle=(todolistID: string,title:string)=>{
+	const updateTodlistTitle=useCallback((todolistID: string,title:string)=>{
 		dispatch(updateTodlistTitleAC(todolistID,title))
-	}
-
+	},[dispatch])
+const changeFilter =( todolistID: string, value: FilterTodolist)=>{
+		dispatch(changeFilterAC(todolistID,value))
+}
 	return (
 		<div>
 
@@ -93,12 +74,14 @@ function App() {
 								todolistID={t.id}
 								title={t.title}
 								tasks={tasks[t.id]}
+								filter={t.filter}
 								removeTask={removeTask}
 								checkBoxHandler={checkBoxHandler}
 								createTask={createTask}
 								removeTodolist={removeTodolist}
 								updateTodlistTitle={updateTodlistTitle}
 								updateTaskTitle={updateTaskTitle}
+								changeFilter={changeFilter}
 							/>
 						)
 					}

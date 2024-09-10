@@ -4,9 +4,9 @@
 type UpdateTodlistTitleAC=ReturnType<typeof updateTodlistTitleAC>
 export type CreateTodolistAC= ReturnType<typeof createTodolistAC>
 export type RemoveTodolistAC= ReturnType<typeof removeTodolistAC>
+ type ChangeFilterACType= ReturnType<typeof changeFilterAC>
 
-
-type ActionsType =  RemoveTodolistAC |CreateTodolistAC|UpdateTodlistTitleAC
+type ActionsType =  RemoveTodolistAC |CreateTodolistAC|UpdateTodlistTitleAC|ChangeFilterACType
 
 
  export type TodolistType = {
@@ -27,6 +27,9 @@ export const todolistsReducer = (state=initialstate, action: ActionsType): Todol
 		}
 		case "UPDATE-TITLE-TODOLIST":{
 			return state.map(t=>t.id === action.todolistID?{...t, title:action.title}:t)
+		}
+		case "CHANGE-FILTER":{
+			return state.map(t=>t.id === action.todolistID?{...t, filter:action.value}:t)
 		}
 		default: {
 			return state
@@ -58,4 +61,12 @@ export const updateTodlistTitleAC = (todolistID: string, title:string) => {
 		title
 
 	} as const
+}
+
+export const changeFilterAC =(todolistID: string, value:FilterTodolist)=>{
+	return{
+		type: 'CHANGE-FILTER',
+		todolistID,
+		value
+	}as const
 }

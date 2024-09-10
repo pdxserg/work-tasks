@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from "react";
+import React, {ChangeEvent, useCallback,} from "react";
 
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
@@ -11,45 +11,45 @@ type TodolistPropsType = {
 	removeTask: (todolistID: string, id: string) => void
 	checkBoxHandler: (todolistID: string, id: string, isDone: boolean) => void
 	createTask: (todolistID: string, title: string) => void
+	updateTaskTitle: (todolistID: string, id: string, title: string) => void
 	todolistID: string
+	filter: FilterTodolist
 	removeTodolist: (todolistID: string) => void
-	updateTodlistTitle:(todolistID: string, title: string) => void
-	updateTaskTitle:(todolistID: string,id: string, title: string) => void
+	updateTodlistTitle: (todolistID: string, title: string) => void
+	changeFilter: (todolistID: string, value:FilterTodolist) =>void
 }
 export type FilterTodolist = "all" | "active" | "complited"
 export const Todolist = (props: TodolistPropsType) => {
 
 
-	const [filter, setFilter] = useState<FilterTodolist>("all")
-
 	let tasks = props.tasks
-	if (filter === "active") {
+	if (props.filter === "active") {
 		tasks = tasks.filter(task => !task.isDone)
 	}
-	if (filter === "complited") {
+	if (props.filter === "complited") {
 		tasks = tasks.filter(task => task.isDone)
 	}
 	const dateCreate = new Date().toLocaleString()
-const addItemHandler=useCallback((title:string)=>{
-		props.createTask(props.todolistID,title)
-},[props.todolistID])
+	const addItemHandler = useCallback((title: string) => {
+		props.createTask(props.todolistID, title)
+	}, [props.createTask, props.todolistID])
 
 	const changeAllFilter = () => {
-		setFilter("all")
+		props.changeFilter(props.todolistID, "all")
 	}
 	const changeActiveFilter = () => {
-		setFilter("active")
+		props.changeFilter(props.todolistID, "active")
 	}
 	const changeComplitedFilter = () => {
-		setFilter("complited")
+		props.changeFilter(props.todolistID, "complited")
 	}
 
 	const removeTodolistHandler = () => {
 		props.removeTodolist(props.todolistID)
 	}
-	const updateTodlistTitle=useCallback((title:string)=>{
-		props.updateTodlistTitle(props.todolistID,title )
-	},[props.todolistID])
+	const updateTodlistTitle = useCallback((title: string) => {
+		props.updateTodlistTitle(props.todolistID, title)
+	}, [props.updateTodlistTitle, props.todolistID])
 
 	return (
 		<div className="task-conteiner">
@@ -68,15 +68,15 @@ const addItemHandler=useCallback((title:string)=>{
 							const checkboxHandler = (e: ChangeEvent<HTMLInputElement>) => {
 								props.checkBoxHandler(props.todolistID, task.id, e.currentTarget.checked)
 							}
-							const updateTaskTitle=(title:string)=>{
-								props.updateTaskTitle(props.todolistID,task.id,title)
+							const updateTaskTitle = (title: string) => {
+								props.updateTaskTitle(props.todolistID, task.id, title)
 
 							}
 							return <li key={task.id} className={task.isDone ? "finished" : ""}>
 
 								<input type="checkbox" checked={task.isDone} onChange={checkboxHandler}/>
-								 <EditableSpan title={task.title}
-								updatedTitle={updateTaskTitle}/>
+								<EditableSpan title={task.title}
+								              updatedTitle={updateTaskTitle}/>
 
 								<button onClick={removeHandler}>x</button>
 							</li>
@@ -86,13 +86,13 @@ const addItemHandler=useCallback((title:string)=>{
 
 				</ul>
 				<div className={"filterButton"}>
-					<button className={filter === "all" ? "filterTasks" : ""}
+					<button className={props.filter === "all" ? "filterTasks" : ""}
 					        onClick={changeAllFilter}>All
 					</button>
-					<button className={filter === "active" ? "filterTasks" : ""}
+					<button className={props.filter === "active" ? "filterTasks" : ""}
 					        onClick={changeActiveFilter}>Active
 					</button>
-					<button className={filter === "complited" ? "filterTasks" : ""}
+					<button className={props.filter === "complited" ? "filterTasks" : ""}
 					        onClick={changeComplitedFilter}>Complited
 					</button>
 				</div>
