@@ -18,7 +18,7 @@ type TodolistPropsType = {
 	updateTodlistTitle: (todolistID: string, title: string) => void
 	changeFilter: (todolistID: string, value:FilterTodolist) =>void
 }
-export type FilterTodolist = "all" | "active" | "complited"
+export type FilterTodolist = "all" | "active" | "completed"
 export const Todolist =memo( (props: TodolistPropsType) => {
 
 
@@ -26,7 +26,7 @@ export const Todolist =memo( (props: TodolistPropsType) => {
 	if (props.filter === "active") {
 		tasks = tasks.filter(task => !task.isDone)
 	}
-	if (props.filter === "complited") {
+	if (props.filter === "completed") {
 		tasks = tasks.filter(task => task.isDone)
 	}
 	const dateCreate = new Date().toLocaleString()
@@ -40,8 +40,8 @@ export const Todolist =memo( (props: TodolistPropsType) => {
 	const changeActiveFilter = () => {
 		props.changeFilter(props.todolistID, "active")
 	}
-	const changeComplitedFilter = () => {
-		props.changeFilter(props.todolistID, "complited")
+	const changeCompletedFilter = () => {
+		props.changeFilter(props.todolistID, "completed")
 	}
 
 	const removeTodolistHandler = () => {
@@ -92,8 +92,8 @@ export const Todolist =memo( (props: TodolistPropsType) => {
 					<button className={props.filter === "active" ? "filterTasks" : ""}
 					        onClick={changeActiveFilter}>Active
 					</button>
-					<button className={props.filter === "complited" ? "filterTasks" : ""}
-					        onClick={changeComplitedFilter}>Complited
+					<button className={props.filter === "completed" ? "filterTasks" : ""}
+					        onClick={changeCompletedFilter}>Complited
 					</button>
 				</div>
 
