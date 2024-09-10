@@ -1,10 +1,10 @@
 
 
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
 type AddItemFormType={
 	addItem: (title: string) => void
 }
-export const AddItemForm = (props:AddItemFormType) => {
+export const AddItemForm =memo ((props:AddItemFormType) => {
 	const [title, setTitle] = useState("")
 	const [error, setError] = useState(false)
 	const onchangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
@@ -38,5 +38,5 @@ export const AddItemForm = (props:AddItemFormType) => {
 			{error && <div className={"error"}>field requred</div>}
 		</div>
 	);
-};
+})
 

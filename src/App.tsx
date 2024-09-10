@@ -1,4 +1,4 @@
-import React, {useReducer, useState} from 'react';
+import React, {useCallback, useReducer, useState} from 'react';
 import './App.css';
 import {FilterTodolist, Todolist} from "./Todolist";
 import {v1} from "uuid";
@@ -47,9 +47,9 @@ function App() {
 	const removeTask = (todolistID: string, id: string) => {
 		dispatchTasks(removeTaskAC(todolistID,id))
 	}
-	const createTask = (todolistID: string, title: string) => {
+	const createTask =useCallback ((todolistID: string, title: string) => {
 		dispatchTasks(createTaskAC(todolistID,title) )
-	}
+	},[])
 	const checkBoxHandler = (todolistID: string, id: string, isDone: boolean) => {
 		dispatchTasks(changeStatusTaskAC(todolistID,id,isDone))
 
@@ -68,9 +68,9 @@ function App() {
 		dispatchTodolists(action)
 		  dispatchTasks(action)
 	}
-	const updateTodlistTitle=(todolistID: string,title:string)=>{
+	const updateTodlistTitle=useCallback((todolistID: string,title:string)=>{
 		  dispatchTodolists(updateTodlistTitleAC(todolistID,title))
-	}
+	},[])
 
 	return (
 		<div>

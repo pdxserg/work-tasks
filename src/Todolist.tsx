@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from "react";
 import {TaskPropsType} from "./App";
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
@@ -27,9 +27,9 @@ export const Todolist = (props: TodolistPropsType) => {
 		tasks = tasks.filter(task => task.isDone)
 	}
 	const dateCreate = new Date().toLocaleString()
-const addItemHandler=(title:string)=>{
+const addItemHandler=useCallback((title:string)=>{
 		props.createTask(props.todolistID,title)
-}
+},[props.todolistID])
 
 	const changeAllFilter = () => {
 		setFilter("all")
@@ -44,9 +44,9 @@ const addItemHandler=(title:string)=>{
 	const removeTodolistHandler = () => {
 		props.removeTodolist(props.todolistID)
 	}
-	const updateTodlistTitle=(title:string)=>{
+	const updateTodlistTitle=useCallback((title:string)=>{
 		props.updateTodlistTitle(props.todolistID,title )
-	}
+	},[props.todolistID])
 
 	return (
 		<div className="task-conteiner">
