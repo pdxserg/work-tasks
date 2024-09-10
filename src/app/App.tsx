@@ -29,19 +29,8 @@ function App() {
 	const todolists = useSelector<RootState, TodolistType[]>(state => state.todolists)
 	  const tasks= useSelector<RootState, TasksType>(state => state.tasks)
 	const dispatch= useDispatch()
-	const removeTask = useCallback((todolistID: string, id: string) => {
-		dispatch(removeTaskAC(todolistID,id))
-	},[dispatch])
-	const createTask = useCallback((todolistID: string, title: string) => {
-		dispatch(createTaskAC(todolistID,title) )
-	},[dispatch])
-	const checkBoxHandler = useCallback((todolistID: string, id: string, isDone: boolean) => {
-		dispatch(changeStatusTaskAC(todolistID,id,isDone))
 
-	},[dispatch])
-	const updateTaskTitle=useCallback((todolistID: string,id: string, title: string)=>{
-		dispatch(updateTasTitlekAC(todolistID,id,title) )
-	},[dispatch])
+
 	// todolist
 	const removeTodolist = useCallback((todolistID: string) => {
 		const action=removeTodolistAC(todolistID)
@@ -73,12 +62,8 @@ const changeFilter =useCallback(( todolistID: string, value: FilterTodolist)=>{
 								title={t.title}
 								tasks={tasks[t.id]}
 								filter={t.filter}
-								removeTask={removeTask}
-								checkBoxHandler={checkBoxHandler}
-								createTask={createTask}
 								removeTodolist={removeTodolist}
 								updateTodlistTitle={updateTodlistTitle}
-								updateTaskTitle={updateTaskTitle}
 								changeFilter={changeFilter}
 							/>
 						)

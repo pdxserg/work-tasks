@@ -4,16 +4,16 @@ import {EditableSpan} from "./EditableSpan";
 import {TaskPropsType} from "../app/App";
 import {Button} from "./Button";
 import {Task} from "./Task";
+import {createTaskAC} from "../model/tasks-reducer";
+import {useDispatch} from "react-redux";
 
 
 type TodolistPropsType = {
 	title: string,
 	tasks: TaskPropsType[]
-	removeTask: (todolistID: string, id: string) => void
-	checkBoxHandler: (todolistID: string, id: string, isDone: boolean) => void
-	createTask: (todolistID: string, title: string) => void
-	updateTaskTitle: (todolistID: string, id: string, title: string) => void
 	todolistID: string
+
+
 	filter: FilterTodolist
 	removeTodolist: (todolistID: string) => void
 	updateTodlistTitle: (todolistID: string, title: string) => void
@@ -21,7 +21,10 @@ type TodolistPropsType = {
 }
 export type FilterTodolist = "all" | "active" | "completed"
 export const Todolist = memo((props: TodolistPropsType) => {
-
+	const dispatch = useDispatch()
+	const createTask = useCallback(( title: string) => {
+		dispatch(createTaskAC(props.todolistID,title) )
+	},[dispatch])
 
 	let tasks = props.tasks
 	if (props.filter === "active") {
@@ -31,9 +34,10 @@ export const Todolist = memo((props: TodolistPropsType) => {
 		tasks = tasks.filter(task => task.isDone)
 	}
 	const dateCreate = new Date().toLocaleString()
-	const addItemHandler = useCallback((title: string) => {
-		props.createTask(props.todolistID, title)
-	}, [props.createTask, props.todolistID])
+
+	 // const addItemHandler = useCallback((title: string) => {
+	 // 	props.createTask(props.todolistID, title)
+	 // }, [props.createTask, props.todolistID])
 
 	const changeAllFilter = useCallback(() => {
 		props.changeFilter(props.todolistID, "all")
@@ -58,7 +62,7 @@ export const Todolist = memo((props: TodolistPropsType) => {
 				<EditableSpan title={props.title} updatedTitle={updateTodlistTitle}/>
 				<button onClick={removeTodolistHandler}>x</button>
 				<h5>{dateCreate}</h5>
-				<AddItemForm addItem={addItemHandler}/>
+				<AddItemForm addItem={createTask}/>
 				<ul>
 					{tasks.length === 0
 						? <span>No tasks</span>
