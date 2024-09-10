@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import './App.css';
-import {FilterTodolist, Todolist} from "../Todolist";
+import {FilterTodolist, Todolist} from "../components/Todolist";
 import {AddItemForm} from "../components/AddItemForm";
 
 import {changeStatusTaskAC, createTaskAC, removeTaskAC, updateTasTitlekAC} from "../model/tasks-reducer";
@@ -29,36 +29,34 @@ function App() {
 	const todolists = useSelector<RootState, TodolistType[]>(state => state.todolists)
 	  const tasks= useSelector<RootState, TasksType>(state => state.tasks)
 	const dispatch= useDispatch()
-	const removeTask = (todolistID: string, id: string) => {
+	const removeTask = useCallback((todolistID: string, id: string) => {
 		dispatch(removeTaskAC(todolistID,id))
-	}
+	},[dispatch])
 	const createTask = useCallback((todolistID: string, title: string) => {
 		dispatch(createTaskAC(todolistID,title) )
 	},[dispatch])
-	const checkBoxHandler = (todolistID: string, id: string, isDone: boolean) => {
+	const checkBoxHandler = useCallback((todolistID: string, id: string, isDone: boolean) => {
 		dispatch(changeStatusTaskAC(todolistID,id,isDone))
 
-	}
+	},[dispatch])
 	// todolist
-	const updateTaskTitle=(todolistID: string,id: string, title: string)=>{
+	const updateTaskTitle=useCallback((todolistID: string,id: string, title: string)=>{
 		dispatch(updateTasTitlekAC(todolistID,id,title) )
-	}
-	const removeTodolist = (todolistID: string) => {
+	},[dispatch])
+	const removeTodolist = useCallback((todolistID: string) => {
 		const action=removeTodolistAC(todolistID)
 		dispatch(action)
-
-	}
-	const createTodolist=(title:string)=>{
+	},[dispatch])
+	const createTodolist=useCallback((title:string)=>{
 		const action= createTodolistAC(title)
 		dispatch(action)
-
-	}
+	},[dispatch])
 	const updateTodlistTitle=useCallback((todolistID: string,title:string)=>{
 		dispatch(updateTodlistTitleAC(todolistID,title))
 	},[dispatch])
-const changeFilter =( todolistID: string, value: FilterTodolist)=>{
+const changeFilter =useCallback(( todolistID: string, value: FilterTodolist)=>{
 		dispatch(changeFilterAC(todolistID,value))
-}
+},[dispatch])
 	return (
 		<div>
 

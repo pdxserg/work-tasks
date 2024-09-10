@@ -1,5 +1,5 @@
  import {v1} from "uuid";
- import {FilterTodolist} from "../Todolist";
+ import {FilterTodolist} from "../components/Todolist";
 
 type UpdateTodlistTitleAC=ReturnType<typeof updateTodlistTitleAC>
 export type CreateTodolistAC= ReturnType<typeof createTodolistAC>
