@@ -1,7 +1,8 @@
 import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from "react";
-import {TaskPropsType} from "./App";
+
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
+import {TaskPropsType} from "./app/App";
 
 
 type TodolistPropsType = {
@@ -17,6 +18,8 @@ type TodolistPropsType = {
 }
 export type FilterTodolist = "all" | "active" | "complited"
 export const Todolist = (props: TodolistPropsType) => {
+
+
 	const [filter, setFilter] = useState<FilterTodolist>("all")
 
 	let tasks = props.tasks

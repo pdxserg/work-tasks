@@ -1,11 +1,17 @@
 import React, {useReducer } from 'react';
-import '../App.css';
+import './App.css';
 import {FilterTodolist, Todolist} from "../Todolist";
 import {v1} from "uuid";
 import {AddItemForm} from "../components/AddItemForm";
 
 import {changeStatusTaskAC, createTaskAC, removeTaskAC, tasksReducer, updateTasTitlekAC} from "../model/tasks-reducer";
-import {createTodolistAC, removeTodolistAC, todolistsReducer, updateTodlistTitleAC} from "../model/todolists-reducer";
+import {
+	createTodolistAC,
+	removeTodolistAC,
+	todolistsReducer,
+	TodolistType,
+	updateTodlistTitleAC
+} from "../model/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "./store";
 
@@ -18,13 +24,8 @@ export type TaskPropsType = {
 	title: string
 	isDone: boolean
 }
-export type TodolistType = {
-	id: string
-	title: string
-	filter: FilterTodolist
-}
 
-function AppWithRedux() {
+function App() {
 	// let todolistID1 = v1()
 	// let todolistID2 = v1()
 	//
@@ -109,4 +110,4 @@ function AppWithRedux() {
 	);
 }
 
-export default AppWithRedux;
+export default App;
