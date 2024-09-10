@@ -22,12 +22,13 @@ export type FilterTodolist = "all" | "active" | "completed"
 export const Todolist =memo( (props: TodolistPropsType) => {
 
 
-	let tasks = props.tasks
+	let alltasks = props.tasks
+	let tasksTodolist =alltasks
 	if (props.filter === "active") {
-		tasks = tasks.filter(task => !task.isDone)
+		tasksTodolist = alltasks.filter(task => !task.isDone)
 	}
 	if (props.filter === "completed") {
-		tasks = tasks.filter(task => task.isDone)
+		tasksTodolist = alltasks.filter(task => task.isDone)
 	}
 	const dateCreate = new Date().toLocaleString()
 	const addItemHandler = useCallback((title: string) => {
@@ -59,9 +60,9 @@ export const Todolist =memo( (props: TodolistPropsType) => {
 				<h5>{dateCreate}</h5>
 				<AddItemForm addItem={addItemHandler}/>
 				<ul>
-					{tasks.length === 0
+					{tasksTodolist.length === 0
 						? <span>No tasks</span>
-						: tasks.map(task => {
+						: tasksTodolist.map(task => {
 							const removeHandler = () => {
 								props.removeTask(props.todolistID, task.id)
 							}
