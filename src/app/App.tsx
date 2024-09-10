@@ -1,22 +1,14 @@
 import React, {useCallback} from 'react';
 import './App.css';
-import {FilterTodolist, Todolist} from "../components/Todolist";
+import {Todolist} from "../components/Todolist";
 import {AddItemForm} from "../components/AddItemForm";
-
-import {changeStatusTaskAC, createTaskAC, removeTaskAC, updateTasTitlekAC} from "../model/tasks-reducer";
-import {
-	changeFilterAC,
-	createTodolistAC,
-	removeTodolistAC,
-	TodolistType,
-	updateTodlistTitleAC
-} from "../model/todolists-reducer";
+import {createTodolistAC, TodolistType} from "../model/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "./store";
 
 
 export type TasksType = {
-	[key:string]: TaskPropsType[]
+	[key: string]: TaskPropsType[]
 }
 export type TaskPropsType = {
 	id: string
@@ -27,25 +19,13 @@ export type TaskPropsType = {
 function App() {
 
 	const todolists = useSelector<RootState, TodolistType[]>(state => state.todolists)
-	  const tasks= useSelector<RootState, TasksType>(state => state.tasks)
-	const dispatch= useDispatch()
+	const dispatch = useDispatch()
 
+	const createTodolist = useCallback((title: string) => {
+		const action = createTodolistAC(title)
+		dispatch(action)
+	}, [dispatch])
 
-	// todolist
-	const removeTodolist = useCallback((todolistID: string) => {
-		const action=removeTodolistAC(todolistID)
-		dispatch(action)
-	},[dispatch])
-	const createTodolist=useCallback((title:string)=>{
-		const action= createTodolistAC(title)
-		dispatch(action)
-	},[dispatch])
-	const updateTodlistTitle=useCallback((todolistID: string,title:string)=>{
-		dispatch(updateTodlistTitleAC(todolistID,title))
-	},[dispatch])
-const changeFilter =useCallback(( todolistID: string, value: FilterTodolist)=>{
-		dispatch(changeFilterAC(todolistID,value))
-},[dispatch])
 	return (
 		<div>
 
@@ -58,13 +38,7 @@ const changeFilter =useCallback(( todolistID: string, value: FilterTodolist)=>{
 						return (
 							<Todolist
 								key={t.id}
-								todolistID={t.id}
-								title={t.title}
-								tasks={tasks[t.id]}
-								filter={t.filter}
-								removeTodolist={removeTodolist}
-								updateTodlistTitle={updateTodlistTitle}
-								changeFilter={changeFilter}
+								todolist={t}
 							/>
 						)
 					}
