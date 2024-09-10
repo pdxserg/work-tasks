@@ -1,8 +1,8 @@
 import React, {ChangeEvent, memo, useCallback,} from "react";
-
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {TaskPropsType} from "../app/App";
+import {Button} from "./Button";
 
 
 type TodolistPropsType = {
@@ -16,10 +16,10 @@ type TodolistPropsType = {
 	filter: FilterTodolist
 	removeTodolist: (todolistID: string) => void
 	updateTodlistTitle: (todolistID: string, title: string) => void
-	changeFilter: (todolistID: string, value:FilterTodolist) =>void
+	changeFilter: (todolistID: string, value: FilterTodolist) => void
 }
 export type FilterTodolist = "all" | "active" | "completed"
-export const Todolist =memo( (props: TodolistPropsType) => {
+export const Todolist = memo((props: TodolistPropsType) => {
 
 
 	let tasks = props.tasks
@@ -34,15 +34,15 @@ export const Todolist =memo( (props: TodolistPropsType) => {
 		props.createTask(props.todolistID, title)
 	}, [props.createTask, props.todolistID])
 
-	const changeAllFilter = () => {
+	const changeAllFilter = useCallback(() => {
 		props.changeFilter(props.todolistID, "all")
-	}
-	const changeActiveFilter = () => {
+	}, [props.changeFilter, props.todolistID])
+	const changeActiveFilter = useCallback(() => {
 		props.changeFilter(props.todolistID, "active")
-	}
-	const changeCompletedFilter = () => {
+	}, [props.changeFilter, props.todolistID])
+	const changeCompletedFilter = useCallback(() => {
 		props.changeFilter(props.todolistID, "completed")
-	}
+	}, [props.changeFilter, props.todolistID])
 
 	const removeTodolistHandler = () => {
 		props.removeTodolist(props.todolistID)
@@ -86,15 +86,21 @@ export const Todolist =memo( (props: TodolistPropsType) => {
 
 				</ul>
 				<div className={"filterButton"}>
-					<button className={props.filter === "all" ? "filterTasks" : ""}
-					        onClick={changeAllFilter}>All
-					</button>
-					<button className={props.filter === "active" ? "filterTasks" : ""}
-					        onClick={changeActiveFilter}>Active
-					</button>
-					<button className={props.filter === "completed" ? "filterTasks" : ""}
-					        onClick={changeCompletedFilter}>Complited
-					</button>
+					<Button
+						className={props.filter === "all" ? "filterTasks" : ""}
+						onClick={changeAllFilter}
+						title={"All"}
+					/>
+					<Button
+						className={props.filter === "active" ? "filterTasks" : ""}
+						onClick={changeActiveFilter}
+						title={"Active"}
+					/>
+					<Button
+						className={props.filter === "completed" ? "filterTasks" : ""}
+						onClick={changeCompletedFilter}
+						title={"Completed"}
+					/>
 				</div>
 
 			</div>
