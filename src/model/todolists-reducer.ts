@@ -1,5 +1,6 @@
  import {v1} from "uuid";
- import {FilterTodolist} from "../components/Todolist";
+ import {FilterTodolistType} from "../components/Todolist";
+
 
 type UpdateTodlistTitleAC=ReturnType<typeof updateTodlistTitleAC>
 export type CreateTodolistAC= ReturnType<typeof createTodolistAC>
@@ -12,7 +13,7 @@ type ActionsType =  RemoveTodolistAC |CreateTodolistAC|UpdateTodlistTitleAC|Chan
  export type TodolistType = {
 	 id: string
 	 title: string
-	 filter: FilterTodolist
+	 filter: FilterTodolistType
  }
 
  const initialstate:TodolistType[]= []
@@ -63,7 +64,7 @@ export const updateTodlistTitleAC = (todolistID: string, title:string) => {
 	} as const
 }
 
-export const changeFilterAC =(todolistID: string, value:FilterTodolist)=>{
+export const changeFilterAC =(todolistID: string, value:FilterTodolistType)=>{
 	return{
 		type: 'CHANGE-FILTER',
 		todolistID,

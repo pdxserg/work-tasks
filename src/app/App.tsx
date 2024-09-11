@@ -8,9 +8,9 @@ import {RootState} from "./store";
 
 
 export type TasksType = {
-	[key: string]: TaskPropsType[]
+	[key: string]: TaskType[]
 }
-export type TaskPropsType = {
+export type TaskType = {
 	id: string
 	title: string
 	isDone: boolean

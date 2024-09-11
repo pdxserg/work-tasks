@@ -3,18 +3,19 @@ import React, {ChangeEvent, memo, useCallback,} from "react";
 import {EditableSpan} from "./EditableSpan";
 import {changeStatusTaskAC, removeTaskAC, updateTasTitlekAC} from "../model/tasks-reducer";
 import {useDispatch} from "react-redux";
+import {TaskType} from "../app/App";
 
-import {TaskPropsType} from "../app/App";
 
 
-type TaskType = {
-	task: TaskPropsType
+
+type TaskPropsType = {
+	task: TaskType
 	todolistId: string
 
 
 }
 
-export const Task = memo(({task, todolistId}: TaskType) => {
+export const Task = memo(({task, todolistId}: TaskPropsType) => {
 	const dispatch = useDispatch()
 
 	const removeTask =  () => {dispatch(removeTaskAC(todolistId, task.id))}
