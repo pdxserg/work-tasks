@@ -1,6 +1,5 @@
-
-
 import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
+
 type AddItemFormType={
 	addItem: (title: string) => void
 }
