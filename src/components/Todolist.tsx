@@ -13,7 +13,7 @@ import {RootState} from "../app/store";
 type TodolistPropsType = {
 	todolist: TodolistType
 }
-export type FilterTodolistType = "all" | "active" | "completed"
+export type FilterTodolist = "all" | "active" | "completed"
 export const Todolist = memo(({todolist}: TodolistPropsType) => {
 	const tasks = useSelector<RootState, TasksType>(state => state.tasks)
 	const dispatch = useDispatch()
@@ -26,7 +26,7 @@ export const Todolist = memo(({todolist}: TodolistPropsType) => {
 	if (todolist.filter === "completed") {
 		tasksT[todolist.id] = tasks[todolist.id].filter(task => task.isDone)
 	}
-	const changeFilter = useCallback((todolistID: string, value: FilterTodolistType) => {
+	const changeFilter = useCallback((todolistID: string, value: FilterTodolist) => {
 		dispatch(changeFilterAC(todolistID, value))
 	}, [dispatch])
 	const updateTodlistTitle = useCallback((title: string) => {
