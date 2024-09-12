@@ -1,4 +1,4 @@
-import React, {memo, useCallback,} from "react";
+import React, {memo, useCallback, useMemo, useRef, useState,} from "react";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {TasksType} from "../app/App";
@@ -17,15 +17,27 @@ export type FilterTodolist = "all" | "active" | "completed"
 export const Todolist = memo(({todolist}: TodolistPropsType) => {
 	const tasks = useSelector<RootState, TasksType>(state => state.tasks)
 	const dispatch = useDispatch()
+	console.log('tasks: ', tasks)
 
-	const dateCreate = new Date().toLocaleString()
-	let tasksT = tasks
+	// const dateCreate = new Date().toLocaleString()
+	// const dateCreate = useMemo(() => {
+	// 	return new Date().toLocaleString()
+	// }, [])
+
+	// const [dateCreate] = useState(new Date().toLocaleString())
+	const dateRef = useRef(new Date().toLocaleString())
+	const dateCreate = dateRef.current
+
+	let tasksT = tasks[todolist.id]
 	if (todolist.filter === "active") {
-		tasksT[todolist.id] = tasks[todolist.id].filter(task => !task.isDone)
+		tasksT = tasksT.filter(task => !task.isDone)
 	}
 	if (todolist.filter === "completed") {
-		tasksT[todolist.id] = tasks[todolist.id].filter(task => task.isDone)
+		tasksT = tasksT.filter(task => task.isDone)
 	}
+
+	console.log('task after filters: ', tasksT)
+
 	const changeFilter = useCallback((todolistID: string, value: FilterTodolist) => {
 		dispatch(changeFilterAC(todolistID, value))
 	}, [dispatch])
@@ -60,9 +72,9 @@ export const Todolist = memo(({todolist}: TodolistPropsType) => {
 				<h5>{dateCreate}</h5>
 				<AddItemForm addItem={createTask}/>
 				<ul>
-					{tasks[todolist.id].length === 0
+					{tasksT.length === 0
 						? <span>No tasks</span>
-						: tasks[todolist.id].map(task => {
+						: tasksT.map(task => {
 							return <Task
 								key={task.id}
 								task={task}
