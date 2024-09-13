@@ -1,4 +1,4 @@
-import React, {ChangeEvent, memo, useCallback,} from "react";
+import React, {ChangeEvent, memo} from "react";
 
 import {EditableSpan} from "./EditableSpan";
 import {changeStatusTaskAC, removeTaskAC, updateTasTitlekAC} from "../model/tasks-reducer";
