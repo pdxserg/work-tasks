@@ -1,4 +1,4 @@
-import React, {memo, useCallback,} from "react";
+import React, {memo, useCallback, useState,} from "react";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {TasksType} from "../app/App";
@@ -18,7 +18,9 @@ export const Todolist = memo(({todolist}: TodolistPropsType) => {
 	const tasks = useSelector<RootState, TasksType>(state => state.tasks)
 	const dispatch = useDispatch()
 
-	const dateCreate = new Date().toLocaleString()
+	const [dateCreate] =useState( new Date().toLocaleString())
+
+
 	let tasksT = tasks[todolist.id]
 	if (todolist.filter === "active") {
 		tasksT = tasks[todolist.id].filter(task => !task.isDone)
