@@ -19,12 +19,12 @@ export const Todolist = memo(({todolist}: TodolistPropsType) => {
 	const dispatch = useDispatch()
 
 	const dateCreate = new Date().toLocaleString()
-	let tasksT = tasks
+	let tasksT = tasks[todolist.id]
 	if (todolist.filter === "active") {
-		tasksT[todolist.id] = tasks[todolist.id].filter(task => !task.isDone)
+		tasksT = tasks[todolist.id].filter(task => !task.isDone)
 	}
 	if (todolist.filter === "completed") {
-		tasksT[todolist.id] = tasks[todolist.id].filter(task => task.isDone)
+		tasksT = tasks[todolist.id].filter(task => task.isDone)
 	}
 	const changeFilter = useCallback((todolistID: string, value: FilterTodolist) => {
 		dispatch(changeFilterAC(todolistID, value))
@@ -60,9 +60,9 @@ export const Todolist = memo(({todolist}: TodolistPropsType) => {
 				<h5>{dateCreate}</h5>
 				<AddItemForm addItem={createTask}/>
 				<ul>
-					{tasks[todolist.id].length === 0
+					{tasksT.length === 0
 						? <span>No tasks</span>
-						: tasks[todolist.id].map(task => {
+						: tasksT.map(task => {
 							return <Task
 								key={task.id}
 								task={task}
