@@ -43,7 +43,7 @@ export const tasksReducer = (state = initialstate, action: ActionsType): TasksSt
 		}
 		case "CREATE-TASK": {
 			const newTask = action.newTask
-			return {...state, [action.todolistID]: [newTask, ...state[action.todolistID]]}
+			return {...state, [action.newTask.todoListId]: [newTask, ...state[action.newTask.todoListId]]}
 
 		}
 		case "UPDATE-TASK-TITLE":
@@ -88,10 +88,9 @@ export const changeStatusTaskAC = (todolistID: string, id: string, newStatusValu
 		newStatusValue
 	} as const
 }
-export const createTaskAC = (todolistID: string, newTask:TaskType) => {
+export const createTaskAC = ( newTask:TaskType) => {
 	return {
 		type: 'CREATE-TASK',
-		todolistID,
 		newTask,
 	} as const
 }
@@ -111,6 +110,7 @@ const setTasksAC = (tasks: TaskType[],todolistId:string) => {
 	} as const
 }
 
+//THUNK
 export const setTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
 
 	todolistsAPI.getTasks(todolistId)
@@ -122,6 +122,13 @@ export const createTaskTC = (todolistId: string,title: string) => (dispatch: Dis
 
 	todolistsAPI.createTask(todolistId,title)
 		.then((res) => {
-			return dispatch(createTaskAC(todolistId, res.data.data.item))
+			return dispatch(createTaskAC(res.data.data.item))
+		})
+}
+export const deleteTaskTC = (todolistId: string,taskId:string) => (dispatch: Dispatch) => {
+
+	todolistsAPI.deleteTask(todolistId,taskId)
+		.then((res) => {
+			return dispatch(removeTaskAC(res.data))
 		})
 }
