@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {Todolist} from "../components/Todolist";
 import {AddItemForm} from "../components/AddItemForm";
-import {createTodolistAC, setTodolistsAC, TodolistDomainType} from "../model/todolists-reducer";
+import {createTodolistAC, setTodolistsAC, setTodoTC, TodolistDomainType} from "../model/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "./store";
 import {TaskType, todolistsAPI} from "../api/todolists-api";
@@ -24,10 +24,7 @@ function App() {
 	}, [dispatch])
 
 	useEffect(() => {
-		todolistsAPI.getTodolists()
-			.then((res)=>{
-				return dispatch(setTodolistsAC(res.data))
-			})
+// dispatch(setTodoTC)
 	}, []);
 
 	return (

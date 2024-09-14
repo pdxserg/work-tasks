@@ -1,6 +1,7 @@
 import {v1} from "uuid";
 import {FilterTodolist} from "../components/Todolist";
-import {TodolistType} from "../api/todolists-api";
+import {todolistsAPI, TodolistType} from "../api/todolists-api";
+import {Dispatch} from "redux";
 
 
 export type SetTodolistsACType = ReturnType<typeof setTodolistsAC>
@@ -78,3 +79,12 @@ export const setTodolistsAC = (todolists: TodolistType[]) => {
 		todolists
 	} as const
 }
+
+// THUNK
+export const setTodoTC= (dispatch: Dispatch)=>{
+todolistsAPI.getTodolists()
+		.then((res)=>{
+			return dispatch(setTodolistsAC(res.data))
+		})
+}
+
