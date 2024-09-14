@@ -1,9 +1,9 @@
 import {v1} from "uuid";
 import {FilterTodolist} from "../components/Todolist";
 import {TodolistType} from "../api/todolists-api";
-import {Simulate} from "react-dom/test-utils";
-import copy = Simulate.copy;
 
+
+export type SetTodolistsACType = ReturnType<typeof setTodolistsAC>
 type UpdateTodlistTitleAC = ReturnType<typeof updateTodlistTitleAC>
 export type CreateTodolistAC = ReturnType<typeof createTodolistAC>
 export type RemoveTodolistAC = ReturnType<typeof removeTodolistAC>
@@ -72,7 +72,6 @@ export const changeFilterAC = (todolistID: string, value: FilterTodolist) => {
 		value
 	} as const
 }
-type SetTodolistsACType = ReturnType<typeof setTodolistsAC>
 export const setTodolistsAC = (todolists: TodolistType[]) => {
 	return {
 		type: 'SET-TODOLISTS',

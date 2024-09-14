@@ -62,9 +62,9 @@ export const Todolist = memo(({todolist}: TodolistPropsType) => {
 				<h5>{dateCreate}</h5>
 				<AddItemForm addItem={createTask}/>
 				<div>
-					{tasksT?.length === 0
+					{tasksT.length === 0
 						? <span>No tasks</span>
-						: tasksT?.map(task => {
+						: tasksT.map(task => {
 							return <Task
 								key={task.id}
 								task={task}

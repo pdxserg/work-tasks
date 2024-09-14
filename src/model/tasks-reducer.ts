@@ -1,6 +1,6 @@
 
 import {v1} from "uuid";
-import {CreateTodolistAC, RemoveTodolistAC} from "./todolists-reducer";
+import {CreateTodolistAC, RemoveTodolistAC, SetTodolistsACType} from "./todolists-reducer";
 import {TasksType} from "../app/App";
 
 
@@ -18,9 +18,18 @@ type ActionsType = RemoveTaskACType
 	| UpdateTasTitlekACType
 	| RemoveTodolistAC
 	| CreateTodolistAC
+|SetTodolistsACType
 const initialstate:TasksType= {}
 export const tasksReducer = (state=  initialstate, action: ActionsType): TasksType => {
 	switch (action.type) {
+		case 'SET-TODOLISTS': {
+			const stateCopy = { ...state }
+			action.todolists.forEach(tl => {
+				stateCopy[tl.id] = []
+			})
+			return stateCopy
+		}
+
 		case "REMOVE-TASK": {
 			return {...state, [action.todolistID]: state[action.todolistID].filter(t => t.id !== action.id)}
 		}
