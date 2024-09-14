@@ -1,10 +1,11 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {Todolist} from "../components/Todolist";
 import {AddItemForm} from "../components/AddItemForm";
-import {createTodolistAC, TodolistType} from "../model/todolists-reducer";
+import {createTodolistAC, setTodolistsAC, TodolistDomainType} from "../model/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "./store";
+import {todolistsAPI} from "../api/todolists-api";
 
 
 export type TasksType = {
@@ -18,13 +19,22 @@ export type TaskPropsType = {
 
 function App() {
 
-	const todolists = useSelector<RootState, TodolistType[]>(state => state.todolists)
+	const todolists = useSelector<RootState, TodolistDomainType[]>(state => state.todolists)
 	const dispatch = useDispatch()
 
 	const createTodolist = useCallback((title: string) => {
 		const action = createTodolistAC(title)
 		dispatch(action)
 	}, [dispatch])
+
+	useEffect(() => {
+		todolistsAPI.getTodolists()
+			.then((res)=>{
+				return dispatch(setTodolistsAC(res.data))
+			})
+
+
+	}, []);
 
 	return (
 		<div>
