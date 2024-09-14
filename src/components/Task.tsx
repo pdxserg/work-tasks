@@ -1,9 +1,10 @@
 import React, {ChangeEvent, memo,} from "react";
 
 import {EditableSpan} from "./EditableSpan";
-import {changeStatusTaskAC, removeTaskAC, updateTasTitlekAC} from "../model/tasks-reducer";
+import {changeStatusTaskAC, deleteTaskTC, removeTaskAC, updateTasTitlekAC} from "../model/tasks-reducer";
 import {useDispatch} from "react-redux";
 import {TaskStatuses, TaskType} from "../api/todolists-api";
+import {useAppDispatch} from "../app/store";
 
 
 type TaskPropsType = {
@@ -14,9 +15,9 @@ type TaskPropsType = {
 }
 
 export const Task = memo(({task, todolistId}: TaskPropsType) => {
-	const dispatch = useDispatch()
+	const dispatch = useAppDispatch()
 
-	const removeTask =  () => {dispatch(removeTaskAC(todolistId, task.id))}
+	const removeTask =  () => {dispatch(deleteTaskTC(todolistId, task.id))}
 
 	const checkBoxHandler =  (todolistID: string, id: string, newStatusValue: TaskStatuses) => {
 		dispatch(changeStatusTaskAC(todolistID, id, newStatusValue))

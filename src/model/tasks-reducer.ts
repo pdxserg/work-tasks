@@ -129,6 +129,14 @@ export const deleteTaskTC = (todolistId: string,taskId:string) => (dispatch: Dis
 
 	todolistsAPI.deleteTask(todolistId,taskId)
 		.then((res) => {
-			return dispatch(removeTaskAC(res.data))
+			return dispatch(removeTaskAC(todolistId,taskId))
 		})
 }
+
+// export const updateTitleTaskTC = (todolistId: string,title: string) => (dispatch: Dispatch) => {
+//
+// 	todolistsAPI.updateTask()
+// 		.then((res) => {
+// 			return dispatch(updateTasTitlekAC(res.data.data.item))
+// 		})
+// }
