@@ -8,6 +8,7 @@ import {createTaskAC} from "../model/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {changeFilterAC, removeTodolistAC, TodolistDomainType, updateTodlistTitleAC} from "../model/todolists-reducer";
 import {RootState} from "../app/store";
+import {TaskStatuses} from "../api/todolists-api";
 
 
 type TodolistPropsType = {
@@ -23,10 +24,10 @@ export const Todolist = memo(({todolist}: TodolistPropsType) => {
 
 	let tasksT = tasks[todolist.id]
 	if (todolist.filter === "active") {
-		tasksT = tasks[todolist.id].filter(task => !task.isDone)
+		tasksT = tasks[todolist.id].filter(task => task.status === TaskStatuses.New)
 	}
 	if (todolist.filter === "completed") {
-		tasksT = tasks[todolist.id].filter(task => task.isDone)
+		tasksT = tasks[todolist.id].filter(task => task.status === TaskStatuses.Completed)
 	}
 	const changeFilter = useCallback((todolistID: string, value: FilterTodolist) => {
 		dispatch(changeFilterAC(todolistID, value))

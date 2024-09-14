@@ -5,17 +5,13 @@ import {AddItemForm} from "../components/AddItemForm";
 import {createTodolistAC, setTodolistsAC, TodolistDomainType} from "../model/todolists-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "./store";
-import {todolistsAPI} from "../api/todolists-api";
+import {TaskType, todolistsAPI} from "../api/todolists-api";
 
 
 export type TasksType = {
-	[key: string]: TaskPropsType[]
+	[key: string]: TaskType[]
 }
-export type TaskPropsType = {
-	id: string
-	title: string
-	isDone: boolean
-}
+
 
 function App() {
 
