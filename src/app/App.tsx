@@ -8,7 +8,7 @@ import {TaskType} from "../api/todolists-api";
 import {AppRootStateType, useAppDispatch} from "./store";
 
 
-export type TasksType = {
+export type TasksStateType = {
 	[key: string]: TaskType[]
 }
 
@@ -19,14 +19,16 @@ function App() {
 	const todolists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists)
 	const dispatch =useAppDispatch()
 
+	useEffect(() => {
+		dispatch(setTodoTC())
+	}, []);
+
 	const createTodolist = useCallback((title: string) => {
 		const action = createTodolistAC(title)
 		dispatch(action)
 	}, [dispatch])
 
-	useEffect(() => {
-  dispatch(setTodoTC)
-	}, []);
+
 
 	return (
 		<div>

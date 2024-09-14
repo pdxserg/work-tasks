@@ -1,14 +1,20 @@
-import React, {memo, useCallback, useState,} from "react";
+import React, {memo, useCallback, useEffect, useState,} from "react";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
-import {TasksType} from "../app/App";
+import {TasksStateType} from "../app/App";
 import {Button} from "./Button";
 import {Task} from "./Task";
-import {createTaskAC} from "../model/tasks-reducer";
+import {createTaskAC, setTasksTC} from "../model/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {changeFilterAC, removeTodolistAC, TodolistDomainType, updateTodlistTitleAC} from "../model/todolists-reducer";
+import {
+	changeFilterAC,
+	removeTodolistAC,
+	setTodoTC,
+	TodolistDomainType,
+	updateTodlistTitleAC
+} from "../model/todolists-reducer";
 import {TaskStatuses} from "../api/todolists-api";
-import {AppRootStateType} from "../app/store";
+import {AppRootStateType, useAppDispatch} from "../app/store";
 
 
 type TodolistPropsType = {
@@ -17,9 +23,12 @@ type TodolistPropsType = {
 export type FilterTodolist = "all" | "active" | "completed"
 export const Todolist = memo(({todolist}: TodolistPropsType) => {
 	// @ts-ignore
-	const tasks = useSelector<AppRootStateType, TasksType>(state => state.tasks)
-	const dispatch = useDispatch()
+	const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+	const dispatch = useAppDispatch()
 
+	useEffect(() => {
+		dispatch(setTasksTC(todolist.id))
+	}, []);
 	const [dateCreate] =useState( new Date().toLocaleString())
 
 

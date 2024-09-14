@@ -81,7 +81,7 @@ export const setTodolistsAC = (todolists: TodolistType[]) => {
 }
 
 // THUNK
-export const setTodoTC= (dispatch: Dispatch)=>{
+export const setTodoTC=()=> (dispatch: Dispatch)=>{
 todolistsAPI.getTodolists()
 		.then((res)=>{
 			return dispatch(setTodolistsAC(res.data))
