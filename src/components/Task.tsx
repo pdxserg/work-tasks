@@ -1,8 +1,7 @@
 import React, {ChangeEvent, memo,} from "react";
 
 import {EditableSpan} from "./EditableSpan";
-import {changeStatusTaskAC, deleteTaskTC, removeTaskAC, updateTasTitlekAC} from "../model/tasks-reducer";
-import {useDispatch} from "react-redux";
+import {changeStatusTaskAC, deleteTaskTC, updateTasTitlekAC} from "../model/tasks-reducer";
 import {TaskStatuses, TaskType} from "../api/todolists-api";
 import {useAppDispatch} from "../app/store";
 
