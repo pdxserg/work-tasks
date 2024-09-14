@@ -4,15 +4,9 @@ import {EditableSpan} from "./EditableSpan";
 import {TasksStateType} from "../app/App";
 import {Button} from "./Button";
 import {Task} from "./Task";
-import {createTaskAC, setTasksTC} from "../model/tasks-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {
-	changeFilterAC,
-	removeTodolistAC,
-	setTodoTC,
-	TodolistDomainType,
-	updateTodlistTitleAC
-} from "../model/todolists-reducer";
+import {createTaskTC, setTasksTC} from "../model/tasks-reducer";
+import {useSelector} from "react-redux";
+import {changeFilterAC, removeTodolistAC, TodolistDomainType, updateTodlistTitleAC} from "../model/todolists-reducer";
 import {TaskStatuses} from "../api/todolists-api";
 import {AppRootStateType, useAppDispatch} from "../app/store";
 
@@ -47,7 +41,7 @@ export const Todolist = memo(({todolist}: TodolistPropsType) => {
 	}, [dispatch])
 
 	const createTask = useCallback((title: string) => {
-		dispatch(createTaskAC(todolist.id, title))
+		dispatch(createTaskTC(todolist.id, title))
 	}, [todolist.id])
 	const removeTodolist = () => {
 		const action = removeTodolistAC(todolist.id)
