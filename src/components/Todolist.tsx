@@ -7,8 +7,8 @@ import {Task} from "./Task";
 import {createTaskAC} from "../model/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {changeFilterAC, removeTodolistAC, TodolistDomainType, updateTodlistTitleAC} from "../model/todolists-reducer";
-import {RootState} from "../app/store";
 import {TaskStatuses} from "../api/todolists-api";
+import {AppRootStateType} from "../app/store";
 
 
 type TodolistPropsType = {
@@ -16,7 +16,8 @@ type TodolistPropsType = {
 }
 export type FilterTodolist = "all" | "active" | "completed"
 export const Todolist = memo(({todolist}: TodolistPropsType) => {
-	const tasks = useSelector<RootState, TasksType>(state => state.tasks)
+	// @ts-ignore
+	const tasks = useSelector<AppRootStateType, TasksType>(state => state.tasks)
 	const dispatch = useDispatch()
 
 	const [dateCreate] =useState( new Date().toLocaleString())
