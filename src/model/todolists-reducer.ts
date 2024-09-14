@@ -1,13 +1,15 @@
 import {v1} from "uuid";
 import {FilterTodolist} from "../components/Todolist";
 import {TodolistType} from "../api/todolists-api";
+import {Simulate} from "react-dom/test-utils";
+import copy = Simulate.copy;
 
 type UpdateTodlistTitleAC = ReturnType<typeof updateTodlistTitleAC>
 export type CreateTodolistAC = ReturnType<typeof createTodolistAC>
 export type RemoveTodolistAC = ReturnType<typeof removeTodolistAC>
 type ChangeFilterACType = ReturnType<typeof changeFilterAC>
 
-type ActionsType = RemoveTodolistAC | CreateTodolistAC | UpdateTodlistTitleAC | ChangeFilterACType
+type ActionsType = RemoveTodolistAC | CreateTodolistAC | UpdateTodlistTitleAC | ChangeFilterACType| SetTodolistsACType
 
 
 export type TodolistDomainType = TodolistType & { filter: FilterTodolist }
@@ -27,6 +29,9 @@ export const todolistsReducer = (state = initialstate, action: ActionsType): Tod
 		}
 		case "CHANGE-FILTER": {
 			return state.map(t => t.id === action.todolistID ? {...t, filter: action.value} : t)
+		}
+		case "SET-TODOLISTS":{
+			 return action.todolists.map(t=>({...t, filter:"all"}))
 		}
 		default: {
 			return state
@@ -67,9 +72,10 @@ export const changeFilterAC = (todolistID: string, value: FilterTodolist) => {
 		value
 	} as const
 }
+type SetTodolistsACType = ReturnType<typeof setTodolistsAC>
 export const setTodolistsAC = (todolists: TodolistType[]) => {
 	return {
-		type: 'CHANGE-FILTER',
+		type: 'SET-TODOLISTS',
 		todolists
 	} as const
 }

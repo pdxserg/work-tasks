@@ -6,12 +6,12 @@ import {Button} from "./Button";
 import {Task} from "./Task";
 import {createTaskAC} from "../model/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {changeFilterAC, removeTodolistAC, TodolistType, updateTodlistTitleAC} from "../model/todolists-reducer";
+import {changeFilterAC, removeTodolistAC, TodolistDomainType, updateTodlistTitleAC} from "../model/todolists-reducer";
 import {RootState} from "../app/store";
 
 
 type TodolistPropsType = {
-	todolist: TodolistType
+	todolist: TodolistDomainType
 }
 export type FilterTodolist = "all" | "active" | "completed"
 export const Todolist = memo(({todolist}: TodolistPropsType) => {
@@ -61,10 +61,10 @@ export const Todolist = memo(({todolist}: TodolistPropsType) => {
 				<button onClick={removeTodolist}>x</button>
 				<h5>{dateCreate}</h5>
 				<AddItemForm addItem={createTask}/>
-				<ul>
-					{tasksT.length === 0
+				<div>
+					{tasksT?.length === 0
 						? <span>No tasks</span>
-						: tasksT.map(task => {
+						: tasksT?.map(task => {
 							return <Task
 								key={task.id}
 								task={task}
@@ -76,7 +76,7 @@ export const Todolist = memo(({todolist}: TodolistPropsType) => {
 					}
 
 
-				</ul>
+				</div>
 				<div className={"filterButton"}>
 					<Button
 						className={todolist.filter === "all" ? "filterTasks" : ""}

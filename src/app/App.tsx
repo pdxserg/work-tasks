@@ -32,8 +32,6 @@ function App() {
 			.then((res)=>{
 				return dispatch(setTodolistsAC(res.data))
 			})
-
-
 	}, []);
 
 	return (
