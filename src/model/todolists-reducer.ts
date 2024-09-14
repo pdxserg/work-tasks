@@ -85,7 +85,7 @@ todolistsAPI.getTodolists()
 }
 export const deleteTodoTC=(todoId:string)=> (dispatch: Dispatch)=>{
 todolistsAPI.deleteTodolist(todoId)
-		.then((res)=>{
+		.then(()=>{
 			return dispatch(removeTodolistAC(todoId))
 		})
 }
@@ -93,6 +93,12 @@ export const createTodoTC=(title:string)=> (dispatch: Dispatch)=>{
 todolistsAPI.createTodolist(title)
 		.then((res)=>{
 			return dispatch(createTodolistAC(res.data.data.item))
+		})
+}
+export const updateTodoTC=(id: string, title:string)=> (dispatch: Dispatch)=>{
+	todolistsAPI.updateTodolist(id, title)
+		.then(()=>{
+			return dispatch(updateTodlistTitleAC(id, title))
 		})
 }
 

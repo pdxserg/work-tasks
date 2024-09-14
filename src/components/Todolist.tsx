@@ -6,7 +6,7 @@ import {Button} from "./Button";
 import {Task} from "./Task";
 import {createTaskTC, setTasksTC} from "../model/tasks-reducer";
 import {useSelector} from "react-redux";
-import {changeFilterAC, deleteTodoTC, TodolistDomainType, updateTodlistTitleAC} from "../model/todolists-reducer";
+import {changeFilterAC, deleteTodoTC, TodolistDomainType, updateTodoTC} from "../model/todolists-reducer";
 import {TaskStatuses} from "../api/todolists-api";
 import {AppRootStateType, useAppDispatch} from "../app/store";
 
@@ -37,7 +37,7 @@ export const Todolist = memo(({todolist}: TodolistPropsType) => {
 		dispatch(changeFilterAC(todolistID, value))
 	}, [dispatch])
 	const updateTodlistTitle = useCallback((title: string) => {
-		dispatch(updateTodlistTitleAC(todolist.id, title))
+		dispatch(updateTodoTC(todolist.id, title))
 	}, [dispatch])
 
 	const createTask = useCallback((title: string) => {
