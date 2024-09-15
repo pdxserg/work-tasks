@@ -1,7 +1,7 @@
 import React, {ChangeEvent, memo,} from "react";
 
 import {EditableSpan} from "./EditableSpan";
-import {changeStatusTaskAC, deleteTaskTC, updateTasTitlekAC} from "../model/tasks-reducer";
+import {deleteTaskTC, updateTaskTC, updateTasTitlekAC} from "../model/tasks-reducer";
 import {TaskStatuses, TaskType} from "../api/todolists-api";
 import {useAppDispatch} from "../app/store";
 
@@ -19,7 +19,7 @@ export const Task = memo(({task, todolistId}: TaskPropsType) => {
 	const removeTask =  () => {dispatch(deleteTaskTC(todolistId, task.id))}
 
 	const checkBoxHandler =  (todolistID: string, id: string, newStatusValue: TaskStatuses) => {
-		dispatch(changeStatusTaskAC(todolistID, id, newStatusValue))
+		dispatch(updateTaskTC(todolistID, id, newStatusValue))
 	}
 	const checkboxHandler = (e: ChangeEvent<HTMLInputElement>) => {
 		let newIsDoneValue = e.currentTarget.checked
@@ -37,7 +37,7 @@ export const Task = memo(({task, todolistId}: TaskPropsType) => {
 			 className={task.status===TaskStatuses.Completed ? "finished" : ""}
 			>
 			<input type="checkbox"
-			        checked={task.status==TaskStatuses.Completed}
+			        checked={task.status===TaskStatuses.Completed}
 			       onChange={checkboxHandler}/>
 			<EditableSpan title={task.title} updatedTitle={updatedTitle}/>
 			<button onClick={removeTask}>x</button>

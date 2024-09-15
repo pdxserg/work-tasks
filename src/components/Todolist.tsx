@@ -38,7 +38,7 @@ export const Todolist = memo(({todolist}: TodolistPropsType) => {
 	}, [dispatch])
 	const updateTodlistTitle = useCallback((title: string) => {
 		dispatch(updateTodoTC(todolist.id, title))
-	}, [dispatch])
+	}, [dispatch, todolist.id])
 
 	const createTask = useCallback((title: string) => {
 		dispatch(createTaskTC(todolist.id, title))
