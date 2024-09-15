@@ -1,7 +1,7 @@
 import React, {ChangeEvent, memo,} from "react";
 
 import {EditableSpan} from "./EditableSpan";
-import {deleteTaskTC, updateTaskTC, updateTasTitlekAC} from "../model/tasks-reducer";
+import {deleteTaskTC, updateTaskTC} from "../model/tasks-reducer";
 import {TaskStatuses, TaskType} from "../api/todolists-api";
 import {useAppDispatch} from "../app/store";
 
@@ -19,14 +19,14 @@ export const Task = memo(({task, todolistId}: TaskPropsType) => {
 	const removeTask =  () => {dispatch(deleteTaskTC(todolistId, task.id))}
 
 	const checkBoxHandler =  (todolistID: string, id: string, newStatusValue: TaskStatuses) => {
-		dispatch(updateTaskTC(todolistID, id, newStatusValue))
+		dispatch(updateTaskTC(todolistID, id, {status:newStatusValue}))
 	}
 	const checkboxHandler = (e: ChangeEvent<HTMLInputElement>) => {
 		let newIsDoneValue = e.currentTarget.checked
 		checkBoxHandler(todolistId, task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New)
 	}
 	const updateTaskTitle =  (todolistID: string, id: string, title: string) => {
-		dispatch(updateTasTitlekAC(todolistID, id, title))
+	 dispatch(updateTaskTC(todolistID, id, {title}))
 	}
 	const updatedTitle = (title: string) => {
 		updateTaskTitle(todolistId, task.id, title)

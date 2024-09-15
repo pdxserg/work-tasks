@@ -32,10 +32,8 @@ function App() {
 
 	return (
 		<div>
-
 			<div style={{marginLeft: 200}}>
 				<AddItemForm addItem={createTodolist}/>
-
 			</div>
 			<div className="App">
 				{todolists.map(t => {
