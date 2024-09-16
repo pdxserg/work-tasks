@@ -43,12 +43,12 @@ export const tasksReducer = (state = initialstate, action: ActionsType): TasksSt
 			delete newState[action.todolistID]
 			return newState;
 		}
-		case "CREATE-TODOLIST": {
+		case "CREATE-TODOLIST":
 			return {...state, [action.todolist.id]: []}
-		}
-		case "SET_TASKS": {
+
+		case "SET_TASKS":
 			return {...state, [action.todolistId]: action.tasks}
-		}
+
 		default: {
 			return state
 		}
@@ -56,14 +56,7 @@ export const tasksReducer = (state = initialstate, action: ActionsType): TasksSt
 
 }
 
-export const removeTaskAC = (todolistID: string, id: string) => {
-	return {
-		type: 'REMOVE-TASK',
-		todolistID,
-		id
-	} as const
-}
-
+export const removeTaskAC = (todolistID: string, id: string) => ({type: 'REMOVE-TASK', todolistID, id}) as const
 export const updateTaskAC = (todolistID: string, id: string, domainModel: UpdateDomainTaskModelType) => {
 	return {
 		type: 'UPDATE-TASK',
@@ -72,20 +65,9 @@ export const updateTaskAC = (todolistID: string, id: string, domainModel: Update
 		domainModel
 	} as const
 }
-export const createTaskAC = (newTask: TaskType) => {
-	return {
-		type: 'CREATE-TASK',
-		newTask,
-	} as const
-}
+export const createTaskAC = (newTask: TaskType) => ({type: 'CREATE-TASK', newTask,}) as const
+const setTasksAC = (tasks: TaskType[], todolistId: string) => ({type: 'SET_TASKS', tasks,todolistId}) as const
 
-const setTasksAC = (tasks: TaskType[], todolistId: string) => {
-	return {
-		type: 'SET_TASKS',
-		tasks,
-		todolistId
-	} as const
-}
 
 //THUNK
 export const setTasksTC = (todolistId: string) => (dispatch: Dispatch) => {
