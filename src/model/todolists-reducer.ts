@@ -5,20 +5,6 @@ import {Dispatch} from "redux";
 
 
 
-export type SetTodolistsACType = ReturnType<typeof setTodolistsAC>
-export type CreateTodolistACType = ReturnType<typeof createTodolistAC>
-export type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>
-
-type ActionsType =
-	| SetTodolistsACType
-	| CreateTodolistACType
-	| RemoveTodolistACType
-	| ReturnType<typeof updateTodlistTitleAC>
-	| ReturnType<typeof changeFilterAC>
-
-
-export type TodolistDomainType = TodolistType & { filter: FilterTodolist }
-
 const initialstate: TodolistDomainType[] = []
 export const todolistsReducer = (state = initialstate, action: ActionsType): TodolistDomainType[] => {
 	switch (action.type) {
@@ -80,3 +66,16 @@ export const updateTodoTC = (id: string, title: string) => (dispatch: Dispatch) 
 		})
 }
 
+// TYPES
+export type TodolistDomainType = TodolistType & { filter: FilterTodolist }
+
+export type SetTodolistsACType = ReturnType<typeof setTodolistsAC>
+export type CreateTodolistACType = ReturnType<typeof createTodolistAC>
+export type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>
+
+type ActionsType =
+	| SetTodolistsACType
+	| CreateTodolistACType
+	| RemoveTodolistACType
+	| ReturnType<typeof updateTodlistTitleAC>
+	| ReturnType<typeof changeFilterAC>

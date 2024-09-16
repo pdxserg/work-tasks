@@ -5,15 +5,6 @@ import {Dispatch} from "redux";
 import {AppRootStateType} from "../app/store";
 
 
-type ActionsType =
-	| RemoveTodolistACType
-	| CreateTodolistACType
-	| SetTodolistsACType
-	| ReturnType<typeof removeTaskAC>
-	| ReturnType<typeof updateTaskAC>
-	| ReturnType<typeof createTaskAC>
-	| ReturnType<typeof setTasksAC>
-
 const initialstate: TasksStateType = {}
 export const tasksReducer = (state = initialstate, action: ActionsType): TasksStateType => {
 	switch (action.type) {
@@ -61,7 +52,7 @@ export const tasksReducer = (state = initialstate, action: ActionsType): TasksSt
 
 export const removeTaskAC = (todolistID: string, id: string) => ({type: 'REMOVE-TASK', todolistID, id}) as const
 export const createTaskAC = (newTask: TaskType) => ({type: 'CREATE-TASK', newTask,}) as const
-const setTasksAC = (tasks: TaskType[], todolistId: string) => ({type: 'SET_TASKS', tasks,todolistId}) as const
+const setTasksAC = (tasks: TaskType[], todolistId: string) => ({type: 'SET_TASKS', tasks, todolistId}) as const
 export const updateTaskAC = (todolistID: string, id: string, domainModel: UpdateDomainTaskModelType) => {
 	return {type: 'UPDATE-TASK', todolistID, id, domainModel} as const
 }
@@ -108,7 +99,7 @@ export const updateTaskTC = (todolistId: string, taskId: string, domainModel: Up
 	}
 }
 
-
+//TYPES
 type UpdateDomainTaskModelType = {
 	title?: string
 	description?: string
@@ -117,3 +108,11 @@ type UpdateDomainTaskModelType = {
 	startDate?: string
 	deadline?: string
 }
+type ActionsType =
+	| RemoveTodolistACType
+	| CreateTodolistACType
+	| SetTodolistsACType
+	| ReturnType<typeof removeTaskAC>
+	| ReturnType<typeof updateTaskAC>
+	| ReturnType<typeof createTaskAC>
+	| ReturnType<typeof setTasksAC>
