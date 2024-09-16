@@ -24,6 +24,7 @@ export const tasksReducer = (state = initialstate, action: ActionsType): TasksSt
 			})
 			return stateCopy
 		}
+
 		case "REMOVE-TASK":
 			return {...state, [action.todolistID]: state[action.todolistID].filter(t => t.id !== action.id)}
 
@@ -33,6 +34,7 @@ export const tasksReducer = (state = initialstate, action: ActionsType): TasksSt
 					.map(task => task.id === action.id ? {...task, ...action.domainModel} : task)
 			}
 		}
+
 		case "CREATE-TASK": {
 			const newTask = action.newTask
 			return {...state, [action.newTask.todoListId]: [newTask, ...state[action.newTask.todoListId]]}
@@ -40,9 +42,10 @@ export const tasksReducer = (state = initialstate, action: ActionsType): TasksSt
 
 		case "REMOVE-TODOLIST": {
 			let newState = {...state}
-			delete newState[action.todolistID]
+			delete newState[action.id]
 			return newState;
 		}
+
 		case "CREATE-TODOLIST":
 			return {...state, [action.todolist.id]: []}
 
@@ -83,15 +86,6 @@ export const deleteTaskTC = (todolistId: string, taskId: string) => (dispatch: D
 			return dispatch(removeTaskAC(todolistId, taskId))
 		})
 }
-
-type UpdateDomainTaskModelType = {
-	title?: string
-	description?: string
-	status?: TaskStatuses
-	priority?: TaskPriorities
-	startDate?: string
-	deadline?: string
-}
 export const updateTaskTC = (todolistId: string, taskId: string, domainModel: UpdateDomainTaskModelType) => (dispatch: Dispatch, getState: () => AppRootStateType) => {
 	const state = getState()
 	if (state.tasks) {
@@ -112,4 +106,14 @@ export const updateTaskTC = (todolistId: string, taskId: string, domainModel: Up
 				return dispatch(updateTaskAC(todolistId, taskId, domainModel))
 			})
 	}
+}
+
+
+type UpdateDomainTaskModelType = {
+	title?: string
+	description?: string
+	status?: TaskStatuses
+	priority?: TaskPriorities
+	startDate?: string
+	deadline?: string
 }
