@@ -43,39 +43,17 @@ export const todolistsReducer = (state = initialstate, action: ActionsType): Tod
 	}
 
 }
-export const removeTodolistAC = (todolistID: string) => {
-	return {
-		type: 'REMOVE-TODOLIST',
-		todolistID,
-	} as const
-}
-export const createTodolistAC = (todolist: TodolistType) => {
-	return {
-		type: 'CREATE-TODOLIST',
-		todolist
-	} as const
-}
+export const removeTodolistAC = (todolistID: string) => ({type: 'REMOVE-TODOLIST', todolistID,}) as const
+export const createTodolistAC = (todolist: TodolistType) => ({type: 'CREATE-TODOLIST', todolist}) as const
+export const setTodolistsAC = (todolists: TodolistType[]) => ({type: 'SET-TODOLISTS', todolists}) as const
+
 export const updateTodlistTitleAC = (todolistID: string, title: string) => {
-	return {
-		type: 'UPDATE-TITLE-TODOLIST',
-		todolistID,
-		title
-	} as const
+	return {type: 'UPDATE-TITLE-TODOLIST', todolistID, title} as const
+}
+export const changeFilterAC = (todolistID: string, value: FilterTodolist) => {
+	return {type: 'CHANGE-FILTER', todolistID, value} as const
 }
 
-export const changeFilterAC = (todolistID: string, value: FilterTodolist) => {
-	return {
-		type: 'CHANGE-FILTER',
-		todolistID,
-		value
-	} as const
-}
-export const setTodolistsAC = (todolists: TodolistType[]) => {
-	return {
-		type: 'SET-TODOLISTS',
-		todolists
-	} as const
-}
 
 // THUNK
 export const setTodoTC = () => (dispatch: Dispatch) => {

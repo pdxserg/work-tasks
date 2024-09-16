@@ -57,16 +57,11 @@ export const tasksReducer = (state = initialstate, action: ActionsType): TasksSt
 }
 
 export const removeTaskAC = (todolistID: string, id: string) => ({type: 'REMOVE-TASK', todolistID, id}) as const
-export const updateTaskAC = (todolistID: string, id: string, domainModel: UpdateDomainTaskModelType) => {
-	return {
-		type: 'UPDATE-TASK',
-		todolistID,
-		id,
-		domainModel
-	} as const
-}
 export const createTaskAC = (newTask: TaskType) => ({type: 'CREATE-TASK', newTask,}) as const
 const setTasksAC = (tasks: TaskType[], todolistId: string) => ({type: 'SET_TASKS', tasks,todolistId}) as const
+export const updateTaskAC = (todolistID: string, id: string, domainModel: UpdateDomainTaskModelType) => {
+	return {type: 'UPDATE-TASK', todolistID, id, domainModel} as const
+}
 
 
 //THUNK
