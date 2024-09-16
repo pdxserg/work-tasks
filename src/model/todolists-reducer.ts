@@ -1,12 +1,13 @@
 import {FilterTodolist} from "../components/Todolist";
 import {todolistsAPI, TodolistType} from "../api/todolists-api";
 import {Dispatch} from "redux";
+import {AppThunk} from "../app/store";
 
 
 
 
 const initialstate: TodolistDomainType[] = []
-export const todolistsReducer = (state = initialstate, action: ActionsType): TodolistDomainType[] => {
+export const todolistsReducer = (state = initialstate, action: ActionsTodosType): TodolistDomainType[] => {
 	switch (action.type) {
 		case "REMOVE-TODOLIST":
 			return state.filter(t => t.id !== action.id)
@@ -41,25 +42,25 @@ export const changeFilterAC = (id: string, value: FilterTodolist) => {
 }
 
 // THUNK
-export const setTodoTC = () => (dispatch: Dispatch) => {
+export const setTodoTC = ():AppThunk => (dispatch) => {
 	todolistsAPI.getTodolists()
 		.then((res) => {
 			return dispatch(setTodolistsAC(res.data))
 		})
 }
-export const deleteTodoTC = (id: string) => (dispatch: Dispatch) => {
+export const deleteTodoTC = (id: string):AppThunk => (dispatch) => {
 	todolistsAPI.deleteTodolist(id)
 		.then(() => {
 			return dispatch(removeTodolistAC(id))
 		})
 }
-export const createTodoTC = (title: string) => (dispatch: Dispatch) => {
+export const createTodoTC = (title: string):AppThunk => (dispatch) => {
 	todolistsAPI.createTodolist(title)
 		.then((res) => {
 			return dispatch(createTodolistAC(res.data.data.item))
 		})
 }
-export const updateTodoTC = (id: string, title: string) => (dispatch: Dispatch) => {
+export const updateTodoTC = (id: string, title: string):AppThunk => (dispatch) => {
 	todolistsAPI.updateTodolist(id, title)
 		.then(() => {
 			return dispatch(updateTodlistTitleAC(id, title))
@@ -73,7 +74,7 @@ export type SetTodolistsACType = ReturnType<typeof setTodolistsAC>
 export type CreateTodolistACType = ReturnType<typeof createTodolistAC>
 export type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>
 
-type ActionsType =
+export type ActionsTodosType =
 	| SetTodolistsACType
 	| CreateTodolistACType
 	| RemoveTodolistACType
