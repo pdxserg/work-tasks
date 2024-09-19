@@ -3,7 +3,7 @@ import {TasksStateType} from "../app/App";
 import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from "../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppRootStateType, AppThunk} from "../app/store";
-import {ActionsLoadingType, removeLoadingAC, setStatusAC} from "./app-reducer";
+import {ActionsLoadingType, removeLoadingAC, setLoadingAC} from "./app-reducer";
 
 
 const initialstate: TasksStateType = {}
@@ -61,7 +61,7 @@ export const updateTaskAC = (todolistID: string, id: string, domainModel: Update
 
 //THUNK
 export const setTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionsTasksType |ActionsLoadingType>) => {
-	dispatch(setStatusAC("loading"))
+	dispatch(setLoadingAC("loading"))
 	todolistsAPI.getTasks(todolistId)
 		.then((res) => {
 			dispatch(removeLoadingAC('idel'))
@@ -69,7 +69,7 @@ export const setTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionsTas
 		})
 }
 export const createTaskTC = (todolistId: string, title: string):AppThunk => (dispatch) => {
-	dispatch(setStatusAC("loading"))
+	dispatch(setLoadingAC("loading"))
 	todolistsAPI.createTask(todolistId, title)
 		.then((res) => {
 			dispatch(removeLoadingAC('idel'))

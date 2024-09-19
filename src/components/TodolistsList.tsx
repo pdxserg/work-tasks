@@ -7,7 +7,7 @@ import {Todolist} from "./Todolist";
 
 
 export const TodolistsList= ()=>{
-	// @ts-ignore
+
 	const todolists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists)
 	const dispatch =useAppDispatch()
 

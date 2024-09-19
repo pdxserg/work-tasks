@@ -3,6 +3,7 @@ import './App.css';
 import {TaskType} from "../api/todolists-api";
 import {TodolistsList} from "../components/TodolistsList";
 import {Loading} from "../components/Loading";
+import {ErrorSnackbar} from "../components/ErrorSnackbar";
 
 
 
@@ -13,10 +14,11 @@ export type TasksStateType = {
 
 function App() {
 return(
-	<>
+	<div>
 		<Loading/>
+		<ErrorSnackbar/>
 		<TodolistsList/>
-	</>
+	</div>
 
 )
 

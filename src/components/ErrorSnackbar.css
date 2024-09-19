@@ -1,0 +1,23 @@
+.container-error{
+	/*color: black;*/
+	/*border: 1px solid black;*/
+	/*background-color: #ff4242;*/
+	/*height: 20px;*/
+	/*width: 200px;*/
+	display: flex;
+	justify-content: center;
+}
+
+.error{
+	 color: black;
+	 border: 1px solid black;
+	 background-color: #ff4242;
+	 height: 20px;
+	 width: 200px;
+	 display: flex;
+	 justify-content: center;
+ }
+.empty-space{
+	height: 20px;
+}
+

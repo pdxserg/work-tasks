@@ -1,6 +1,7 @@
 import {FilterTodolist} from "../components/Todolist";
 import {todolistsAPI, TodolistType} from "../api/todolists-api";
 import {AppThunk} from "../app/store";
+import {removeLoadingAC, setLoadingAC} from "./app-reducer";
 
 
 
@@ -54,8 +55,10 @@ export const deleteTodoTC = (id: string):AppThunk => (dispatch) => {
 		})
 }
 export const createTodoTC = (title: string):AppThunk => (dispatch) => {
+	dispatch(setLoadingAC("loading"))
 	todolistsAPI.createTodolist(title)
 		.then((res) => {
+			dispatch(removeLoadingAC('idel'))
 			return dispatch(createTodolistAC(res.data.data.item))
 		})
 }
