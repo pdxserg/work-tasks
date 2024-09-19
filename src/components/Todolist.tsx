@@ -16,7 +16,7 @@ type TodolistPropsType = {
 }
 export type FilterTodolist = "all" | "active" | "completed"
 export const Todolist = memo(({todolist}: TodolistPropsType) => {
-	// @ts-ignore
+
 	const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
 	const dispatch = useAppDispatch()
 

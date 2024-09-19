@@ -1,6 +1,5 @@
 import {FilterTodolist} from "../components/Todolist";
 import {todolistsAPI, TodolistType} from "../api/todolists-api";
-import {Dispatch} from "redux";
 import {AppThunk} from "../app/store";
 
 

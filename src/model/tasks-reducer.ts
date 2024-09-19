@@ -3,6 +3,7 @@ import {TasksStateType} from "../app/App";
 import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from "../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppRootStateType, AppThunk} from "../app/store";
+import {ActionsLoadingType, removeLoadingAC, setStatusAC} from "./app-reducer";
 
 
 const initialstate: TasksStateType = {}
@@ -59,15 +60,19 @@ export const updateTaskAC = (todolistID: string, id: string, domainModel: Update
 
 
 //THUNK
-export const setTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionsTasksType>) => {
+export const setTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionsTasksType |ActionsLoadingType>) => {
+	dispatch(setStatusAC("loading"))
 	todolistsAPI.getTasks(todolistId)
 		.then((res) => {
-			return dispatch(setTasksAC(res.data.items, todolistId))
+			dispatch(removeLoadingAC('idel'))
+			dispatch(setTasksAC(res.data.items, todolistId))
 		})
 }
 export const createTaskTC = (todolistId: string, title: string):AppThunk => (dispatch) => {
+	dispatch(setStatusAC("loading"))
 	todolistsAPI.createTask(todolistId, title)
 		.then((res) => {
+			dispatch(removeLoadingAC('idel'))
 			return dispatch(createTaskAC(res.data.data.item))
 		})
 }
@@ -80,14 +85,15 @@ export const deleteTaskTC = (todolistId: string, taskId: string):AppThunk => (di
 export const updateTaskTC = (todolistId: string, taskId: string, domainModel: UpdateDomainTaskModelType):AppThunk =>
 	(dispatch, getState: () => AppRootStateType) => {
 	const state = getState()
-	if (state.tasks) {
-		// @ts-ignore
+
 		const task = state.tasks[todolistId].find(t => t.id === taskId)
+	if (task) {
+
 
 		let apiModel: UpdateTaskModelType = {
 			title: task.title,
 			description: task.description,
-			priority: task.TaskPriorities,
+			priority: task.priority,
 			startDate: task.startDate,
 			deadline: task.deadline,
 			status: task.status,
