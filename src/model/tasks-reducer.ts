@@ -72,7 +72,7 @@ export const createTaskTC = (todolistId: string, title: string):AppThunk => (dis
 	dispatch(setRemoveLoadingAC("loading"))
 	todolistsAPI.createTask(todolistId, title)
 		.then((res) => {
-			if(res.data.messages.length){
+			if(res.data.resultCode !== 0){
 				dispatch(errorAC(res.data.messages[0]))
 				dispatch(setRemoveLoadingAC('idel'))
 			}else{
@@ -131,3 +131,5 @@ export type ActionsTasksType =
 	| ReturnType<typeof updateTaskAC>
 	| ReturnType<typeof createTaskAC>
 	| ReturnType<typeof setTasksAC>
+
+
