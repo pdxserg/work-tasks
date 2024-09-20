@@ -3,7 +3,7 @@ import {TasksStateType} from "../app/App";
 import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from "../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppRootStateType, AppThunk} from "../app/store";
-import {ActionsLoadingType, removeLoadingAC, setLoadingAC} from "./app-reducer";
+import {ActionsLoadingType, errorAC, setRemoveLoadingAC} from "./app-reducer";
 
 
 const initialstate: TasksStateType = {}
@@ -61,25 +61,33 @@ export const updateTaskAC = (todolistID: string, id: string, domainModel: Update
 
 //THUNK
 export const setTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionsTasksType |ActionsLoadingType>) => {
-	dispatch(setLoadingAC("loading"))
+	dispatch(setRemoveLoadingAC("loading"))
 	todolistsAPI.getTasks(todolistId)
 		.then((res) => {
-			dispatch(removeLoadingAC('idel'))
+			dispatch(setRemoveLoadingAC('idel'))
 			dispatch(setTasksAC(res.data.items, todolistId))
 		})
 }
 export const createTaskTC = (todolistId: string, title: string):AppThunk => (dispatch) => {
-	dispatch(setLoadingAC("loading"))
+	dispatch(setRemoveLoadingAC("loading"))
 	todolistsAPI.createTask(todolistId, title)
 		.then((res) => {
-			dispatch(removeLoadingAC('idel'))
-			return dispatch(createTaskAC(res.data.data.item))
+			if(res.data.messages.length){
+				dispatch(errorAC(res.data.messages[0]))
+				dispatch(setRemoveLoadingAC('idel'))
+			}else{
+				dispatch(setRemoveLoadingAC('idel'))
+				dispatch(createTaskAC(res.data.data.item))
+			}
+
 		})
 }
 export const deleteTaskTC = (todolistId: string, taskId: string):AppThunk => (dispatch) => {
+	dispatch(setRemoveLoadingAC("loading"))
 	todolistsAPI.deleteTask(todolistId, taskId)
 		.then(() => {
-			return dispatch(removeTaskAC(todolistId, taskId))
+			dispatch(setRemoveLoadingAC('idel'))
+			 dispatch(removeTaskAC(todolistId, taskId))
 		})
 }
 export const updateTaskTC = (todolistId: string, taskId: string, domainModel: UpdateDomainTaskModelType):AppThunk =>

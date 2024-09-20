@@ -1,9 +1,7 @@
 import {FilterTodolist} from "../components/Todolist";
 import {todolistsAPI, TodolistType} from "../api/todolists-api";
 import {AppThunk} from "../app/store";
-import {removeLoadingAC, setLoadingAC} from "./app-reducer";
-
-
+import {errorAC, setRemoveLoadingAC} from "./app-reducer";
 
 
 const initialstate: TodolistDomainType[] = []
@@ -41,28 +39,36 @@ export const changeFilterAC = (id: string, value: FilterTodolist) => {
 	return {type: 'CHANGE-FILTER', id, value} as const
 }
 
+
+
 // THUNK
-export const setTodoTC = ():AppThunk => (dispatch) => {
+export const setTodoTC = (): AppThunk => (dispatch) => {
+	dispatch(setRemoveLoadingAC("loading"))
 	todolistsAPI.getTodolists()
 		.then((res) => {
-			return dispatch(setTodolistsAC(res.data))
+			dispatch(setRemoveLoadingAC('idel'))
+			dispatch(setTodolistsAC(res.data))
 		})
 }
-export const deleteTodoTC = (id: string):AppThunk => (dispatch) => {
+export const deleteTodoTC = (id: string): AppThunk => (dispatch) => {
+	dispatch(setRemoveLoadingAC("loading"))
 	todolistsAPI.deleteTodolist(id)
 		.then(() => {
-			return dispatch(removeTodolistAC(id))
+			dispatch(setRemoveLoadingAC('idel'))
+			dispatch(removeTodolistAC(id))
 		})
 }
-export const createTodoTC = (title: string):AppThunk => (dispatch) => {
-	dispatch(setLoadingAC("loading"))
+export const createTodoTC = (title: string): AppThunk => (dispatch) => {
+	dispatch(setRemoveLoadingAC("loading"))
 	todolistsAPI.createTodolist(title)
 		.then((res) => {
-			dispatch(removeLoadingAC('idel'))
-			return dispatch(createTodolistAC(res.data.data.item))
+
+			dispatch(setRemoveLoadingAC('idel'))
+			dispatch(createTodolistAC(res.data.data.item))
 		})
+
 }
-export const updateTodoTC = (id: string, title: string):AppThunk => (dispatch) => {
+export const updateTodoTC = (id: string, title: string): AppThunk => (dispatch) => {
 	todolistsAPI.updateTodolist(id, title)
 		.then(() => {
 			return dispatch(updateTodlistTitleAC(id, title))

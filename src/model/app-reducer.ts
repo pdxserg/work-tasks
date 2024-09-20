@@ -9,11 +9,11 @@ const initialstate = {
 export type InitialstateType = typeof initialstate
 export const appReducer = (state: InitialstateType = initialstate, action: AppActionTypes): InitialstateType => {
 	switch (action.type) {
-		case 'APP/SET_LOADING': {
+		case 'APP/SET/REMOVE_LOADING': {
 			return {...state, status: action.value}
 		}
-		case 'APP/SET_LOADING': {
-			return {...state, status: action.value}
+		case "APP/ERROR":{
+			return {...state, error: action.value}
 		}
 
 		default: {
@@ -24,13 +24,15 @@ export const appReducer = (state: InitialstateType = initialstate, action: AppAc
 
 }
 
-export const setLoadingAC = (value: IsLoadingType) => ({type: 'APP/SET_LOADING', value} as const)
-export const removeLoadingAC = (value: IsLoadingType) => ({type: 'APP/SET_LOADING', value} as const)
-
+export const setRemoveLoadingAC = (value: IsLoadingType) => ({type: 'APP/SET/REMOVE_LOADING', value} as const)
+export const errorAC = (value: string|null) => {
+	return {type: 'APP/ERROR', value} as const
+}
 
 
 //TYPES
 export type ActionsLoadingType =
-	| ReturnType<typeof setLoadingAC>
-	| ReturnType<typeof removeLoadingAC>
+	| ReturnType<typeof setRemoveLoadingAC>
+	| ReturnType<typeof errorAC>
+
 
