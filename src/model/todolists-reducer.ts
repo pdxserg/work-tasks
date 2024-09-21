@@ -95,6 +95,9 @@ export const updateTodoTC = (id: string, title: string): AppThunk => (dispatch) 
 		.then(() => {
 			return dispatch(updateTodlistTitleAC(id, title))
 		})
+		.catch((err)=>{
+			handleServerNetworkError(err, dispatch)
+		})
 }
 
 // TYPES

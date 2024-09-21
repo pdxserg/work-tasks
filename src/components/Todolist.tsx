@@ -23,7 +23,7 @@ export const Todolist = memo(({todolist}: TodolistPropsType) => {
 
 	useEffect(() => {
 		dispatch(setTasksTC(todolist.id))
-	}, []);
+	}, [dispatch, todolist.id]);
 	const [dateCreate] =useState( new Date().toLocaleString())
 
 
