@@ -1,14 +1,10 @@
-import {
-	changeTodolistEntityStatusAC,
-	CreateTodolistACType,
-	RemoveTodolistACType,
-	SetTodolistsACType
-} from "./todolists-reducer";
+import {CreateTodolistACType, RemoveTodolistACType, SetTodolistsACType} from "./todolists-reducer";
 import {TasksStateType} from "../app/App";
 import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from "../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppRootStateType, AppThunk} from "../app/store";
 import {ActionsLoadingType, errorAC, setRemoveLoadingAC} from "./app-reducer";
+import {handleServerNetworkError} from "../common/utils";
 
 
 const initialstate: TasksStateType = {}
@@ -102,6 +98,9 @@ export const deleteTaskTC = (todolistId: string, taskId: string): AppThunk => (d
 				dispatch(removeTaskAC(todolistId, taskId))
 			}
 		})
+		.catch((err)=>{
+			handleServerNetworkError(err, dispatch)
+		})
 }
 export const updateTaskTC = (todolistId: string, taskId: string, domainModel: UpdateDomainTaskModelType): AppThunk =>
 	(dispatch, getState: () => AppRootStateType) => {
@@ -129,7 +128,9 @@ export const updateTaskTC = (todolistId: string, taskId: string, domainModel: Up
 						dispatch(setRemoveLoadingAC('idel'))
 						dispatch(updateTaskAC(todolistId, taskId, domainModel))
 					}
-
+				})
+				.catch((err)=>{
+					handleServerNetworkError(err, dispatch)
 				})
 		}
 	}
