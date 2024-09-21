@@ -70,6 +70,9 @@ export const deleteTodoTC = (id: string): AppThunk => (dispatch) => {
 			dispatch(setRemoveLoadingAC('idel'))
 			dispatch(removeTodolistAC(id))
 		})
+		.catch((err)=>{
+			handleServerNetworkError(err, dispatch)
+		})
 }
 export const createTodoTC = (title: string): AppThunk => (dispatch) => {
 	dispatch(setRemoveLoadingAC("loading"))
