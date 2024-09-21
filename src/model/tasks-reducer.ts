@@ -83,7 +83,9 @@ export const createTaskTC = (todolistId: string, title: string): AppThunk => (di
 				dispatch(setRemoveLoadingAC('idel'))
 				dispatch(createTaskAC(res.data.data.item))
 			}
-
+		})
+		.catch((err)=>{
+			handleServerNetworkError(err, dispatch)
 		})
 }
 export const deleteTaskTC = (todolistId: string, taskId: string): AppThunk => (dispatch) => {
