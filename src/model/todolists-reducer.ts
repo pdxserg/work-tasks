@@ -1,8 +1,9 @@
 import {FilterTodolist} from "../components/Todolist";
 import {todolistsAPI, TodolistType} from "../api/todolists-api";
 import {AppActionTypes, AppThunk} from "../app/store";
-import {IsLoadingType, setRemoveLoadingAC} from "./app-reducer";
+import {errorAC, IsLoadingType, setRemoveLoadingAC} from "./app-reducer";
 import {handleServerNetworkError} from "../common/utils";
+import {updateTaskAC} from "./tasks-reducer";
 
 
 const initialstate: TodolistDomainType[] = []
@@ -69,9 +70,14 @@ export const deleteTodoTC = (id: string): AppThunk => (dispatch) => {
 	dispatch(setRemoveLoadingAC("loading"))
 	dispatch(changeTodolistEntityStatusAC(id,"loading"))
 	todolistsAPI.deleteTodolist(id)
-		.then(() => {
-			dispatch(setRemoveLoadingAC('idel'))
-			dispatch(removeTodolistAC(id))
+		.then((res) => {
+			if (res.data.resultCode !== 0) {
+				dispatch(errorAC(res.data.messages[0]))
+				dispatch(setRemoveLoadingAC('idel'))
+			} else {
+				dispatch(setRemoveLoadingAC('idel'))
+				dispatch(removeTodolistAC(id))
+			}
 		})
 		.catch((err)=>{
 			handleServerNetworkError(err, dispatch)
@@ -81,9 +87,13 @@ export const createTodoTC = (title: string): AppThunk => (dispatch) => {
 	dispatch(setRemoveLoadingAC("loading"))
 	todolistsAPI.createTodolist(title)
 		.then((res) => {
-			dispatch(createTodolistAC(res.data.data.item))
-			dispatch(setRemoveLoadingAC('idel'))
-
+			if (res.data.resultCode !== 0) {
+				dispatch(errorAC(res.data.messages[0]))
+				dispatch(setRemoveLoadingAC('idel'))
+			} else {
+				dispatch(setRemoveLoadingAC('idel'))
+				dispatch(createTodolistAC(res.data.data.item))
+			}
 		})
 		.catch((err)=>{
 			handleServerNetworkError(err, dispatch)
@@ -92,8 +102,14 @@ export const createTodoTC = (title: string): AppThunk => (dispatch) => {
 }
 export const updateTodoTC = (id: string, title: string): AppThunk => (dispatch) => {
 	todolistsAPI.updateTodolist(id, title)
-		.then(() => {
-			return dispatch(updateTodlistTitleAC(id, title))
+		.then((res) => {
+			if (res.data.resultCode !== 0) {
+				dispatch(errorAC(res.data.messages[0]))
+				dispatch(setRemoveLoadingAC('idel'))
+			} else {
+				dispatch(setRemoveLoadingAC('idel'))
+				dispatch(updateTodlistTitleAC(id, title))
+			}
 		})
 		.catch((err)=>{
 			handleServerNetworkError(err, dispatch)
