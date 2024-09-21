@@ -9,11 +9,11 @@ import {useAppDispatch} from "../app/store";
 type TaskPropsType = {
 	task: TaskType
 	todolistId: string
-
+	disabled:boolean
 
 }
 
-export const Task = memo(({task, todolistId}: TaskPropsType) => {
+export const Task = memo(({task, todolistId, disabled}: TaskPropsType) => {
 	const dispatch = useAppDispatch()
 
 	const removeTask =  () => {dispatch(deleteTaskTC(todolistId, task.id))}
@@ -37,10 +37,11 @@ export const Task = memo(({task, todolistId}: TaskPropsType) => {
 			 className={task.status===TaskStatuses.Completed ? "finished" : ""}
 			>
 			<input type="checkbox"
+			       disabled={disabled}
 			        checked={task.status===TaskStatuses.Completed}
 			       onChange={checkboxHandler}/>
 			<EditableSpan title={task.title} updatedTitle={updatedTitle}/>
-			<button onClick={removeTask}>x</button>
+			<button disabled={disabled}  onClick={removeTask}>x</button>
 		</div>
 	)
 

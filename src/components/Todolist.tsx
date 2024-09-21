@@ -9,6 +9,7 @@ import {useSelector} from "react-redux";
 import {changeFilterAC, deleteTodoTC, TodolistDomainType, updateTodoTC} from "../model/todolists-reducer";
 import {TaskStatuses} from "../api/todolists-api";
 import {AppRootStateType, useAppDispatch} from "../app/store";
+import {InitialstateType} from "../model/app-reducer";
 
 
 type TodolistPropsType = {
@@ -18,6 +19,7 @@ export type FilterTodolist = "all" | "active" | "completed"
 export const Todolist = memo(({todolist}: TodolistPropsType) => {
 
 	const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+	const loading = useSelector<AppRootStateType, null|string >(state => state.app.status)
 	const dispatch = useAppDispatch()
 
 	useEffect(() => {
@@ -63,9 +65,9 @@ export const Todolist = memo(({todolist}: TodolistPropsType) => {
 		<div className="task-conteiner">
 			<div>
 				<EditableSpan title={todolist.title} updatedTitle={updateTodlistTitle}/>
-				<button onClick={removeTodolist}>x</button>
+				<button disabled={todolist.entityStatus ==="loading"} onClick={removeTodolist}>x</button>
 				<h5>{dateCreate}</h5>
-				<AddItemForm addItem={createTask}/>
+				<AddItemForm disable={todolist.entityStatus ==="loading"} addItem={createTask}/>
 				<div>
 					{tasksT.length === 0
 						? <span>No tasks</span>
@@ -74,8 +76,7 @@ export const Todolist = memo(({todolist}: TodolistPropsType) => {
 								key={task.id}
 								task={task}
 								todolistId={todolist.id}
-
-
+								disabled={todolist.entityStatus ==="loading"}
 							/>
 						})
 					}

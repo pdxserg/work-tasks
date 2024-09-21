@@ -3,6 +3,7 @@
 import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
 type AddItemFormType={
 	addItem: (title: string) => void
+	disable?: boolean
 }
 export const AddItemForm =memo ((props:AddItemFormType) => {
 	const [title, setTitle] = useState("")
@@ -34,7 +35,7 @@ export const AddItemForm =memo ((props:AddItemFormType) => {
 			       onChange={onchangeTitle}
 			       onKeyDown={onKeyDownHandler}
 			/>
-			<button onClick={createTaskHandler}>+</button>
+			<button disabled={props.disable} onClick={createTaskHandler}>+</button>
 			{error && <div className={"error"}>field requred</div>}
 		</div>
 	);
