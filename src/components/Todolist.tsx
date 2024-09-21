@@ -43,7 +43,7 @@ export const Todolist = memo(({todolist}: TodolistPropsType) => {
 
 	const createTask = useCallback((title: string) => {
 		dispatch(createTaskTC(todolist.id, title))
-	}, [todolist.id])
+	}, [dispatch ,todolist.id])
 	const removeTodolist = () => {
 		const action = deleteTodoTC(todolist.id)
 		dispatch(action)

@@ -71,6 +71,9 @@ export const setTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionsTas
 				dispatch(setRemoveLoadingAC('idel'))
 				dispatch(setTasksAC(res.data.items, todolistId))
 		})
+		.catch((err)=>{
+			handleServerNetworkError(err, dispatch)
+		})
 }
 export const createTaskTC = (todolistId: string, title: string): AppThunk => (dispatch) => {
 	dispatch(setRemoveLoadingAC("loading"))
