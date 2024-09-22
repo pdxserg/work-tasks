@@ -2,7 +2,7 @@ import {FilterTodolist} from "../components/Todolist";
 import {todolistsAPI, TodolistType} from "../api/todolists-api";
 import {AppActionTypes, AppThunk} from "../app/store";
 import {errorAC, IsLoadingType, setRemoveLoadingAC} from "./app-reducer";
-import {handleServerNetworkError} from "../common/utils";
+import {handleServerAppError, handleServerNetworkError} from "../common/utils";
 import {updateTaskAC} from "./tasks-reducer";
 
 
@@ -72,8 +72,7 @@ export const deleteTodoTC = (id: string): AppThunk => (dispatch) => {
 	todolistsAPI.deleteTodolist(id)
 		.then((res) => {
 			if (res.data.resultCode !== 0) {
-				dispatch(errorAC(res.data.messages[0]))
-				dispatch(setRemoveLoadingAC('idel'))
+				handleServerAppError(dispatch,res)
 			} else {
 				dispatch(setRemoveLoadingAC('idel'))
 				dispatch(removeTodolistAC(id))
@@ -88,8 +87,7 @@ export const createTodoTC = (title: string): AppThunk => (dispatch) => {
 	todolistsAPI.createTodolist(title)
 		.then((res) => {
 			if (res.data.resultCode !== 0) {
-				dispatch(errorAC(res.data.messages[0]))
-				dispatch(setRemoveLoadingAC('idel'))
+				handleServerAppError(dispatch,res.data)
 			} else {
 				dispatch(setRemoveLoadingAC('idel'))
 				dispatch(createTodolistAC(res.data.data.item))
