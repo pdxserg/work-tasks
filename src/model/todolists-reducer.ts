@@ -72,7 +72,7 @@ export const deleteTodoTC = (id: string): AppThunk => (dispatch) => {
 	todolistsAPI.deleteTodolist(id)
 		.then((res) => {
 			if (res.data.resultCode !== 0) {
-				handleServerAppError(dispatch,res)
+				handleServerAppError(dispatch,res.data)
 			} else {
 				dispatch(setRemoveLoadingAC('idel'))
 				dispatch(removeTodolistAC(id))
