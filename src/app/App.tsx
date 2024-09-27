@@ -4,6 +4,7 @@ import {TaskType} from "../api/todolists-api";
 import {TodolistsList} from "../components/TodolistsList";
 import {Loading} from "../components/Loading";
 import {ErrorSnackbar} from "../components/ErrorSnackbar";
+import {Login} from "../features/login/Login";
 
 
 export type TasksStateType = {
@@ -13,12 +14,18 @@ export type TasksStateType = {
 
 function App() {
 	return (
-		<div>
-			<Header/>
-			<Loading/>
-			<ErrorSnackbar/>
-			<TodolistsList/>
-		</div>
+
+			<div>
+				<Header/>
+				<Loading/>
+				<ErrorSnackbar/>
+				<div>
+					<TodolistsList/>
+					<Login/>
+				</div>
+			</div>
+
+
 
 	)
 
@@ -27,8 +34,8 @@ function App() {
 export default App
 const Header = () => {
 	return (
-		<header style={{ backgroundColor: "blue"}}>
-			<button>login</button>
+		<header style={{backgroundColor: "lightblue"}}>
+		<button>login</button>
 		</header>
 	)
 }
