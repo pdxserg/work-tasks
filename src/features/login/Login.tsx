@@ -1,4 +1,19 @@
+import {useFormik} from "formik";
+
 export const LoginCustom = () => {
+
+
+	const formik = useFormik({
+		initialValues: {
+			password: '',
+			remember: false,
+			email: '',
+		},
+		onSubmit: values => {
+			alert(JSON.stringify(values, null, 2));
+		},
+	});
+	console.log(formik.values)
 	return (
 
 		<div style={{ backgroundColor: "lightblue"}}>
@@ -14,14 +29,28 @@ export const LoginCustom = () => {
 				<p>Password: free</p>
 			</>
 			<form >
-				<label id="email">Email</label>
-				<input type="email" id="email" name="email"/>
+				<label htmlFor="email">Email</label>
+				<input
+					type="email"
+					id="email"
+					name="email"
+					value={formik.values.email}
+					onChange={formik.handleChange}/>
 
-				<label id="password">Password</label>
-				<input type="password" id="password" name="password"/>
+				<label htmlFor="password">Password</label>
+				<input
+					type="password"
+					id="password"
+					name="password"
+					value={formik.values.password}
+					onChange={formik.handleChange}/>
 
 				<label>
-					<input type="checkbox" name="remember"/>
+					<input
+						type="checkbox"
+						name="remember"
+						// value={formik.values.remember}
+						onChange={formik.handleChange}/>
 					Remember me
 				</label>
 
