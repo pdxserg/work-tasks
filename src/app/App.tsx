@@ -1,12 +1,9 @@
 import React from 'react';
 import './App.css';
 import {TaskType} from "../api/todolists-api";
-import {TodolistsList} from "../components/TodolistsList";
 import {Loading} from "../components/Loading";
 import {ErrorSnackbar} from "../components/errors/ErrorSnackbar";
-import {LoginCustom} from "../features/login/Login";
 import {Outlet} from "react-router-dom";
-
 
 
 export type TasksStateType = {
