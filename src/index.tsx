@@ -17,7 +17,7 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Navigate to="/todolists"/>
+                element: <Navigate to="/login"/>
             },
             {
                 path: "/login",
