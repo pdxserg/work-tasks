@@ -2,30 +2,6 @@ import {useFormik} from "formik";
 
 export const LoginCustom = () => {
 
-
-	// const validate = values => {
-	// 	const errors = {};
-	//
-	// 	if (!values.firstName) {
-	// 		errors.firstName = 'Required';
-	// 	} else if (values.firstName.length > 15) {
-	// 		errors.firstName = 'Must be 15 characters or less';
-	// 	}
-	//
-	// 	if (!values.lastName) {
-	// 		errors.lastName = 'Required';
-	// 	} else if (values.lastName.length > 20) {
-	// 		errors.lastName = 'Must be 20 characters or less';
-	// 	}
-	//
-	// 	if (!values.email) {
-	// 		errors.email = 'Required';
-	// 	} else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-	// 		errors.email = 'Invalid email address';
-	// 	}
-	//
-	// 	return errors;
-	// };
 	type ErrorType = {
 		password?: string
 		email?: string
@@ -39,6 +15,7 @@ export const LoginCustom = () => {
 		},
 		onSubmit: values => {
 			alert(JSON.stringify(values, null, 2));
+			formik.resetForm()
 		},
 		validate: (values) => {
 			const errors: ErrorType = {};
@@ -49,7 +26,7 @@ export const LoginCustom = () => {
 			}
 			if (!values.password) {
 				errors.password = 'Required';
-			}else if (values.password.length <3) {
+			} else if (values.password.length < 3) {
 				errors.password = 'Must be 3 characters or more';
 			}
 			return errors
@@ -83,7 +60,7 @@ export const LoginCustom = () => {
 						// onChange={formik.handleChange}
 					/>
 
-					{formik.touched.email && formik.errors.email && <p style={{color:"red"}}>{formik.errors.email}</p>}
+					{formik.touched.email && formik.errors.email && <p style={{color: "red"}}>{formik.errors.email}</p>}
 				</div>
 
 				<div>
@@ -91,12 +68,11 @@ export const LoginCustom = () => {
 					<input
 						type="password"
 						id="password"
-						name="password"
-						onBlur={formik.handleBlur}
-						value={formik.values.password}
-						onChange={formik.handleChange}/>
+						{...formik.getFieldProps('password')}
+					/>
 
-					{formik.touched.password && formik.errors.password &&  <p style={{color:"red"}}>{formik.errors.password}</p>}
+					{formik.touched.password && formik.errors.password &&
+                        <p style={{color: "red"}}>{formik.errors.password}</p>}
 				</div>
 
 				<div>
@@ -104,7 +80,7 @@ export const LoginCustom = () => {
 						<input
 							type="checkbox"
 							name="remember"
-							// value={formik.values.remember}
+							checked={formik.values.remember}
 							onChange={formik.handleChange}/>
 						Remember me
 					</label>
