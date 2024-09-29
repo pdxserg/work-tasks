@@ -1,18 +1,26 @@
 import axios, {AxiosResponse} from "axios";
+import {LoginType} from "../features/login/Login";
 
 
 const instance = axios.create({
 	baseURL: 'https://social-network.samuraijs.com/api/1.1/',
 	withCredentials: true,
 	headers: {
-		  // 'API-KEY': '0cf8f030-760b-4a29-809e-99a5bcf4660a'
+		     'API-KEY': '0cf8f030-760b-4a29-809e-99a5bcf4660a'
 	}
 })
 //AUTH API
 
 export const authAPI = {
-	login(){
-		return instance.post<ResponseDomainType<{ userId: number }>>('auth/login');
+	login(data:LoginType){
+		return instance.post<ResponseDomainType<{ userId: number }>>('/auth/login', data);
+	},
+	me(){
+	return instance.get<ResponseDomainType<{
+		id: number,
+		email: string,
+		login: string
+	}>>('/auth/me')
 	}
 }
 // api

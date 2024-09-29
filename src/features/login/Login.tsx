@@ -1,7 +1,23 @@
 import {useFormik} from "formik";
+import {AppRootStateType, useAppDispatch} from "../../app/store";
+import {isLoginTC} from "../../model/auth-reducer";
+import {Navigate} from "react-router-dom";
+import React from "react";
+import {useSelector} from "react-redux";
 
+
+
+
+
+export type LoginType={
+	password: string
+	email: string
+}
 export const LoginCustom = () => {
+	const isLogin = useSelector<AppRootStateType, boolean>(state => state.auth.isLogin)
 
+
+	const dispatch= useAppDispatch()
 	type ErrorType = {
 		password?: string
 		email?: string
@@ -10,11 +26,11 @@ export const LoginCustom = () => {
 	const formik = useFormik({
 		initialValues: {
 			password: '',
-			remember: false,
+			rememberMe: false,
 			email: '',
 		},
 		onSubmit: values => {
-			alert(JSON.stringify(values, null, 2));
+			 dispatch(isLoginTC(values))
 			formik.resetForm()
 		},
 		validate: (values) => {
@@ -33,6 +49,9 @@ export const LoginCustom = () => {
 		}
 	});
 
+	if (isLogin){
+		return<Navigate to="/todolists"/>
+	}
 	return (
 
 		<div style={{backgroundColor: "lightblue"}}>
@@ -80,7 +99,7 @@ export const LoginCustom = () => {
 						<input
 							type="checkbox"
 							name="remember"
-							checked={formik.values.remember}
+							checked={formik.values.rememberMe}
 							onChange={formik.handleChange}/>
 						Remember me
 					</label>

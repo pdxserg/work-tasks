@@ -11,11 +11,15 @@ const initialstate: TasksStateType = {}
 export const tasksReducer = (state = initialstate, action: ActionsTasksType): TasksStateType => {
 	switch (action.type) {
 		case 'SET-TODOLISTS': {
+
 			const stateCopy = {...state}
+
 			action.todolists.forEach(tl => {
+
 				stateCopy[tl.id] = []
 			})
 			return stateCopy
+
 		}
 
 		case "REMOVE-TASK":
@@ -40,9 +44,11 @@ export const tasksReducer = (state = initialstate, action: ActionsTasksType): Ta
 		}
 
 		case "CREATE-TODOLIST":
+
 			return {...state, [action.todolist.id]: []}
 
 		case "SET_TASKS":
+
 			return {...state, [action.todolistId]: action.tasks}
 
 
@@ -66,12 +72,13 @@ export const setDisableAC = (todolistID: string, id: string) => {
 //THUNK
 export const setTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionsTasksType | ActionsLoadingType>) => {
 	dispatch(setRemoveLoadingAC("loading"))
+
 	todolistsAPI.getTasks(todolistId)
 		.then((res) => {
-				dispatch(setRemoveLoadingAC('idel'))
-				dispatch(setTasksAC(res.data.items, todolistId))
+			dispatch(setRemoveLoadingAC('idel'))
+			dispatch(setTasksAC(res.data.items, todolistId))
 		})
-		.catch((err)=>{
+		.catch((err) => {
 			handleServerNetworkError(err, dispatch)
 		})
 }
@@ -87,7 +94,7 @@ export const createTaskTC = (todolistId: string, title: string): AppThunk => (di
 				dispatch(createTaskAC(res.data.data.item))
 			}
 		})
-		.catch((err)=>{
+		.catch((err) => {
 			handleServerNetworkError(err, dispatch)
 		})
 }
@@ -103,7 +110,7 @@ export const deleteTaskTC = (todolistId: string, taskId: string): AppThunk => (d
 				dispatch(removeTaskAC(todolistId, taskId))
 			}
 		})
-		.catch((err)=>{
+		.catch((err) => {
 			handleServerNetworkError(err, dispatch)
 		})
 }
@@ -134,7 +141,7 @@ export const updateTaskTC = (todolistId: string, taskId: string, domainModel: Up
 						dispatch(updateTaskAC(todolistId, taskId, domainModel))
 					}
 				})
-				.catch((err)=>{
+				.catch((err) => {
 					handleServerNetworkError(err, dispatch)
 				})
 		}

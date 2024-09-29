@@ -3,7 +3,7 @@ import {todolistsAPI, TodolistType} from "../api/todolists-api";
 import {AppActionTypes, AppThunk} from "../app/store";
 import {errorAC, IsLoadingType, setRemoveLoadingAC} from "./app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../common/utils";
-import {updateTaskAC} from "./tasks-reducer";
+import {setTasksTC, updateTaskAC} from "./tasks-reducer";
 
 
 const initialstate: TodolistDomainType[] = []
@@ -57,10 +57,19 @@ export const changeTodolistEntityStatusAC = (id: string, status: IsLoadingType) 
 // THUNK
 export const setTodoTC = (): AppThunk => (dispatch) => {
 	dispatch(setRemoveLoadingAC("loading"))
+
 	todolistsAPI.getTodolists()
 		.then((res) => {
+
 			dispatch(setRemoveLoadingAC('idel'))
 			dispatch(setTodolistsAC(res.data))
+			return res.data
+		})
+		.then((todo)=>{
+
+			todo.forEach((todo)=>{
+				 dispatch(setTasksTC(todo.id))
+			})
 		})
 		.catch((err)=>{
 			handleServerNetworkError(err, dispatch)

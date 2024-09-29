@@ -4,14 +4,19 @@ import {createTodoTC, setTodoTC, TodolistDomainType} from "../model/todolists-re
 import React, {useCallback, useEffect} from "react";
 import {AddItemForm} from "./AddItemForm";
 import {Todolist} from "./Todolist";
+import {Navigate} from "react-router-dom";
 
 
 export const TodolistsList= ()=>{
 
 	const todolists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists)
+	const isLogin = useSelector<AppRootStateType, boolean>(state => state.auth.isLogin)
+
 	const dispatch =useAppDispatch()
 
 	useEffect(() => {
+
+		console.log(2)
 		dispatch(setTodoTC())
 	}, []);
 
@@ -20,7 +25,9 @@ export const TodolistsList= ()=>{
 		dispatch(action)
 	}, [dispatch])
 
-
+if (!isLogin){
+	return<Navigate to="/login"/>
+}
 
 	return (
 		<div>
