@@ -5,7 +5,7 @@ import {Loading} from "../components/Loading";
 import {ErrorSnackbar} from "../components/errors/ErrorSnackbar";
 import {Outlet} from "react-router-dom";
 import {AppRootStateType, useAppDispatch} from "./store";
-import {authMeTC} from "../model/auth-reducer";
+import {authMeTC, logOutTC} from "../model/auth-reducer";
 import {useSelector} from "react-redux";
 
 
@@ -49,10 +49,13 @@ dispatch(authMeTC())
 export default App
 const Header = () => {
 	const isLogin= useSelector<AppRootStateType, boolean>(state => state.auth.isLogin)
-
+	const dispatch= useAppDispatch()
+const logoutHandler=()=>{
+		dispatch(logOutTC())
+	}
 	return (
 		<header style={{backgroundColor: "lightblue"}}>
-			{isLogin && <button>LogOut</button>}
+			{isLogin && <button onClick={logoutHandler}>LogOut</button>}
 		</header>
 	)
 }

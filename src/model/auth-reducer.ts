@@ -13,6 +13,7 @@ export type InitialstateType = typeof initialstate
 export const authReducer = (state: InitialstateType = initialstate, action: ActionsLogibnType): InitialstateType => {
 	switch (action.type) {
 		case 'AUTH/IS-LOGIN': {
+
 			return {...state, isLogin: action.value}
 		}
 		default: {
@@ -36,13 +37,30 @@ export const isLoginAC = (value: boolean) => ({type: 'AUTH/IS-LOGIN', value} as 
 					dispatch(setRemoveLoadingAC('idel'))
 				} else {
 					dispatch(setRemoveLoadingAC('idel'))
-					dispatch(isLoginAC(true))
+					 dispatch(isLoginAC(true))
 				}
 			})
 			.catch((err)=>{
 				handleServerNetworkError(err, dispatch)
 			})
 	}
+export const logOutTC = (): AppThunk => (dispatch:Dispatch) => {
+	debugger
+	dispatch(setRemoveLoadingAC("loading"))
+	authAPI.logout ()
+		.then((res) => {
+			if (res.data.resultCode !== 0) {
+				dispatch(errorAC(res.data.messages[0]))
+				dispatch(setRemoveLoadingAC('idel'))
+			} else {
+				dispatch(setRemoveLoadingAC('idel'))
+				dispatch(isLoginAC(false))
+			}
+		})
+		.catch((err)=>{
+			handleServerNetworkError(err, dispatch)
+		})
+}
 export const authMeTC = (): AppThunk => (dispatch:Dispatch) => {
 	dispatch(setRemoveLoadingAC("loading"))
 	authAPI.me ()

@@ -23,7 +23,7 @@ export const authAPI = {
 	}>>('/auth/me')
 	},
 	logout(){
-	return instance.delete<ResponseDomainType>('/auth/me')
+	return instance.delete<ResponseDomainType>('/auth/login')
 	},
 
 }

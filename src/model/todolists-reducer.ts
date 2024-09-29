@@ -3,7 +3,7 @@ import {todolistsAPI, TodolistType} from "../api/todolists-api";
 import {AppActionTypes, AppThunk} from "../app/store";
 import {errorAC, IsLoadingType, setRemoveLoadingAC} from "./app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../common/utils";
-import {setTasksTC, updateTaskAC} from "./tasks-reducer";
+import {setTasksTC} from "./tasks-reducer";
 
 
 const initialstate: TodolistDomainType[] = []

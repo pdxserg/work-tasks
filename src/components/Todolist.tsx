@@ -1,10 +1,10 @@
-import React, {memo, useCallback, useEffect, useState,} from "react";
+import React, {memo, useCallback, useState,} from "react";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {TasksStateType} from "../app/App";
 import {Button} from "./Button";
 import {Task} from "./Task";
-import {createTaskTC, setTasksTC} from "../model/tasks-reducer";
+import {createTaskTC} from "../model/tasks-reducer";
 import {useSelector} from "react-redux";
 import {changeFilterAC, deleteTodoTC, TodolistDomainType, updateTodoTC} from "../model/todolists-reducer";
 import {TaskStatuses} from "../api/todolists-api";
