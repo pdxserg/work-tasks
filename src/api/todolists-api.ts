@@ -21,7 +21,11 @@ export const authAPI = {
 		email: string,
 		login: string
 	}>>('/auth/me')
-	}
+	},
+	logout(){
+	return instance.delete<ResponseDomainType>('/auth/me')
+	},
+
 }
 // api
 export const todolistsAPI = {
