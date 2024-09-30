@@ -4,10 +4,11 @@ import {authAPI} from "../api/todolists-api";
 import {errorAC, isInitializedAC, setRemoveLoadingAC} from "./app-reducer";
 import {handleServerNetworkError} from "../common/utils";
 import {Dispatch} from "redux";
+import {logOutAC} from "./todolists-reducer";
 
 
 const initialstate = {
-	isLogin:false
+	isLogin: false
 }
 export type InitialstateType = typeof initialstate
 export const authReducer = (state: InitialstateType = initialstate, action: ActionsLogibnType): InitialstateType => {
@@ -27,27 +28,26 @@ export const authReducer = (state: InitialstateType = initialstate, action: Acti
 export const isLoginAC = (value: boolean) => ({type: 'AUTH/IS-LOGIN', value} as const)
 
 
-
-	export const isLoginTC = (data: LoginType): AppThunk => (dispatch:Dispatch) => {
-		dispatch(setRemoveLoadingAC("loading"))
-		authAPI.login (data)
-			.then((res) => {
-				if (res.data.resultCode !== 0) {
-					dispatch(errorAC(res.data.messages[0]))
-					dispatch(setRemoveLoadingAC('idel'))
-				} else {
-					dispatch(setRemoveLoadingAC('idel'))
-					 dispatch(isLoginAC(true))
-				}
-			})
-			.catch((err)=>{
-				handleServerNetworkError(err, dispatch)
-			})
-	}
-export const logOutTC = (): AppThunk => (dispatch:Dispatch) => {
-	debugger
+export const isLoginTC = (data: LoginType): AppThunk => (dispatch: Dispatch) => {
 	dispatch(setRemoveLoadingAC("loading"))
-	authAPI.logout ()
+	authAPI.login(data)
+		.then((res) => {
+			if (res.data.resultCode !== 0) {
+				dispatch(errorAC(res.data.messages[0]))
+				dispatch(setRemoveLoadingAC('idel'))
+			} else {
+				dispatch(setRemoveLoadingAC('idel'))
+				dispatch(isLoginAC(true))
+			}
+		})
+		.catch((err) => {
+			handleServerNetworkError(err, dispatch)
+		})
+}
+export const logOutTC = (): AppThunk => (dispatch: Dispatch) => {
+
+	dispatch(setRemoveLoadingAC("loading"))
+	authAPI.logout()
 		.then((res) => {
 			if (res.data.resultCode !== 0) {
 				dispatch(errorAC(res.data.messages[0]))
@@ -55,15 +55,16 @@ export const logOutTC = (): AppThunk => (dispatch:Dispatch) => {
 			} else {
 				dispatch(setRemoveLoadingAC('idel'))
 				dispatch(isLoginAC(false))
+				dispatch(logOutAC())
 			}
 		})
-		.catch((err)=>{
+		.catch((err) => {
 			handleServerNetworkError(err, dispatch)
 		})
 }
-export const authMeTC = (): AppThunk => (dispatch:Dispatch) => {
+export const authMeTC = (): AppThunk => (dispatch: Dispatch) => {
 	dispatch(setRemoveLoadingAC("loading"))
-	authAPI.me ()
+	authAPI.me()
 		.then((res) => {
 			if (res.data.resultCode !== 0) {
 				dispatch(errorAC(res.data.messages[0]))
@@ -74,16 +75,16 @@ export const authMeTC = (): AppThunk => (dispatch:Dispatch) => {
 
 			}
 		})
-		.catch((err)=>{
+		.catch((err) => {
 			handleServerNetworkError(err, dispatch)
 		})
-		.finally(()=>{
+		.finally(() => {
 			dispatch(isInitializedAC(true))
 
 		})
 
 }
 //TYPES
-export type ActionsLogibnType =ReturnType<typeof isLoginAC>
+export type ActionsLogibnType = ReturnType<typeof isLoginAC>
 
 

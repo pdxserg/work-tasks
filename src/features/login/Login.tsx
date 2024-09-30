@@ -52,6 +52,7 @@ export const LoginCustom = () => {
 	if (isLogin){
 		return<Navigate to="/todolists"/>
 	}
+	const passw ="dfsadasd23sf-3"
 	return (
 
 		<div style={{backgroundColor: "lightblue"}}>
@@ -64,6 +65,7 @@ export const LoginCustom = () => {
 				</p>
 				<p>or use common test account credentials:</p>
 				<p>Email: free@samuraijs.com</p>
+				<p>dfsadasd23sf-3</p>
 				<p>Password: free</p>
 			</>
 			<form onSubmit={formik.handleSubmit}>

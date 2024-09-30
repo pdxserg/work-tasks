@@ -1,4 +1,4 @@
-import {CreateTodolistACType, RemoveTodolistACType, SetTodolistsACType} from "./todolists-reducer";
+import {CreateTodolistACType, LogOutACType, RemoveTodolistACType, SetTodolistsACType} from "./todolists-reducer";
 import {TasksStateType} from "../app/App";
 import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from "../api/todolists-api";
 import {Dispatch} from "redux";
@@ -44,13 +44,14 @@ export const tasksReducer = (state = initialstate, action: ActionsTasksType): Ta
 		}
 
 		case "CREATE-TODOLIST":
-
 			return {...state, [action.todolist.id]: []}
 
 		case "SET_TASKS":
-
 			return {...state, [action.todolistId]: action.tasks}
 
+		case "LOGOUT":
+			debugger
+			return {}
 
 		default: {
 			return state
@@ -165,5 +166,6 @@ export type ActionsTasksType =
 	| ReturnType<typeof createTaskAC>
 	| ReturnType<typeof setTasksAC>
 	| ReturnType<typeof setDisableAC>
+	| LogOutACType
 
 

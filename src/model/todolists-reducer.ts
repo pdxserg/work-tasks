@@ -4,6 +4,7 @@ import {AppActionTypes, AppThunk} from "../app/store";
 import {errorAC, IsLoadingType, setRemoveLoadingAC} from "./app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../common/utils";
 import {setTasksTC} from "./tasks-reducer";
+import {logOutTC} from "./auth-reducer";
 
 
 const initialstate: TodolistDomainType[] = []
@@ -24,10 +25,12 @@ export const todolistsReducer = (state = initialstate, action: AppActionTypes): 
 		case "SET-TODOLISTS":
 			return action.todolists.map(t => ({...t, filter: "all", entityStatus: 'idel'}))
 
-		case "CHANGE-TODOLIST-ENTITY-STATUS":{
-			return state.map(t => t.id === action.id ? {...t, entityStatus:'loading'} : t)
+		case "CHANGE-TODOLIST-ENTITY-STATUS":
+			return state.map(t => t.id === action.id ? {...t, entityStatus: 'loading'} : t)
 
-		}
+		case "LOGOUT":
+			debugger
+			return []
 
 		default: {
 			return state
@@ -51,7 +54,7 @@ export const changeTodolistEntityStatusAC = (id: string, status: IsLoadingType) 
 		id,
 		status,
 	}) as const
-
+export const logOutAC = () => ({type: 'LOGOUT'}) as const
 
 
 // THUNK
@@ -65,29 +68,29 @@ export const setTodoTC = (): AppThunk => (dispatch) => {
 			dispatch(setTodolistsAC(res.data))
 			return res.data
 		})
-		.then((todo)=>{
+		.then((todo) => {
 
-			todo.forEach((todo)=>{
-				 dispatch(setTasksTC(todo.id))
+			todo.forEach((todo) => {
+				dispatch(setTasksTC(todo.id))
 			})
 		})
-		.catch((err)=>{
+		.catch((err) => {
 			handleServerNetworkError(err, dispatch)
 		})
 }
 export const deleteTodoTC = (id: string): AppThunk => (dispatch) => {
 	dispatch(setRemoveLoadingAC("loading"))
-	dispatch(changeTodolistEntityStatusAC(id,"loading"))
+	dispatch(changeTodolistEntityStatusAC(id, "loading"))
 	todolistsAPI.deleteTodolist(id)
 		.then((res) => {
 			if (res.data.resultCode !== 0) {
-				handleServerAppError(dispatch,res.data)
+				handleServerAppError(dispatch, res.data)
 			} else {
 				dispatch(setRemoveLoadingAC('idel'))
 				dispatch(removeTodolistAC(id))
 			}
 		})
-		.catch((err)=>{
+		.catch((err) => {
 			handleServerNetworkError(err, dispatch)
 		})
 }
@@ -96,13 +99,13 @@ export const createTodoTC = (title: string): AppThunk => (dispatch) => {
 	todolistsAPI.createTodolist(title)
 		.then((res) => {
 			if (res.data.resultCode !== 0) {
-				handleServerAppError(dispatch,res.data)
+				handleServerAppError(dispatch, res.data)
 			} else {
 				dispatch(setRemoveLoadingAC('idel'))
 				dispatch(createTodolistAC(res.data.data.item))
 			}
 		})
-		.catch((err)=>{
+		.catch((err) => {
 			handleServerNetworkError(err, dispatch)
 		})
 
@@ -118,7 +121,7 @@ export const updateTodoTC = (id: string, title: string): AppThunk => (dispatch) 
 				dispatch(updateTodlistTitleAC(id, title))
 			}
 		})
-		.catch((err)=>{
+		.catch((err) => {
 			handleServerNetworkError(err, dispatch)
 		})
 }
@@ -133,6 +136,8 @@ export type TodolistDomainType = TodolistType
 export type SetTodolistsACType = ReturnType<typeof setTodolistsAC>
 export type CreateTodolistACType = ReturnType<typeof createTodolistAC>
 export type RemoveTodolistACType = ReturnType<typeof removeTodolistAC>
+export type LogOutACType = ReturnType<typeof logOutAC>
+
 
 export type ActionsTodosType =
 	| SetTodolistsACType
@@ -141,3 +146,4 @@ export type ActionsTodosType =
 	| ReturnType<typeof updateTodlistTitleAC>
 	| ReturnType<typeof changeFilterAC>
 	| ReturnType<typeof changeTodolistEntityStatusAC>
+	| LogOutACType
