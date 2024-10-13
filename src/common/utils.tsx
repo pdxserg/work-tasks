@@ -1,12 +1,12 @@
-import { errorAC, setRemoveLoadingAC } from "../model/appSlice"
-import { AppThunkDispatch } from "../app/store"
+import { error, setRemoveLoading } from "../model/appSlice"
+import { AppThunk, AppThunkDispatch } from "../app/store"
 import { ResponseDomainType } from "../api/todolists-api"
 
 export const handleServerNetworkError = (err: { message: string }, dispatch: AppThunkDispatch) => {
-    dispatch(setRemoveLoadingAC("idel"))
-    dispatch(errorAC(err.message))
+    dispatch(setRemoveLoading({ value: "idel" }))
+    dispatch(error({ value: err.message }))
 }
 export const handleServerAppError = <T,>(dispatch: AppThunkDispatch, data: ResponseDomainType<T>) => {
-    dispatch(errorAC(data.messages[0]))
-    dispatch(setRemoveLoadingAC("idel"))
+    dispatch(error({ value: data.messages[0] }))
+    dispatch(setRemoveLoading({ value: "idel" }))
 }

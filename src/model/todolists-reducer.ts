@@ -1,7 +1,7 @@
 import { FilterTodolist } from "../components/Todolist"
 import { todolistsAPI, TodolistType } from "../api/todolists-api"
 import { AppActionTypes, AppThunk } from "../app/store"
-import { errorAC, IsLoadingType, setRemoveLoadingAC } from "./appSlice"
+import { error, IsLoadingType, setRemoveLoading } from "./appSlice"
 import { handleServerAppError, handleServerNetworkError } from "../common/utils"
 import { setTasksTC } from "./tasks-reducer"
 
@@ -21,7 +21,7 @@ export const todolistsReducer = (state = initialstate, action: AppActionTypes): 
             return state.map((t) => (t.id === action.id ? { ...t, filter: action.value } : t))
 
         case "SET-TODOLISTS":
-            return action.todolists.map((t) => ({ ...t, filter: "all", entityStatus: "idel" }))
+            return action.todolists.map((t: any) => ({ ...t, filter: "all", entityStatus: "idel" }))
 
         case "CHANGE-TODOLIST-ENTITY-STATUS":
             return state.map((t) => (t.id === action.id ? { ...t, entityStatus: "loading" } : t))
@@ -54,12 +54,12 @@ export const logOutAC = () => ({ type: "LOGOUT" }) as const
 
 // THUNK
 export const setTodoTC = (): AppThunk => (dispatch) => {
-    dispatch(setRemoveLoadingAC("loading"))
+    dispatch(setRemoveLoading({ value: "loading" }))
 
     todolistsAPI
         .getTodolists()
         .then((res) => {
-            dispatch(setRemoveLoadingAC("idel"))
+            dispatch(setRemoveLoading({ value: "idel" }))
             dispatch(setTodolistsAC(res.data))
             return res.data
         })
@@ -75,7 +75,7 @@ export const setTodoTC = (): AppThunk => (dispatch) => {
 export const deleteTodoTC =
     (id: string): AppThunk =>
     (dispatch) => {
-        dispatch(setRemoveLoadingAC("loading"))
+        dispatch(setRemoveLoading({ value: "loading" }))
         dispatch(changeTodolistEntityStatusAC(id, "loading"))
         todolistsAPI
             .deleteTodolist(id)
@@ -83,7 +83,7 @@ export const deleteTodoTC =
                 if (res.data.resultCode !== 0) {
                     handleServerAppError(dispatch, res.data)
                 } else {
-                    dispatch(setRemoveLoadingAC("idel"))
+                    dispatch(setRemoveLoading({ value: "idel" }))
                     dispatch(removeTodolistAC(id))
                 }
             })
@@ -94,14 +94,14 @@ export const deleteTodoTC =
 export const createTodoTC =
     (title: string): AppThunk =>
     (dispatch) => {
-        dispatch(setRemoveLoadingAC("loading"))
+        dispatch(setRemoveLoading({ value: "loading" }))
         todolistsAPI
             .createTodolist(title)
             .then((res) => {
                 if (res.data.resultCode !== 0) {
                     handleServerAppError(dispatch, res.data)
                 } else {
-                    dispatch(setRemoveLoadingAC("idel"))
+                    dispatch(setRemoveLoading({ value: "idel" }))
                     dispatch(createTodolistAC(res.data.data.item))
                 }
             })
@@ -116,10 +116,10 @@ export const updateTodoTC =
             .updateTodolist(id, title)
             .then((res) => {
                 if (res.data.resultCode !== 0) {
-                    dispatch(errorAC(res.data.messages[0]))
-                    dispatch(setRemoveLoadingAC("idel"))
+                    dispatch(error({ value: res.data.messages[0] }))
+                    dispatch(setRemoveLoading({ value: "idel" }))
                 } else {
-                    dispatch(setRemoveLoadingAC("idel"))
+                    dispatch(setRemoveLoading({ value: "idel" }))
                     dispatch(updateTodlistTitleAC(id, title))
                 }
             })

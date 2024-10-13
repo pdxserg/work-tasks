@@ -2,13 +2,13 @@ import React from "react"
 import "./ErrorSnackbar.css"
 import { useSelector } from "react-redux"
 import { AppRootStateType, useAppDispatch } from "../../app/store"
-import { errorAC } from "../../model/appSlice"
+import { error } from "../../model/appSlice"
 
 export const ErrorSnackbar = () => {
     const dispatch = useAppDispatch()
     const messegeError = useSelector<AppRootStateType, null | string>((state) => state.app.error)
     const onclickHandler = () => {
-        dispatch(errorAC(null))
+        dispatch(error({ value: null }))
     }
 
     return (

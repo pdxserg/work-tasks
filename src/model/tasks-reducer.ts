@@ -3,8 +3,9 @@ import { TasksStateType } from "../app/App"
 import { TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType } from "../api/todolists-api"
 import { Dispatch } from "redux"
 import { AppRootStateType, AppThunk } from "../app/store"
-import { ActionsLoadingType, errorAC, setRemoveLoadingAC } from "./appSlice"
+
 import { handleServerNetworkError } from "../common/utils"
+import { error, setRemoveLoading } from "./appSlice"
 
 const initialstate: TasksStateType = {}
 export const tasksReducer = (state = initialstate, action: ActionsTasksType): TasksStateType => {
@@ -68,31 +69,33 @@ export const setDisableAC = (todolistID: string, id: string) => {
 }
 
 //THUNK
-export const setTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionsTasksType | ActionsLoadingType>) => {
-    dispatch(setRemoveLoadingAC("loading"))
+export const setTasksTC =
+    (todolistId: string): AppThunk =>
+    (dispatch: Dispatch) => {
+        dispatch(setRemoveLoading({ value: "loading" }))
 
-    todolistsAPI
-        .getTasks(todolistId)
-        .then((res) => {
-            dispatch(setRemoveLoadingAC("idel"))
-            dispatch(setTasksAC(res.data.items, todolistId))
-        })
-        .catch((err) => {
-            handleServerNetworkError(err, dispatch)
-        })
-}
+        todolistsAPI
+            .getTasks(todolistId)
+            .then((res) => {
+                dispatch(setRemoveLoading({ value: "idel" }))
+                dispatch(setTasksAC(res.data.items, todolistId))
+            })
+            .catch((err) => {
+                handleServerNetworkError(err, dispatch)
+            })
+    }
 export const createTaskTC =
     (todolistId: string, title: string): AppThunk =>
     (dispatch) => {
-        dispatch(setRemoveLoadingAC("loading"))
+        dispatch(setRemoveLoading({ value: "loading" }))
         todolistsAPI
             .createTask(todolistId, title)
             .then((res) => {
                 if (res.data.resultCode !== 0) {
-                    dispatch(errorAC(res.data.messages[0]))
-                    dispatch(setRemoveLoadingAC("idel"))
+                    dispatch(error({ value: res.data.messages[0] }))
+                    dispatch(setRemoveLoading({ value: "idel" }))
                 } else {
-                    dispatch(setRemoveLoadingAC("idel"))
+                    dispatch(setRemoveLoading({ value: "idel" }))
                     dispatch(createTaskAC(res.data.data.item))
                 }
             })
@@ -103,15 +106,15 @@ export const createTaskTC =
 export const deleteTaskTC =
     (todolistId: string, taskId: string): AppThunk =>
     (dispatch) => {
-        dispatch(setRemoveLoadingAC("loading"))
+        dispatch(setRemoveLoading({ value: "loading" }))
         todolistsAPI
             .deleteTask(todolistId, taskId)
             .then((res) => {
                 if (res.data.resultCode !== 0) {
-                    dispatch(errorAC(res.data.messages[0]))
-                    dispatch(setRemoveLoadingAC("idel"))
+                    dispatch(error({ value: res.data.messages[0] }))
+                    dispatch(setRemoveLoading({ value: "idel" }))
                 } else {
-                    dispatch(setRemoveLoadingAC("idel"))
+                    dispatch(setRemoveLoading({ value: "idel" }))
                     dispatch(removeTaskAC(todolistId, taskId))
                 }
             })
@@ -139,10 +142,10 @@ export const updateTaskTC =
                 .updateTask(todolistId, taskId, apiModel)
                 .then((res) => {
                     if (res.data.resultCode !== 0) {
-                        dispatch(errorAC(res.data.messages[0]))
-                        dispatch(setRemoveLoadingAC("idel"))
+                        dispatch(error({ value: res.data.messages[0] }))
+                        dispatch(setRemoveLoading({ value: "idel" }))
                     } else {
-                        dispatch(setRemoveLoadingAC("idel"))
+                        dispatch(setRemoveLoading({ value: "idel" }))
                         dispatch(updateTaskAC(todolistId, taskId, domainModel))
                     }
                 })
