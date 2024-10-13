@@ -1,7 +1,7 @@
 import { AppThunk } from "../app/store"
 import { LoginType } from "../features/login/Login"
 import { authAPI } from "../api/todolists-api"
-import { error, isInitializedAC, setRemoveLoading } from "./appSlice"
+import { error, isInitialize, setRemoveLoading } from "./appSlice"
 import { handleServerNetworkError } from "../common/utils"
 import { Dispatch } from "redux"
 import { logOutAC } from "./todolists-reducer"
@@ -88,8 +88,6 @@ export const authMeTC = (): AppThunk => (dispatch: Dispatch) => {
             handleServerNetworkError(err, dispatch)
         })
         .finally(() => {
-            dispatch(isInitializedAC(true))
+            dispatch(isInitialize({ isInitialized: true }))
         })
 }
-//TYPES
-// export type ActionsLogibnType = ReturnType<typeof isLoginAC>
