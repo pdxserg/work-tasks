@@ -4,7 +4,7 @@ import { authAPI } from "../api/todolists-api"
 import { error, isInitialize, setRemoveLoading } from "./appSlice"
 import { handleServerNetworkError } from "../common/utils"
 import { Dispatch } from "redux"
-import { logOutAC } from "./todolists-reducer"
+import { logOutAC } from "./todolistsSlice"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 const authSlice = createSlice({
@@ -64,7 +64,7 @@ export const logOutTC = (): AppThunk => (dispatch: Dispatch) => {
             } else {
                 dispatch(setRemoveLoading({ value: "idel" }))
                 dispatch(setIsLogin({ value: false }))
-                dispatch(logOutAC())
+                dispatch(logOutAC({}))
             }
         })
         .catch((err) => {

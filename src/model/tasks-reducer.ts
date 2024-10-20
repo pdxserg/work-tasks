@@ -1,4 +1,3 @@
-import { CreateTodolistACType, LogOutACType, RemoveTodolistACType, SetTodolistsACType } from "./todolists-reducer"
 import { TasksStateType } from "../app/App"
 import { TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType } from "../api/todolists-api"
 import { Dispatch } from "redux"
@@ -13,7 +12,7 @@ export const tasksReducer = (state = initialstate, action: ActionsTasksType): Ta
         case "SET-TODOLISTS": {
             const stateCopy = { ...state }
 
-            action.todolists.forEach((tl) => {
+            action.todolists.forEach((tl: any) => {
                 stateCopy[tl.id] = []
             })
             return stateCopy
@@ -165,12 +164,9 @@ type UpdateDomainTaskModelType = {
     deadline?: string
 }
 export type ActionsTasksType =
-    | RemoveTodolistACType
-    | CreateTodolistACType
-    | SetTodolistsACType
+    | any
     | ReturnType<typeof removeTaskAC>
     | ReturnType<typeof updateTaskAC>
     | ReturnType<typeof createTaskAC>
     | ReturnType<typeof setTasksAC>
     | ReturnType<typeof setDisableAC>
-    | LogOutACType
