@@ -20,8 +20,8 @@ const tasksSlice = createSlice({
     name: "tasks",
     initialState: {} as TasksStateType,
     reducers: {
-        setTasksAC: (state, action: PayloadAction<{ tasks: TasksStateType; todolistId: string }>) => {
-            return { ...state, [action.payload.todolistId]: action.payload.tasks }
+        setTasksAC: (state, action: PayloadAction<{ tasks: TaskType[]; todolistId: string }>) => {
+            state[action.payload.todolistId] = action.payload.tasks
         },
         removeTaskAC: (state, action: PayloadAction<{ todolistId: string; taskId: string }>) => {
             // return { ...state, [action.todolistID]: state[action.todolistID].filter((t) => t.id !== action.id) }
@@ -32,6 +32,16 @@ const tasksSlice = createSlice({
         createTaskAC: (state, action: PayloadAction<{ task: TaskType }>) => {
             const task = state[action.payload.task.todoListId]
             task.unshift(action.payload.task)
+        },
+        updateTaskAC: (
+            state,
+            action: PayloadAction<{ todolistId: string; taskId: string; domainModel: UpdateDomainTaskModelType }>,
+        ) => {
+            const task = state[action.payload.todolistId]
+            const index = task.findIndex((todo) => todo.id === action.payload.taskId)
+            if (index !== -1) {
+                task[index] = { ...task[index], ...action.payload.domainModel }
+            }
         },
     },
     extraReducers: (builder) => {
@@ -50,7 +60,7 @@ const tasksSlice = createSlice({
 })
 
 export const tasksReducer = tasksSlice.reducer
-export const { removeTaskAC, setTasksAC, createTaskAC } = tasksSlice.actions
+export const { removeTaskAC, setTasksAC, createTaskAC, updateTaskAC } = tasksSlice.actions
 
 // const initialstate: TasksStateType = {}
 // export const tasksReducer = (state = initialstate, action: ActionsTasksType): TasksStateType => {
@@ -190,7 +200,7 @@ export const updateTaskTC =
                         dispatch(setRemoveLoading({ value: "idel" }))
                     } else {
                         dispatch(setRemoveLoading({ value: "idel" }))
-                        // dispatch(updateTaskAC(todolistId, taskId, domainModel))
+                        dispatch(updateTaskAC({ todolistId, taskId, domainModel }))
                     }
                 })
                 .catch((err) => {
