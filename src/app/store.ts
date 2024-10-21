@@ -1,6 +1,6 @@
 import { AnyAction, applyMiddleware, combineReducers, legacy_createStore } from "redux"
 import { ActionsTodosType, todolistsReducer } from "../model/todolistsSlice"
-import { ActionsTasksType, tasksReducer } from "../model/tasks-reducer"
+import { ActionsTasksType, tasksReducer } from "../model/tasksSlice"
 import thunk, { ThunkAction, ThunkDispatch } from "redux-thunk"
 import { useDispatch } from "react-redux"
 import { appReducer } from "../model/appSlice"

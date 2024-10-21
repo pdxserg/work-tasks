@@ -3,7 +3,7 @@ import { todolistsAPI, TodolistType } from "../api/todolists-api"
 import { AppThunk } from "../app/store"
 import { error, IsLoadingType, setRemoveLoading } from "./appSlice"
 import { handleServerAppError, handleServerNetworkError } from "../common/utils"
-import { setTasksTC } from "./tasks-reducer"
+import { setTasksTC } from "./tasksSlice"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 const todolistsSlice = createSlice({
