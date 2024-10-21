@@ -1,20 +1,11 @@
 import { TasksStateType } from "../app/App"
-import {
-    TaskPriorities,
-    TaskStatuses,
-    TaskType,
-    todolistsAPI,
-    TodolistType,
-    UpdateTaskModelType,
-} from "../api/todolists-api"
+import { TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType } from "../api/todolists-api"
 import { Dispatch } from "redux"
 import { AppRootStateType, AppThunk } from "../app/store"
-
 import { handleServerNetworkError } from "../common/utils"
-import { error, IsLoadingType, setRemoveLoading } from "./appSlice"
+import { error, setRemoveLoading } from "./appSlice"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { FilterTodolist } from "../components/Todolist"
-import { createTodolistAC, removeTodolistAC, setTodolistsAC, TodolistDomainType } from "./todolistsSlice"
+import { createTodolistAC, removeTodolistAC, setTodolistsAC } from "./todolistsSlice"
 
 const tasksSlice = createSlice({
     name: "tasks",
@@ -24,7 +15,6 @@ const tasksSlice = createSlice({
             state[action.payload.todolistId] = action.payload.tasks
         },
         removeTaskAC: (state, action: PayloadAction<{ todolistId: string; taskId: string }>) => {
-            // return { ...state, [action.todolistID]: state[action.todolistID].filter((t) => t.id !== action.id) }
             const task = state[action.payload.todolistId]
             const index = task.findIndex((todo) => todo.id === action.payload.taskId)
             if (index !== -1) task.splice(index, 1)
@@ -61,66 +51,6 @@ const tasksSlice = createSlice({
 
 export const tasksReducer = tasksSlice.reducer
 export const { removeTaskAC, setTasksAC, createTaskAC, updateTaskAC } = tasksSlice.actions
-
-// const initialstate: TasksStateType = {}
-// export const tasksReducer = (state = initialstate, action: ActionsTasksType): TasksStateType => {
-//     switch (action.type) {
-//         case "SET-TODOLISTS": {
-//             const stateCopy = { ...state }
-//
-//             action.todolists.forEach((tl: any) => {
-//                 stateCopy[tl.id] = []
-//             })
-//             return stateCopy
-//         }
-//
-//         case "REMOVE-TASK":
-//             return { ...state, [action.todolistID]: state[action.todolistID].filter((t) => t.id !== action.id) }
-//
-//         case "UPDATE-TASK": {
-//             return {
-//                 ...state,
-//                 [action.todolistID]: state[action.todolistID].map((task) =>
-//                     task.id === action.id ? { ...task, ...action.domainModel } : task,
-//                 ),
-//             }
-//         }
-//
-//         case "CREATE-TASK": {
-//             const newTask = action.newTask
-//             return { ...state, [action.newTask.todoListId]: [newTask, ...state[action.newTask.todoListId]] }
-//         }
-//
-//         case "REMOVE-TODOLIST": {
-//             let newState = { ...state }
-//             delete newState[action.id]
-//             return newState
-//         }
-//
-//         case "CREATE-TODOLIST":
-//             return { ...state, [action.todolist.id]: [] }
-//
-//         case "SET_TASKS":
-//             return { ...state, [action.todolistId]: action.tasks }
-//
-//         case "LOGOUT":
-//             return {}
-//
-//         default: {
-//             return state
-//         }
-//     }
-// }
-//
-// export const removeTaskAC = (todolistID: string, id: string) => ({ type: "REMOVE-TASK", todolistID, id }) as const
-// export const createTaskAC = (newTask: TaskType) => ({ type: "CREATE-TASK", newTask }) as const
-// const setTasksAC = (tasks: TaskType[], todolistId: string) => ({ type: "SET_TASKS", tasks, todolistId }) as const
-// export const updateTaskAC = (todolistID: string, id: string, domainModel: UpdateDomainTaskModelType) => {
-//     return { type: "UPDATE-TASK", todolistID, id, domainModel } as const
-// }
-// export const setDisableAC = (todolistID: string, id: string) => {
-//     return { type: "DISABLE", todolistID, id } as const
-// }
 
 //THUNK
 export const setTasksTC =
@@ -218,9 +148,3 @@ type UpdateDomainTaskModelType = {
     startDate?: string
     deadline?: string
 }
-export type ActionsTasksType = any
-// | ReturnType<typeof removeTaskAC>
-// | ReturnType<typeof updateTaskAC>
-// | ReturnType<typeof createTaskAC>
-// | ReturnType<typeof setTasksAC>
-// | ReturnType<typeof setDisableAC>
