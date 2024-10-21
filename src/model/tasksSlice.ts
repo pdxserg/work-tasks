@@ -18,13 +18,14 @@ import { TodolistDomainType } from "./todolistsSlice"
 
 const tasksSlice = createSlice({
     name: "tasks",
-    initialState: [] as TodolistDomainType[],
+    initialState: {} as TasksStateType,
     reducers: {},
 })
 
 export const tasksReducer = tasksSlice.reducer
+export const {} = tasksSlice.actions
 
-const initialstate: TasksStateType = {}
+// const initialstate: TasksStateType = {}
 // export const tasksReducer = (state = initialstate, action: ActionsTasksType): TasksStateType => {
 //     switch (action.type) {
 //         case "SET-TODOLISTS": {
