@@ -14,21 +14,33 @@ import { handleServerNetworkError } from "../common/utils"
 import { error, IsLoadingType, setRemoveLoading } from "./appSlice"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { FilterTodolist } from "../components/Todolist"
-import { createTodolistAC, setTodolistsAC, TodolistDomainType } from "./todolistsSlice"
+import { createTodolistAC, removeTodolistAC, setTodolistsAC, TodolistDomainType } from "./todolistsSlice"
 
 const tasksSlice = createSlice({
     name: "tasks",
     initialState: {} as TasksStateType,
-    reducers: {},
+    reducers: {
+        setTasksAC: (state, action: PayloadAction<{ tasks: TasksStateType; todolistId: string }>) => {
+            return { ...state, [action.payload.todolistId]: action.payload.tasks }
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(createTodolistAC, (state, action) => {
             state[action.payload.todolist.id] = []
+        })
+        builder.addCase(removeTodolistAC, (state, action) => {
+            delete state[action.payload.id]
+        })
+        builder.addCase(setTodolistsAC, (state, action) => {
+            action.payload.todolists.forEach((tl) => {
+                state[tl.id] = []
+            })
         })
     },
 })
 
 export const tasksReducer = tasksSlice.reducer
-export const {} = tasksSlice.actions
+export const { setTasksAC } = tasksSlice.actions
 
 // const initialstate: TasksStateType = {}
 // export const tasksReducer = (state = initialstate, action: ActionsTasksType): TasksStateType => {
@@ -72,7 +84,6 @@ export const {} = tasksSlice.actions
 //             return { ...state, [action.todolistId]: action.tasks }
 //
 //         case "LOGOUT":
-//             debugger
 //             return {}
 //
 //         default: {
@@ -119,7 +130,7 @@ export const createTaskTC =
                     dispatch(setRemoveLoading({ value: "idel" }))
                 } else {
                     dispatch(setRemoveLoading({ value: "idel" }))
-                    dispatch(createTaskAC(res.data.data.item))
+                    // dispatch(createTaskAC(res.data.data.item))
                 }
             })
             .catch((err) => {
@@ -138,7 +149,7 @@ export const deleteTaskTC =
                     dispatch(setRemoveLoading({ value: "idel" }))
                 } else {
                     dispatch(setRemoveLoading({ value: "idel" }))
-                    dispatch(removeTaskAC(todolistId, taskId))
+                    // dispatch(removeTaskAC(todolistId, taskId))
                 }
             })
             .catch((err) => {
@@ -169,7 +180,7 @@ export const updateTaskTC =
                         dispatch(setRemoveLoading({ value: "idel" }))
                     } else {
                         dispatch(setRemoveLoading({ value: "idel" }))
-                        dispatch(updateTaskAC(todolistId, taskId, domainModel))
+                        // dispatch(updateTaskAC(todolistId, taskId, domainModel))
                     }
                 })
                 .catch((err) => {
