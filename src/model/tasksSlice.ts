@@ -23,6 +23,12 @@ const tasksSlice = createSlice({
         setTasksAC: (state, action: PayloadAction<{ tasks: TasksStateType; todolistId: string }>) => {
             return { ...state, [action.payload.todolistId]: action.payload.tasks }
         },
+        removeTaskAC: (state, action: PayloadAction<{ todolistId: string; taskId: string }>) => {
+            // return { ...state, [action.todolistID]: state[action.todolistID].filter((t) => t.id !== action.id) }
+            const task = state[action.payload.todolistId]
+            const index = task.findIndex((todo) => todo.id === action.payload.taskId)
+            if (index !== -1) task.splice(index, 1)
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(createTodolistAC, (state, action) => {
@@ -40,7 +46,7 @@ const tasksSlice = createSlice({
 })
 
 export const tasksReducer = tasksSlice.reducer
-export const { setTasksAC } = tasksSlice.actions
+export const { removeTaskAC, setTasksAC } = tasksSlice.actions
 
 // const initialstate: TasksStateType = {}
 // export const tasksReducer = (state = initialstate, action: ActionsTasksType): TasksStateType => {
@@ -112,7 +118,7 @@ export const setTasksTC =
             .getTasks(todolistId)
             .then((res) => {
                 dispatch(setRemoveLoading({ value: "idel" }))
-                dispatch(setTasksAC(res.data.items, todolistId))
+                dispatch(setTasksAC({ tasks: res.data.items, todolistId }))
             })
             .catch((err) => {
                 handleServerNetworkError(err, dispatch)
@@ -130,7 +136,7 @@ export const createTaskTC =
                     dispatch(setRemoveLoading({ value: "idel" }))
                 } else {
                     dispatch(setRemoveLoading({ value: "idel" }))
-                    // dispatch(createTaskAC(res.data.data.item))
+                    dispatch(createTaskAC({ task: res.data.data.item }))
                 }
             })
             .catch((err) => {
@@ -149,7 +155,7 @@ export const deleteTaskTC =
                     dispatch(setRemoveLoading({ value: "idel" }))
                 } else {
                     dispatch(setRemoveLoading({ value: "idel" }))
-                    // dispatch(removeTaskAC(todolistId, taskId))
+                    dispatch(removeTaskAC({ todolistId, taskId }))
                 }
             })
             .catch((err) => {
