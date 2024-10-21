@@ -1,71 +1,89 @@
 import { TasksStateType } from "../app/App"
-import { TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType } from "../api/todolists-api"
+import {
+    TaskPriorities,
+    TaskStatuses,
+    TaskType,
+    todolistsAPI,
+    TodolistType,
+    UpdateTaskModelType,
+} from "../api/todolists-api"
 import { Dispatch } from "redux"
 import { AppRootStateType, AppThunk } from "../app/store"
 
 import { handleServerNetworkError } from "../common/utils"
-import { error, setRemoveLoading } from "./appSlice"
+import { error, IsLoadingType, setRemoveLoading } from "./appSlice"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { FilterTodolist } from "../components/Todolist"
+import { TodolistDomainType } from "./todolistsSlice"
+
+const tasksSlice = createSlice({
+    name: "tasks",
+    initialState: [] as TodolistDomainType[],
+    reducers: {},
+})
+
+export const tasksReducer = tasksSlice.reducer
 
 const initialstate: TasksStateType = {}
-export const tasksReducer = (state = initialstate, action: ActionsTasksType): TasksStateType => {
-    switch (action.type) {
-        case "SET-TODOLISTS": {
-            const stateCopy = { ...state }
-
-            action.todolists.forEach((tl: any) => {
-                stateCopy[tl.id] = []
-            })
-            return stateCopy
-        }
-
-        case "REMOVE-TASK":
-            return { ...state, [action.todolistID]: state[action.todolistID].filter((t) => t.id !== action.id) }
-
-        case "UPDATE-TASK": {
-            return {
-                ...state,
-                [action.todolistID]: state[action.todolistID].map((task) =>
-                    task.id === action.id ? { ...task, ...action.domainModel } : task,
-                ),
-            }
-        }
-
-        case "CREATE-TASK": {
-            const newTask = action.newTask
-            return { ...state, [action.newTask.todoListId]: [newTask, ...state[action.newTask.todoListId]] }
-        }
-
-        case "REMOVE-TODOLIST": {
-            let newState = { ...state }
-            delete newState[action.id]
-            return newState
-        }
-
-        case "CREATE-TODOLIST":
-            return { ...state, [action.todolist.id]: [] }
-
-        case "SET_TASKS":
-            return { ...state, [action.todolistId]: action.tasks }
-
-        case "LOGOUT":
-            debugger
-            return {}
-
-        default: {
-            return state
-        }
-    }
-}
-
-export const removeTaskAC = (todolistID: string, id: string) => ({ type: "REMOVE-TASK", todolistID, id }) as const
-export const createTaskAC = (newTask: TaskType) => ({ type: "CREATE-TASK", newTask }) as const
-const setTasksAC = (tasks: TaskType[], todolistId: string) => ({ type: "SET_TASKS", tasks, todolistId }) as const
-export const updateTaskAC = (todolistID: string, id: string, domainModel: UpdateDomainTaskModelType) => {
-    return { type: "UPDATE-TASK", todolistID, id, domainModel } as const
-}
-export const setDisableAC = (todolistID: string, id: string) => {
-    return { type: "DISABLE", todolistID, id } as const
-}
+// export const tasksReducer = (state = initialstate, action: ActionsTasksType): TasksStateType => {
+//     switch (action.type) {
+//         case "SET-TODOLISTS": {
+//             const stateCopy = { ...state }
+//
+//             action.todolists.forEach((tl: any) => {
+//                 stateCopy[tl.id] = []
+//             })
+//             return stateCopy
+//         }
+//
+//         case "REMOVE-TASK":
+//             return { ...state, [action.todolistID]: state[action.todolistID].filter((t) => t.id !== action.id) }
+//
+//         case "UPDATE-TASK": {
+//             return {
+//                 ...state,
+//                 [action.todolistID]: state[action.todolistID].map((task) =>
+//                     task.id === action.id ? { ...task, ...action.domainModel } : task,
+//                 ),
+//             }
+//         }
+//
+//         case "CREATE-TASK": {
+//             const newTask = action.newTask
+//             return { ...state, [action.newTask.todoListId]: [newTask, ...state[action.newTask.todoListId]] }
+//         }
+//
+//         case "REMOVE-TODOLIST": {
+//             let newState = { ...state }
+//             delete newState[action.id]
+//             return newState
+//         }
+//
+//         case "CREATE-TODOLIST":
+//             return { ...state, [action.todolist.id]: [] }
+//
+//         case "SET_TASKS":
+//             return { ...state, [action.todolistId]: action.tasks }
+//
+//         case "LOGOUT":
+//             debugger
+//             return {}
+//
+//         default: {
+//             return state
+//         }
+//     }
+// }
+//
+// export const removeTaskAC = (todolistID: string, id: string) => ({ type: "REMOVE-TASK", todolistID, id }) as const
+// export const createTaskAC = (newTask: TaskType) => ({ type: "CREATE-TASK", newTask }) as const
+// const setTasksAC = (tasks: TaskType[], todolistId: string) => ({ type: "SET_TASKS", tasks, todolistId }) as const
+// export const updateTaskAC = (todolistID: string, id: string, domainModel: UpdateDomainTaskModelType) => {
+//     return { type: "UPDATE-TASK", todolistID, id, domainModel } as const
+// }
+// export const setDisableAC = (todolistID: string, id: string) => {
+//     return { type: "DISABLE", todolistID, id } as const
+// }
 
 //THUNK
 export const setTasksTC =
