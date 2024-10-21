@@ -14,12 +14,17 @@ import { handleServerNetworkError } from "../common/utils"
 import { error, IsLoadingType, setRemoveLoading } from "./appSlice"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { FilterTodolist } from "../components/Todolist"
-import { TodolistDomainType } from "./todolistsSlice"
+import { createTodolistAC, setTodolistsAC, TodolistDomainType } from "./todolistsSlice"
 
 const tasksSlice = createSlice({
     name: "tasks",
     initialState: {} as TasksStateType,
     reducers: {},
+    extraReducers: (builder) => {
+        builder.addCase(createTodolistAC, (state, action) => {
+            state[action.payload.todolist.id] = []
+        })
+    },
 })
 
 export const tasksReducer = tasksSlice.reducer
@@ -182,10 +187,9 @@ type UpdateDomainTaskModelType = {
     startDate?: string
     deadline?: string
 }
-export type ActionsTasksType =
-    | any
-    | ReturnType<typeof removeTaskAC>
-    | ReturnType<typeof updateTaskAC>
-    | ReturnType<typeof createTaskAC>
-    | ReturnType<typeof setTasksAC>
-    | ReturnType<typeof setDisableAC>
+export type ActionsTasksType = any
+// | ReturnType<typeof removeTaskAC>
+// | ReturnType<typeof updateTaskAC>
+// | ReturnType<typeof createTaskAC>
+// | ReturnType<typeof setTasksAC>
+// | ReturnType<typeof setDisableAC>
