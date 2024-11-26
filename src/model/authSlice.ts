@@ -20,20 +20,6 @@ const authSlice = createSlice({
 export const authReducer = authSlice.reducer
 export const { setIsLogin } = authSlice.actions
 
-// export type InitialstateType = typeof initialstate
-// export const _authReducer = (state: InitialstateType = initialstate, action: ActionsLogibnType): InitialstateType => {
-//     switch (action.type) {
-//         case "AUTH/IS-LOGIN": {
-//             return { ...state, isLogin: action.value }
-//         }
-//         default: {
-//             return state
-//         }
-//     }
-// }
-
-// export const isLoginAC = (isLogin: boolean) => ({ type: "AUTH/IS-LOGIN", isLogin }) as const
-
 export const isLoginTC =
     (data: LoginType): AppThunk =>
     (dispatch: Dispatch) => {
