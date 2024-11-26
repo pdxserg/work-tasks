@@ -11,14 +11,14 @@ const authSlice = createSlice({
     name: "auth",
     initialState: { isLogin: false },
     reducers: {
-        setIsLogin: (state, action: PayloadAction<{ value: boolean }>) => {
+        setIsLoggedIn: (state, action: PayloadAction<{ value: boolean }>) => {
             state.isLogin = action.payload.value
         },
     },
 })
 
 export const authReducer = authSlice.reducer
-export const { setIsLogin } = authSlice.actions
+export const { setIsLoggedIn } = authSlice.actions
 
 export const isLoginTC =
     (data: LoginType): AppThunk =>
@@ -32,7 +32,7 @@ export const isLoginTC =
                     dispatch(setRemoveLoading({ value: "idel" }))
                 } else {
                     dispatch(setRemoveLoading({ value: "idel" }))
-                    dispatch(setIsLogin({ value: true }))
+                    dispatch(setIsLoggedIn({ value: true }))
                 }
             })
             .catch((err) => {
@@ -49,7 +49,7 @@ export const logOutTC = (): AppThunk => (dispatch: Dispatch) => {
                 dispatch(setRemoveLoading({ value: "idel" }))
             } else {
                 dispatch(setRemoveLoading({ value: "idel" }))
-                dispatch(setIsLogin({ value: false }))
+                dispatch(setIsLoggedIn({ value: false }))
                 dispatch(logOutAC({}))
             }
         })
@@ -67,7 +67,7 @@ export const authMeTC = (): AppThunk => (dispatch: Dispatch) => {
                 dispatch(setRemoveLoading({ value: "idel" }))
             } else {
                 dispatch(setRemoveLoading({ value: "idel" }))
-                dispatch(setIsLogin({ value: true }))
+                dispatch(setIsLoggedIn({ value: true }))
             }
         })
         .catch((err) => {

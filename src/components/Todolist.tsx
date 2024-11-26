@@ -19,12 +19,6 @@ export const Todolist = memo(({ todolist }: TodolistPropsType) => {
 
     const dispatch = useAppDispatch()
 
-    // useEffect(() => {
-    //
-    // 	console.log(3)
-    // 	// dispatch(setTasksTC(todolist.id))
-    // }, [dispatch, todolist.id]);
-
     const [dateCreate] = useState(new Date().toLocaleString())
 
     let tasksT = tasks[todolist.id]
